@@ -25,6 +25,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        {/* Zero White Flash / Anti-FOUC Blocking Theme Script */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var saved = localStorage.getItem('mentorlagbe_theme');
+                  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  if (saved === 'dark' || (!saved && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className={`${inter.variable} font-sans min-h-screen flex flex-col antialiased bg-background text-foreground transition-colors duration-200`}>
         <ThemeProvider>
           <AuthProvider>

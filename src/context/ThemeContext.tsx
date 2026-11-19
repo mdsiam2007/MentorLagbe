@@ -14,21 +14,14 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setThemeState] = useState<Theme>('light');
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Check saved theme or system preference
+    // Check if head script already added 'dark' to html
+    const isDarkAlready = document.documentElement.classList.contains('dark');
     const savedTheme = localStorage.getItem('mentorlagbe_theme') as Theme | null;
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initialTheme: Theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+    const initialTheme: Theme = savedTheme || (isDarkAlready ? 'dark' : 'light');
 
     setThemeState(initialTheme);
-    if (initialTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-    setMounted(true);
   }, []);
 
   const setTheme = (newTheme: Theme) => {
