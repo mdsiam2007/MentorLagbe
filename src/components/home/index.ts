@@ -1,0 +1,10 @@
+export { HeroSection } from './HeroSection';
+export { FeaturedTuitions } from './FeaturedTuitions';
+export { BenefitsTabs } from './BenefitsTabs';
+export { SubjectsStats } from './SubjectsStats';
+export { HowItWorksRoadmap } from './HowItWorksRoadmap';
+export { TrustShield } from './TrustShield';
+export { PricingComparison } from './PricingComparison';
+export { Testimonials } from './Testimonials';
+export { FaqAccordion } from './FaqAccordion';
+export { DualCtaBanner } from './DualCtaBanner';

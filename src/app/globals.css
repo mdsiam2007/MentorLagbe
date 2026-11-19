@@ -16,10 +16,10 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
 
-    /* Brand Primary Color: Modern Indigo / Royal Violet */
-    --primary: 246 80% 60%;
+    /* Brand Primary Color: Royal Blue (#1E40AF / #2563EB) */
+    --primary: 221 83% 53%;
     --primary-foreground: 210 40% 98%;
-    --primary-hover: 246 85% 50%;
+    --primary-hover: 224 76% 40%;
 
     /* Brand Secondary Color: Vibrant Teal */
     --secondary: 175 70% 41%;
@@ -28,15 +28,16 @@
     --muted: 210 40% 96.1%;
     --muted-foreground: 215 16% 47%;
 
-    --accent: 175 80% 95%;
-    --accent-foreground: 175 90% 25%;
+    /* Brand Accent Color: Coral (#F97316) */
+    --accent: 25 95% 53%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 246 80% 60%;
+    --ring: 221 83% 53%;
 
     --radius: 0.75rem;
   }
@@ -51,25 +52,28 @@
     --popover: 224 71% 7%;
     --popover-foreground: 213 31% 91%;
 
-    --primary: 246 85% 65%;
+    /* Brand Primary Color: Royal Blue (#2563EB in dark mode) */
+    --primary: 217 91% 60%;
     --primary-foreground: 224 71% 4%;
-    --primary-hover: 246 85% 72%;
+    --primary-hover: 217 91% 68%;
 
+    /* Brand Secondary Color: Vibrant Teal */
     --secondary: 175 75% 45%;
     --secondary-foreground: 224 71% 4%;
 
     --muted: 223 47% 11%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    /* Brand Accent Color: Coral (#F97316 in dark mode) */
+    --accent: 25 95% 60%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 246 85% 65%;
+    --ring: 217 91% 60%;
   }
 }
 

@@ -48,9 +48,70 @@ const config: Config = {
         ring: 'hsl(var(--ring))',
       },
       borderRadius: {
+        '3xl': '1.5rem',
+        '2xl': '1rem',
+        xl: 'calc(var(--radius) + 4px)',
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+      },
+      letterSpacing: {
+        tighter: '-0.04em',
+        tight: '-0.02em',
+        normal: '0em',
+        wide: '0.025em',
+        wider: '0.05em',
+        widest: '0.1em',
+      },
+      fontSize: {
+        'heading-hero': [
+          '3.75rem',
+          {
+            lineHeight: '1.12',
+            letterSpacing: '-0.025em',
+            fontWeight: '900',
+          },
+        ],
+        'heading-1': [
+          '3rem',
+          {
+            lineHeight: '1.15',
+            letterSpacing: '-0.02em',
+            fontWeight: '900',
+          },
+        ],
+        'heading-2': [
+          '2.25rem',
+          {
+            lineHeight: '1.2',
+            letterSpacing: '-0.02em',
+            fontWeight: '800',
+          },
+        ],
+        'heading-3': [
+          '1.875rem',
+          {
+            lineHeight: '1.25',
+            letterSpacing: '-0.015em',
+            fontWeight: '800',
+          },
+        ],
+        'heading-4': [
+          '1.5rem',
+          {
+            lineHeight: '1.3',
+            letterSpacing: '-0.01em',
+            fontWeight: '700',
+          },
+        ],
+        'heading-5': [
+          '1.25rem',
+          {
+            lineHeight: '1.4',
+            letterSpacing: '-0.01em',
+            fontWeight: '700',
+          },
+        ],
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],

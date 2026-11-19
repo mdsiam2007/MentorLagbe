@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
 import Logo from './Logo';
 import ThemeToggle from './ThemeToggle';
@@ -16,6 +17,7 @@ import {
   LogOut,
   ChevronDown,
   Sparkles,
+  ArrowRight,
 } from 'lucide-react';
 
 export const Navbar = () => {
@@ -23,6 +25,18 @@ export const Navbar = () => {
   const { user, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+
+  // Prevent background scroll when mobile drawer is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -40,19 +54,8 @@ export const Navbar = () => {
     return '/dashboard/student';
   };
 
-  const getRoleChipColor = (role: string): "danger" | "secondary" | "default" => {
-    switch (role) {
-      case 'admin':
-        return 'danger';
-      case 'tutor':
-        return 'secondary';
-      default:
-        return 'default';
-    }
-  };
-
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-background/80 backdrop-blur-md transition-all">
+    <header className="sticky top-0 z-40 w-full border-b border-border/80 bg-background/80 backdrop-blur-md transition-all">
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand Logo */}
         <Logo size="md" />
@@ -196,94 +199,173 @@ export const Navbar = () => {
         <div className="flex md:hidden items-center gap-2">
           <ThemeToggle />
           <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 text-foreground focus:outline-none"
-            aria-label="Toggle Menu"
+            onClick={() => setMobileMenuOpen(true)}
+            className="p-2 text-foreground focus:outline-none rounded-xl border border-border/80 bg-card hover:bg-muted transition-colors"
+            aria-label="Open Navigation Menu"
           >
-            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            <Menu className="h-6 w-6" />
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className="md:hidden border-b border-border bg-card px-4 pt-2 pb-6 space-y-4">
-          <nav className="flex flex-col space-y-3 pt-2">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`text-sm font-semibold py-1.5 ${
-                  pathname === link.href ? 'text-primary' : 'text-foreground'
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
-          </nav>
+      {/* Enhanced Animated Slide-in Sheet Drawer (Mobile) */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <div className="fixed inset-0 z-50 md:hidden">
+            {/* Backdrop Blur Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+              onClick={() => setMobileMenuOpen(false)}
+            />
 
-          <div className="border-t border-border pt-4">
-            {user ? (
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <img
-                    src={user.image || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80'}
-                    alt={user.name}
-                    className="h-10 w-10 rounded-full object-cover"
-                  />
-                  <div>
-                    <p className="text-sm font-bold text-foreground">{user.name}</p>
-                    <p className="text-xs text-muted-foreground">{user.email}</p>
+            {/* Slide-in Sheet Panel */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 28, stiffness: 300 }}
+              className="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-card border-l-2 border-border shadow-2xl flex flex-col justify-between z-50 overflow-y-auto"
+            >
+              <div>
+                {/* Drawer Header */}
+                <div className="flex items-center justify-between p-4 border-b border-border">
+                  <Logo size="sm" />
+                  <div className="flex items-center gap-2">
+                    <ThemeToggle />
+                    <button
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="p-2 text-foreground rounded-xl border border-border hover:bg-muted transition-colors"
+                      aria-label="Close Navigation Menu"
+                    >
+                      <X className="h-5 w-5" />
+                    </button>
                   </div>
                 </div>
 
-                <div className="flex flex-col space-y-2 pt-2">
-                  <Link
-                    href={getDashboardLink()}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-2 text-sm font-medium py-1 text-foreground"
-                  >
-                    <LayoutDashboard className="h-4 w-4 text-primary" />
-                    Dashboard ({user.role})
-                  </Link>
-                  <Link
-                    href="/dashboard/profile"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-2 text-sm font-medium py-1 text-foreground"
-                  >
-                    <UserIcon className="h-4 w-4 text-secondary" />
-                    Update Profile
-                  </Link>
-                  <button
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      logout();
-                    }}
-                    className="flex items-center gap-2 text-sm font-medium py-1 text-destructive"
-                  >
-                    <LogOut className="h-4 w-4" />
-                    Sign Out
-                  </button>
-                </div>
+                {/* Nav Links */}
+                <nav className="p-4 space-y-1">
+                  {navLinks.map((link) => {
+                    const isActive = pathname === link.href;
+                    return (
+                      <Link
+                        key={link.name}
+                        href={link.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-bold transition-all ${
+                          isActive
+                            ? 'bg-primary text-primary-foreground shadow-sm'
+                            : 'text-foreground hover:bg-muted'
+                        }`}
+                      >
+                        <span>{link.name}</span>
+                        {isActive && <ArrowRight className="h-4 w-4" />}
+                      </Link>
+                    );
+                  })}
+                </nav>
               </div>
-            ) : (
-              <div className="flex flex-col gap-2 pt-2">
-                <Link href="/sign-in" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="outline" size="sm" className="w-full justify-center">
-                    Sign In
-                  </Button>
-                </Link>
-                <Link href="/sign-up" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="default" size="sm" className="w-full justify-center">
-                    Sign Up
-                  </Button>
-                </Link>
+
+              {/* Drawer User Actions / Footer */}
+              <div className="p-4 border-t border-border bg-muted/20">
+                {user ? (
+                  <div className="space-y-4">
+                    {/* User Profile Card */}
+                    <div className="flex items-center gap-3 p-3 rounded-2xl bg-card border-2 border-border">
+                      <img
+                        src={user.image || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80'}
+                        alt={user.name}
+                        className="h-10 w-10 rounded-full object-cover border border-border"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <p className="text-sm font-bold text-foreground truncate">{user.name}</p>
+                          {user.plan === 'pro' && (
+                            <Badge variant="pro" className="px-1.5 py-0 h-4 text-[9px] font-black uppercase">
+                              PRO
+                            </Badge>
+                          )}
+                        </div>
+                        <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                        <Badge variant="secondary" className="capitalize text-[10px] h-4 mt-1">
+                          {user.role}
+                        </Badge>
+                      </div>
+                    </div>
+
+                    {/* Navigation Actions */}
+                    <div className="space-y-1.5">
+                      <Link
+                        href={getDashboardLink()}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-foreground bg-card border border-border hover:border-primary transition-colors"
+                      >
+                        <LayoutDashboard className="h-4 w-4 text-primary" />
+                        Go to Dashboard
+                      </Link>
+
+                      <Link
+                        href="/dashboard/profile"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-foreground bg-card border border-border hover:border-secondary transition-colors"
+                      >
+                        <UserIcon className="h-4 w-4 text-secondary" />
+                        Profile Settings
+                      </Link>
+
+                      {user.plan !== 'pro' && (
+                        <Link
+                          href="/pricing"
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-amber-600 dark:text-amber-400 bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 transition-colors"
+                        >
+                          <Sparkles className="h-4 w-4" />
+                          Upgrade to Pro
+                        </Link>
+                      )}
+
+                      <button
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          logout();
+                        }}
+                        className="flex w-full items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-destructive bg-destructive/10 border border-destructive/20 hover:bg-destructive/20 transition-colors"
+                      >
+                        <LogOut className="h-4 w-4" />
+                        Sign Out
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <Link
+                      href="/sign-in"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block w-full"
+                    >
+                      <Button variant="outline" size="sm" className="w-full justify-center">
+                        Sign In
+                      </Button>
+                    </Link>
+                    <Link
+                      href="/sign-up"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block w-full"
+                    >
+                      <Button variant="default" size="sm" className="w-full justify-center">
+                        Sign Up Free
+                      </Button>
+                    </Link>
+                  </div>
+                )}
               </div>
-            )}
+            </motion.div>
           </div>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
     </header>
   );
 };

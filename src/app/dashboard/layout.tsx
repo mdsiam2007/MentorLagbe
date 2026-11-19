@@ -31,10 +31,40 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    if (!loading && !user) {
+    if (loading) return;
+
+    if (!user) {
       router.push('/sign-in');
+      return;
     }
-  }, [user, loading, router]);
+
+    // Role-based route guard
+    if (pathname === '/dashboard' || pathname === '/dashboard/') {
+      const target =
+        user.role === 'admin'
+          ? '/dashboard/admin'
+          : user.role === 'tutor'
+          ? '/dashboard/tutor'
+          : '/dashboard/student';
+      router.replace(target);
+      return;
+    }
+
+    if (user.role === 'student') {
+      if (pathname.startsWith('/dashboard/admin') || pathname.startsWith('/dashboard/tutor')) {
+        router.replace('/dashboard/student');
+      }
+    } else if (user.role === 'tutor') {
+      if (pathname.startsWith('/dashboard/admin') || pathname.startsWith('/dashboard/student')) {
+        router.replace('/dashboard/tutor');
+      }
+    } else if (user.role !== 'admin') {
+      if (pathname.startsWith('/dashboard/admin')) {
+        const target = user.role === 'tutor' ? '/dashboard/tutor' : '/dashboard/student';
+        router.replace(target);
+      }
+    }
+  }, [user, loading, pathname, router]);
 
   if (loading) {
     return (
@@ -48,6 +78,27 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   if (!user) return null;
+
+  // Immediate check to prevent unauthorized view flickering or subpage execution while redirecting
+  const isUnauthorized =
+    pathname === '/dashboard' ||
+    pathname === '/dashboard/' ||
+    (user.role === 'student' &&
+      (pathname.startsWith('/dashboard/admin') || pathname.startsWith('/dashboard/tutor'))) ||
+    (user.role === 'tutor' &&
+      (pathname.startsWith('/dashboard/admin') || pathname.startsWith('/dashboard/student'))) ||
+    (user.role !== 'admin' && pathname.startsWith('/dashboard/admin'));
+
+  if (isUnauthorized) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="flex flex-col items-center gap-3">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="text-xs text-muted-foreground font-medium">Redirecting to your dashboard...</p>
+        </div>
+      </div>
+    );
+  }
 
   // Role-based navigation items
   const studentNav = [
