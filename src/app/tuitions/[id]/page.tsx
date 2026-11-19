@@ -35,6 +35,7 @@ import {
   ExternalLink,
   ChevronRight,
   Flame,
+  Bookmark,
 } from 'lucide-react';
 
 export default function TuitionDetailsPage({ params }: { params: Promise<{ id: string }> }) {
@@ -47,6 +48,8 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
   const [loading, setLoading] = useState(true);
   const [applying, setApplying] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [bookmarked, setBookmarked] = useState(false);
+  const [bookmarkLoading, setBookmarkLoading] = useState(false);
 
   // Application form fields
   const [studentPhone, setStudentPhone] = useState('');
@@ -69,7 +72,39 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
         toast.error('Failed to load tuition details.');
       })
       .finally(() => setLoading(false));
+
+    // Check bookmark status for student
+    if (user && user.role === 'student') {
+      api.get('/users/bookmarks')
+        .then((res) => {
+          const bookmarks = res.data?.data || (Array.isArray(res.data) ? res.data : []);
+          const isSaved = bookmarks.some((b: any) =>
+            typeof b === 'string' ? b === tuitionId : b._id === tuitionId
+          );
+          setBookmarked(isSaved);
+        })
+        .catch(() => {});
+    }
   }, [tuitionId, user]);
+
+  const handleToggleBookmark = async () => {
+    if (!user || user.role !== 'student') {
+      toast.info('Sign in as a student to bookmark tuitions.');
+      return;
+    }
+
+    setBookmarkLoading(true);
+    try {
+      const res = await api.post(`/users/bookmarks/${tuitionId}`);
+      const nextState = !bookmarked;
+      setBookmarked(nextState);
+      toast.success(res.data?.message || (nextState ? 'Tuition saved to bookmarks!' : 'Bookmark removed!'));
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || 'Failed to update bookmark.');
+    } finally {
+      setBookmarkLoading(false);
+    }
+  };
 
   const handleApplySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -241,6 +276,22 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
                 Featured Batch
               </Badge>
             </div>
+
+            {/* Top Right Floating Bookmark Button */}
+            <button
+              type="button"
+              onClick={handleToggleBookmark}
+              disabled={bookmarkLoading}
+              className={`absolute top-5 right-5 z-20 flex items-center gap-2 px-3.5 py-2 rounded-2xl backdrop-blur-md transition-all duration-200 shadow-xl border [transform:translateZ(30px)] ${
+                bookmarked
+                  ? 'bg-primary text-primary-foreground border-primary scale-105'
+                  : 'bg-black/60 hover:bg-black/80 text-white border-white/20 hover:scale-105'
+              }`}
+              title={bookmarked ? 'Remove from Saved' : 'Save Tuition'}
+            >
+              <Bookmark className={`h-4 w-4 ${bookmarked ? 'fill-current' : ''}`} />
+              <span className="text-xs font-bold">{bookmarked ? 'Saved' : 'Save Tuition'}</span>
+            </button>
 
             {/* Bottom Floating Title Strip */}
             <div className="absolute bottom-6 left-6 right-6 text-white space-y-2 [transform:translateZ(25px)]">
@@ -465,6 +516,144 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
               </Tilt3DCard>
             </motion.div>
 
+            {/* STUDENT REVIEWS & ACADEMIC FEEDBACK */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25 }}
+              className="rounded-3xl border-2 border-border/80 bg-card p-6 sm:p-8 shadow-sm space-y-6"
+            >
+              {/* Section Header */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-2 border-border/60 pb-5">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-amber-500/10 border-2 border-amber-500/20 flex items-center justify-center text-amber-500 shadow-sm">
+                    <Star className="h-5 w-5 fill-amber-500" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-black text-foreground">
+                      Student Reviews & Academic Feedback
+                    </h3>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      Verified feedback and ratings from enrolled students.
+                    </p>
+                  </div>
+                </div>
+
+                {tuition.averageRating || (tuition.reviews && tuition.reviews.length > 0) ? (
+                  <div className="flex items-center gap-2.5 bg-muted/60 border border-border/80 px-4 py-2 rounded-2xl">
+                    <div className="flex items-center text-amber-500">
+                      <Star className="h-4 w-4 fill-amber-500 mr-1" />
+                      <span className="text-lg font-black text-foreground">
+                        {tuition.averageRating
+                          ? Number(tuition.averageRating).toFixed(1)
+                          : (
+                              tuition.reviews.reduce(
+                                (acc: number, r: any) => acc + (r.rating || 5),
+                                0
+                              ) / tuition.reviews.length
+                            ).toFixed(1)}
+                      </span>
+                      <span className="text-xs text-muted-foreground font-semibold ml-0.5">/ 5.0</span>
+                    </div>
+                    <span className="text-muted-foreground">•</span>
+                    <span className="text-xs font-bold text-muted-foreground">
+                      {tuition.totalReviews || tuition.reviews?.length || 0}{' '}
+                      {(tuition.totalReviews || tuition.reviews?.length) === 1 ? 'Review' : 'Reviews'}
+                    </span>
+                  </div>
+                ) : (
+                  <Badge variant="outline" className="text-xs text-muted-foreground font-bold">
+                    No Ratings Yet
+                  </Badge>
+                )}
+              </div>
+
+              {/* Reviews List or Empty State */}
+              {tuition.reviews && tuition.reviews.length > 0 ? (
+                <div className="space-y-4">
+                  {tuition.reviews.map((rev: any, idx: number) => {
+                    const reviewerName =
+                      rev.studentName || rev.studentEmail?.split('@')[0] || 'Enrolled Student';
+                    const initials =
+                      reviewerName
+                        .split(' ')
+                        .map((n: string) => n[0])
+                        .slice(0, 2)
+                        .join('')
+                        .toUpperCase() || 'S';
+                    const reviewDate = rev.createdAt
+                      ? new Date(rev.createdAt).toLocaleDateString(undefined, {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                        })
+                      : 'Recently';
+
+                    return (
+                      <div
+                        key={rev._id || idx}
+                        className="rounded-2xl border border-border/80 bg-muted/20 p-5 space-y-3 hover:border-primary/40 transition-colors"
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex items-center gap-3">
+                            {rev.studentImage ? (
+                              <img
+                                src={rev.studentImage}
+                                alt={reviewerName}
+                                className="h-10 w-10 rounded-full object-cover border border-border"
+                              />
+                            ) : (
+                              <div className="h-10 w-10 rounded-full bg-primary/10 text-primary border-2 border-primary/20 flex items-center justify-center font-bold text-xs shrink-0">
+                                {initials}
+                              </div>
+                            )}
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <span className="text-sm font-bold text-foreground">
+                                  {reviewerName}
+                                </span>
+                                <Badge variant="success" className="text-[10px] px-1.5 py-0">
+                                  <ShieldCheck className="h-3 w-3 mr-0.5" />
+                                  Verified Student
+                                </Badge>
+                              </div>
+                              <span className="text-[11px] text-muted-foreground">{reviewDate}</span>
+                            </div>
+                          </div>
+
+                          {/* Stars */}
+                          <div className="flex items-center gap-0.5 text-amber-500">
+                            {[1, 2, 3, 4, 5].map((s) => (
+                              <Star
+                                key={s}
+                                className={`h-3.5 w-3.5 ${
+                                  (rev.rating || 5) >= s
+                                    ? 'fill-amber-400 text-amber-400'
+                                    : 'text-muted-foreground/30'
+                                }`}
+                              />
+                            ))}
+                          </div>
+                        </div>
+
+                        <p className="text-xs sm:text-sm text-foreground/90 leading-relaxed pl-13">
+                          &ldquo;{rev.comment}&rdquo;
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="rounded-2xl border border-dashed border-border/80 bg-muted/20 p-8 text-center space-y-2">
+                  <Star className="h-8 w-8 text-muted-foreground/40 mx-auto" />
+                  <h4 className="text-sm font-bold text-foreground">No reviews yet</h4>
+                  <p className="text-xs text-muted-foreground max-w-md mx-auto">
+                    No reviews yet. Be the first enrolled student to share feedback once your tuition begins!
+                  </p>
+                </div>
+              )}
+            </motion.div>
+
             {/* Safety & Trust Assurance Card */}
             <div className="rounded-3xl border-2 border-border/80 bg-muted/30 p-6 space-y-3">
               <h4 className="text-xs font-black uppercase tracking-wider text-muted-foreground flex items-center gap-2">
@@ -563,6 +752,16 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
                             Sign In to Apply
                           </Button>
                         </Link>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={handleToggleBookmark}
+                          disabled={bookmarkLoading}
+                          className="w-full font-bold h-11 text-xs gap-2 border-2 hover:bg-muted"
+                        >
+                          <Bookmark className="h-4 w-4" />
+                          Save Tuition to Bookmarks
+                        </Button>
                         <p className="text-[11px] text-center text-muted-foreground">
                           Don&apos;t have an account?{' '}
                           <Link href="/sign-up" className="text-primary font-bold hover:underline">
@@ -571,13 +770,27 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
                         </p>
                       </div>
                     ) : isStudent ? (
-                      <div>
+                      <div className="space-y-2.5">
                         <Button
                           onClick={() => setModalOpen(true)}
                           className="w-full font-black h-12 shadow-xl shadow-primary/30 text-sm gap-2"
                         >
                           <Send className="h-4 w-4" />
                           Apply for this Batch
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={handleToggleBookmark}
+                          disabled={bookmarkLoading}
+                          className={`w-full font-bold h-11 text-xs gap-2 border-2 transition-all ${
+                            bookmarked
+                              ? 'border-primary text-primary bg-primary/10 hover:bg-primary/20'
+                              : 'hover:bg-muted'
+                          }`}
+                        >
+                          <Bookmark className={`h-4 w-4 ${bookmarked ? 'fill-current' : ''}`} />
+                          {bookmarked ? 'Saved in Your Bookmarks' : 'Save Tuition to Bookmarks'}
                         </Button>
                         <p className="text-[11px] text-center text-muted-foreground mt-2.5 flex items-center justify-center gap-1">
                           <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />

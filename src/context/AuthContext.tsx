@@ -15,6 +15,7 @@ export interface IUser {
   phone?: string;
   bio?: string;
   image?: string;
+  bookmarks?: string[];
   createdAt: string;
 }
 

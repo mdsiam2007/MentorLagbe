@@ -21,6 +21,7 @@ import {
   FileText,
   Sparkles,
   ChevronRight,
+  Bookmark,
 } from 'lucide-react';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -52,6 +53,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const studentNav = [
     { name: 'Overview', href: '/dashboard/student', icon: LayoutDashboard },
     { name: 'My Applications', href: '/dashboard/student/my-applications', icon: FileText },
+    { name: 'Saved Tuitions', href: '/dashboard/student/saved-tuitions', icon: Bookmark },
   ];
 
   const tutorNav = [
