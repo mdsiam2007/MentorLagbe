@@ -3,7 +3,6 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import confetti from 'canvas-confetti';
 import api from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
 import { Card } from '@/components/ui/card';
@@ -30,11 +29,14 @@ function PaymentSuccessContent() {
             refreshUser();
 
             // Confetti celebration
-            confetti({
-              particleCount: 100,
-              spread: 70,
-              origin: { y: 0.6 },
-            });
+            import('canvas-confetti').then((module) => {
+              const confetti = module.default;
+              confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+              });
+            }).catch(() => {});
           }
         })
         .catch((err) => {

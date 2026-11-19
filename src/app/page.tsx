@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
-import { gsap } from 'gsap';
+import gsap from 'gsap';
 import api from '@/lib/api';
 import TuitionCard from '@/components/tuition/TuitionCard';
 import { TuitionCardSkeleton } from '@/components/ui/skeleton';
