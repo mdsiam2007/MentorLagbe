@@ -74,18 +74,23 @@ export const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/pricing" className="hover:text-primary transition-colors">
-                  Pricing & Pro Upgrade
+                <Link href="/tutors" className="hover:text-primary transition-colors">
+                  Browse Tutors Directory
                 </Link>
               </li>
               <li>
-                <Link href="/sign-up" className="hover:text-primary transition-colors">
+                <Link href="/become-a-tutor" className="hover:text-primary transition-colors">
                   Become a Tutor
                 </Link>
               </li>
               <li>
-                <Link href="/sign-in" className="hover:text-primary transition-colors">
-                  Student Login
+                <Link href="/how-it-works" className="hover:text-primary transition-colors">
+                  How It Works & Safety
+                </Link>
+              </li>
+              <li>
+                <Link href="/pricing" className="hover:text-primary transition-colors">
+                  Pricing & Pro Upgrade
                 </Link>
               </li>
             </ul>
@@ -128,15 +133,25 @@ export const Footer = () => {
             <ul className="space-y-2.5 text-sm text-muted-foreground">
               <li className="flex items-center gap-2.5">
                 <Mail className="h-4 w-4 text-primary shrink-0" />
-                <span>support@mentorlagbe.com</span>
+                <Link href="/contact" className="hover:text-primary transition-colors">
+                  support@mentorlagbe.com
+                </Link>
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone className="h-4 w-4 text-primary shrink-0" />
-                <span>+880 1700 000000</span>
+                <span>+880 1700 000000 (Helpline)</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <MapPin className="h-4 w-4 text-primary shrink-0" />
-                <span>Dhaka, Bangladesh</span>
+                <span>Dhanmondi & Mirpur, Dhaka</span>
+              </li>
+              <li className="pt-1">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center text-xs font-semibold text-primary hover:underline"
+                >
+                  Visit Support Center →
+                </Link>
               </li>
             </ul>
           </div>

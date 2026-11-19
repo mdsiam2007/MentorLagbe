@@ -27,7 +27,10 @@ export const Navbar = () => {
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Browse Tuitions', href: '/tuitions' },
-    { name: 'Pricing & Pro', href: '/pricing' },
+    { name: 'Find Tutors', href: '/tutors' },
+    { name: 'Become a Tutor', href: '/become-a-tutor' },
+    { name: 'How It Works', href: '/how-it-works' },
+    { name: 'Pricing', href: '/pricing' },
   ];
 
   const getDashboardLink = () => {

@@ -24,8 +24,8 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401 && typeof window !== 'undefined') {
       // Avoid redirecting on public pages
-      const publicPaths = ['/', '/tuitions', '/pricing', '/sign-in', '/sign-up'];
-      if (!publicPaths.includes(window.location.pathname) && !window.location.pathname.startsWith('/tuitions/')) {
+      const publicPaths = ['/', '/tuitions', '/tutors', '/become-a-tutor', '/how-it-works', '/contact', '/pricing', '/sign-in', '/sign-up'];
+      if (!publicPaths.includes(window.location.pathname) && !window.location.pathname.startsWith('/tuitions/') && !window.location.pathname.startsWith('/tutors/')) {
         localStorage.removeItem('mentorlagbe_token');
         localStorage.removeItem('mentorlagbe_user');
         window.location.href = '/sign-in';
