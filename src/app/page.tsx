@@ -10,6 +10,7 @@ import TuitionCard from '@/components/tuition/TuitionCard';
 import { TuitionCardSkeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Tilt3DCard } from '@/components/ui/Tilt3DCard';
 import {
   Search,
   Sparkles,
@@ -474,10 +475,15 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right Hero Visual with Flat Framing & Floating Micro-Cards */}
+            {/* Right Hero Visual with 3D Tilt & Floating Micro-Cards */}
             <div ref={heroImageRef} className="lg:col-span-5 relative flex justify-center">
-              <div className="relative w-full max-w-md">
-                <div className="rounded-3xl border-4 border-foreground/15 bg-card overflow-hidden shadow-[0_8px_0_0_hsl(var(--border))]">
+              <Tilt3DCard
+                tiltMaxAngle={12}
+                scaleOnHover={1.03}
+                glareOpacity={0.18}
+                className="w-full max-w-md"
+              >
+                <div className="relative w-full rounded-3xl border-4 border-foreground/15 bg-card overflow-hidden shadow-[0_12px_0_0_hsl(var(--border))]">
                   <img
                     src="/images/hero-illustration.jpg"
                     alt="MentorLagbe Online Tutor Marketplace"
@@ -485,8 +491,8 @@ export default function HomePage() {
                   />
                 </div>
 
-                {/* Floating Badge 1: Top Rated */}
-                <div className="floating-badge absolute -top-4 -left-6 rounded-2xl border-2 border-border bg-card p-3.5 shadow-[0_4px_0_0_hsl(var(--border))] flex items-center gap-3">
+                {/* Floating Badge 1: Top Rated with 3D Elevation */}
+                <div className="floating-badge absolute -top-4 -left-6 rounded-2xl border-2 border-border bg-card p-3.5 shadow-[0_6px_0_0_hsl(var(--border))] flex items-center gap-3 [transform:translateZ(45px)] backdrop-blur-sm">
                   <div className="h-10 w-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-500">
                     <Star className="h-5 w-5 fill-amber-500" />
                   </div>
@@ -496,8 +502,8 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {/* Floating Badge 2: Verified Mentors */}
-                <div className="floating-badge absolute -bottom-5 -right-4 rounded-2xl border-2 border-border bg-card p-3.5 shadow-[0_4px_0_0_hsl(var(--border))] flex items-center gap-3">
+                {/* Floating Badge 2: Verified Mentors with 3D Elevation */}
+                <div className="floating-badge absolute -bottom-5 -right-4 rounded-2xl border-2 border-border bg-card p-3.5 shadow-[0_6px_0_0_hsl(var(--border))] flex items-center gap-3 [transform:translateZ(50px)] backdrop-blur-sm">
                   <div className="h-10 w-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-600">
                     <Award className="h-5 w-5" />
                   </div>
@@ -506,7 +512,7 @@ export default function HomePage() {
                     <p className="text-[10px] text-muted-foreground font-semibold">BUET, DMC & DU Tutors</p>
                   </div>
                 </div>
-              </div>
+              </Tilt3DCard>
             </div>
           </div>
         </div>

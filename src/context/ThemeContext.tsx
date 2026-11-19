@@ -16,21 +16,28 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [theme, setThemeState] = useState<Theme>('light');
 
   useEffect(() => {
-    // Check if head script already added 'dark' to html
     const isDarkAlready = document.documentElement.classList.contains('dark');
     const savedTheme = localStorage.getItem('mentorlagbe_theme') as Theme | null;
     const initialTheme: Theme = savedTheme || (isDarkAlready ? 'dark' : 'light');
-
     setThemeState(initialTheme);
   }, []);
 
   const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
-    localStorage.setItem('mentorlagbe_theme', newTheme);
-    if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark');
+    const applyTheme = () => {
+      setThemeState(newTheme);
+      localStorage.setItem('mentorlagbe_theme', newTheme);
+      if (newTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    };
+
+    // Use native View Transitions API for 60fps smooth crossfade
+    if (typeof document !== 'undefined' && 'startViewTransition' in document) {
+      (document as any).startViewTransition(applyTheme);
     } else {
-      document.documentElement.classList.remove('dark');
+      applyTheme();
     }
   };
 

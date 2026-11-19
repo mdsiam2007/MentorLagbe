@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { useTheme } from '@/context/ThemeContext';
-import { Sun, Moon } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Sun, Moon, Sparkles } from 'lucide-react';
 
 interface ThemeToggleProps {
   className?: string;
@@ -11,41 +12,53 @@ interface ThemeToggleProps {
 
 export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className = '', showLabel = false }) => {
   const { theme, toggleTheme } = useTheme();
+  const isDark = theme === 'dark';
 
   return (
-    <button
+    <motion.button
       onClick={toggleTheme}
       type="button"
-      className={`relative inline-flex items-center justify-center rounded-xl border border-border/80 bg-card p-2 text-foreground hover:bg-muted/80 hover:border-primary/50 transition-all duration-300 active:scale-90 focus:outline-none focus:ring-2 focus:ring-primary/20 overflow-hidden ${className}`}
+      whileHover={{ scale: 1.05, y: -1 }}
+      whileTap={{ scale: 0.92, y: 1 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+      className={`relative inline-flex items-center justify-center rounded-2xl border-2 border-border/80 bg-card p-2.5 text-foreground hover:bg-muted/80 hover:border-primary/50 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer overflow-hidden group select-none ${className}`}
       aria-label="Toggle Dark / Light Theme"
-      title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
+      title={`Switch to ${isDark ? 'Light' : 'Dark'} Mode`}
     >
       <div className="relative h-4 w-4 flex items-center justify-center">
-        {/* Sun Icon for Dark Mode (showing Sun means clicking will bring Light) */}
-        <Sun
-          className={`h-4 w-4 text-amber-400 absolute inset-0 transition-all duration-500 ease-out transform ${
-            theme === 'dark'
-              ? 'rotate-0 scale-100 opacity-100'
-              : 'rotate-90 scale-0 opacity-0 pointer-events-none'
-          }`}
-        />
-
-        {/* Moon Icon for Light Mode (showing Moon means clicking will bring Dark) */}
-        <Moon
-          className={`h-4 w-4 text-slate-700 dark:text-slate-200 absolute inset-0 transition-all duration-500 ease-out transform ${
-            theme === 'dark'
-              ? '-rotate-90 scale-0 opacity-0 pointer-events-none'
-              : 'rotate-0 scale-100 opacity-100'
-          }`}
-        />
+        <AnimatePresence mode="wait" initial={false}>
+          {isDark ? (
+            <motion.div
+              key="sun"
+              initial={{ rotate: -90, scale: 0, opacity: 0 }}
+              animate={{ rotate: 0, scale: 1, opacity: 1 }}
+              exit={{ rotate: 90, scale: 0, opacity: 0 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              className="absolute inset-0 flex items-center justify-center"
+            >
+              <Sun className="h-4 w-4 text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]" />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="moon"
+              initial={{ rotate: 90, scale: 0, opacity: 0 }}
+              animate={{ rotate: 0, scale: 1, opacity: 1 }}
+              exit={{ rotate: -90, scale: 0, opacity: 0 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              className="absolute inset-0 flex items-center justify-center"
+            >
+              <Moon className="h-4 w-4 text-indigo-600 drop-shadow-[0_0_8px_rgba(79,70,229,0.3)]" />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {showLabel && (
-        <span className="ml-2 text-xs font-semibold capitalize">
-          {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+        <span className="ml-2 text-xs font-bold capitalize tracking-wide">
+          {isDark ? 'Light Mode' : 'Dark Mode'}
         </span>
       )}
-    </button>
+    </motion.button>
   );
 };
 
