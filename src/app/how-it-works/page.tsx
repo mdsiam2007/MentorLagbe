@@ -2,9 +2,12 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
+import {
+  Button,
+  Card,
+  CardBody,
+  Chip,
+} from '@heroui/react';
 import {
   ShieldCheck,
   CheckCircle2,
@@ -13,7 +16,6 @@ import {
   Compass,
   GraduationCap,
   Users,
-  AlertCircle,
   FileCheck,
   HeartHandshake,
   ArrowRight,
@@ -94,9 +96,9 @@ export default function HowItWorksPage() {
       {/* 1. Header */}
       <section className="bg-gradient-to-b from-primary/10 via-background to-background py-16 sm:py-20 border-b border-border/60">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-          <Badge variant="secondary" className="mb-3 px-3 py-1">
-            <ShieldCheck className="h-3.5 w-3.5 mr-1 text-primary" /> Transparent, Safe & Verified
-          </Badge>
+          <Chip color="primary" variant="flat" size="sm" className="mb-3 font-bold text-xs">
+            <ShieldCheck className="h-3.5 w-3.5 mr-1" /> Transparent, Safe & Verified
+          </Chip>
           <h1 className="text-3xl sm:text-5xl font-black text-foreground tracking-tight">
             How MentorLagbe Works & <span className="text-primary underline decoration-primary/30">Our Safety Promise</span>
           </h1>
@@ -112,7 +114,7 @@ export default function HowItWorksPage() {
           {/* For Students */}
           <div>
             <div className="flex items-center gap-3 mb-8">
-              <div className="h-10 w-10 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary">
+              <div className="h-10 w-10 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary">
                 <GraduationCap className="h-6 w-6" />
               </div>
               <div>
@@ -123,10 +125,12 @@ export default function HowItWorksPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {studentSteps.map((st) => (
-                <Card key={st.step} className="p-6 rounded-2xl border border-border/80 bg-card shadow-sm">
-                  <span className="text-2xl font-black text-secondary block mb-3">0{st.step}</span>
-                  <h3 className="text-base font-bold text-foreground mb-2">{st.title}</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{st.desc}</p>
+                <Card key={st.step} shadow="sm" className="p-6 rounded-3xl border border-border/80 bg-card">
+                  <CardBody className="p-0">
+                    <span className="text-2xl font-black text-secondary block mb-3">0{st.step}</span>
+                    <h3 className="text-base font-bold text-foreground mb-2">{st.title}</h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed">{st.desc}</p>
+                  </CardBody>
                 </Card>
               ))}
             </div>
@@ -135,7 +139,7 @@ export default function HowItWorksPage() {
           {/* For Tutors */}
           <div>
             <div className="flex items-center gap-3 mb-8">
-              <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+              <div className="h-10 w-10 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
                 <Users className="h-6 w-6" />
               </div>
               <div>
@@ -146,10 +150,12 @@ export default function HowItWorksPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {tutorSteps.map((st) => (
-                <Card key={st.step} className="p-6 rounded-2xl border border-border/80 bg-card shadow-sm">
-                  <span className="text-2xl font-black text-primary block mb-3">0{st.step}</span>
-                  <h3 className="text-base font-bold text-foreground mb-2">{st.title}</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{st.desc}</p>
+                <Card key={st.step} shadow="sm" className="p-6 rounded-3xl border border-border/80 bg-card">
+                  <CardBody className="p-0">
+                    <span className="text-2xl font-black text-primary block mb-3">0{st.step}</span>
+                    <h3 className="text-base font-bold text-foreground mb-2">{st.title}</h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed">{st.desc}</p>
+                  </CardBody>
                 </Card>
               ))}
             </div>
@@ -164,19 +170,21 @@ export default function HowItWorksPage() {
             {/* Left Graphic */}
             <div className="lg:col-span-5 flex justify-center">
               <div className="relative w-full max-w-md">
-                <div className="overflow-hidden rounded-3xl border-4 border-card bg-card shadow-2xl">
+                <Card shadow="lg" className="overflow-hidden rounded-3xl border-4 border-card bg-card">
                   <img
                     src="/images/trust-safety.jpg"
                     alt="Trust and Safety Shield"
                     className="h-[380px] w-full object-cover"
                   />
-                </div>
+                </Card>
               </div>
             </div>
 
             {/* Right Safety Pillars */}
             <div className="lg:col-span-7 space-y-6">
-              <Badge variant="outline">Trust & Verification Policy</Badge>
+              <Chip size="sm" variant="bordered" className="font-bold text-xs">
+                Trust & Verification Policy
+              </Chip>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">
                 Safety First: How We Protect Both Parties
               </h2>
@@ -188,13 +196,15 @@ export default function HowItWorksPage() {
                 {safetyGuarantees.map((item, idx) => {
                   const Icon = item.icon;
                   return (
-                    <div key={idx} className="p-4 rounded-xl border border-border/70 bg-card space-y-2">
-                      <div className="flex items-center gap-2 text-primary font-bold text-sm">
-                        <Icon className="h-4 w-4" />
-                        <span>{item.title}</span>
-                      </div>
-                      <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
-                    </div>
+                    <Card key={idx} shadow="sm" className="p-4 rounded-2xl border border-border/70 bg-card space-y-2">
+                      <CardBody className="p-0">
+                        <div className="flex items-center gap-2 text-primary font-bold text-sm mb-1">
+                          <Icon className="h-4 w-4" />
+                          <span>{item.title}</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+                      </CardBody>
+                    </Card>
                   );
                 })}
               </div>
@@ -212,10 +222,10 @@ export default function HowItWorksPage() {
           </p>
           <div className="flex items-center justify-center gap-4">
             <Link href="/tuitions">
-              <Button className="font-bold">Browse Tuitions</Button>
+              <Button color="primary" radius="full" className="font-bold">Browse Tuitions</Button>
             </Link>
             <Link href="/contact">
-              <Button variant="outline" className="font-bold">Contact Support</Button>
+              <Button variant="bordered" radius="full" className="font-bold border-border">Contact Support</Button>
             </Link>
           </div>
         </div>

@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
 import { ThemeProvider } from '@/context/ThemeContext';
+import { HeroUIProviderWrapper } from '@/components/providers/HeroUIProviderWrapper';
 import { Toaster } from 'sonner';
 import Navbar from '@/components/common/Navbar';
 import ConditionalFooter from '@/components/common/ConditionalFooter';
@@ -47,12 +48,14 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} font-sans min-h-screen flex flex-col antialiased bg-background text-foreground transition-colors duration-200`}>
         <ThemeProvider>
-          <AuthProvider>
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <ConditionalFooter />
-            <Toaster richColors position="top-right" closeButton />
-          </AuthProvider>
+          <HeroUIProviderWrapper>
+            <AuthProvider>
+              <Navbar />
+              <main className="flex-1">{children}</main>
+              <ConditionalFooter />
+              <Toaster richColors position="top-right" closeButton />
+            </AuthProvider>
+          </HeroUIProviderWrapper>
         </ThemeProvider>
       </body>
     </html>

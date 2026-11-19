@@ -5,16 +5,19 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import api from '@/lib/api';
 import TuitionCard from '@/components/tuition/TuitionCard';
 import { TuitionCardSkeleton } from '@/components/ui/skeleton';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import {
+  Button,
+  Card,
+  CardBody,
+  Chip,
+  Pagination,
+} from '@heroui/react';
 import {
   Search,
-  Filter,
   RotateCcw,
-  ChevronLeft,
-  ChevronRight,
   BookOpen,
+  Filter,
+  Sparkles,
 } from 'lucide-react';
 
 function BrowseTuitionsContent() {
@@ -23,6 +26,8 @@ function BrowseTuitionsContent() {
 
   const [tuitions, setTuitions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // States synchronized with searchParams
   const [search, setSearch] = useState(searchParams.get('search') || '');
   const [subject, setSubject] = useState(searchParams.get('subject') || 'All');
   const [classLevel, setClassLevel] = useState(searchParams.get('classLevel') || 'All');
@@ -61,6 +66,21 @@ function BrowseTuitionsContent() {
   ];
 
   const modeOptions = ['All', 'Online', 'Offline'];
+
+  // Sync state when searchParams changes (e.g. from Hero search widget or link)
+  useEffect(() => {
+    const qSearch = searchParams.get('search');
+    const qSubject = searchParams.get('subject');
+    const qClass = searchParams.get('classLevel');
+    const qMode = searchParams.get('mode');
+    const qPage = searchParams.get('page');
+
+    if (qSearch !== null) setSearch(qSearch);
+    if (qSubject !== null) setSubject(qSubject);
+    if (qClass !== null) setClassLevel(qClass);
+    if (qMode !== null) setMode(qMode);
+    if (qPage !== null) setPage(parseInt(qPage, 10));
+  }, [searchParams]);
 
   const fetchTuitions = useCallback(async () => {
     setLoading(true);
@@ -103,6 +123,7 @@ function BrowseTuitionsContent() {
     setClassLevel('All');
     setMode('All');
     setPage(1);
+    router.push('/tuitions');
   };
 
   return (
@@ -110,119 +131,151 @@ function BrowseTuitionsContent() {
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8 space-y-2">
-          <Badge variant="secondary">Tuition Marketplace</Badge>
+          <Chip color="primary" variant="flat" size="sm" className="font-bold text-xs">
+            <Sparkles className="h-3.5 w-3.5 mr-1" /> Tuition Marketplace
+          </Chip>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">
             Browse Approved Tuitions
           </h1>
           <p className="text-sm text-muted-foreground">
-            Find the perfect academic batch or private mentor with our server-side real-time filter.
+            Find the perfect academic batch or private mentor with our real-time multi-criteria filter.
           </p>
         </div>
 
-        {/* Filter Bar */}
-        <div className="rounded-2xl border border-border/80 bg-card p-4 sm:p-6 shadow-sm mb-10 space-y-4">
-          <form onSubmit={handleSearchSubmit} className="flex flex-col md:flex-row gap-3">
-            <div className="relative flex-1">
-              <Search className="absolute left-3.5 top-3.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Search by tuition title, subject or location..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-            <Button type="submit" className="font-semibold gap-1.5 shrink-0">
-              <Search className="h-4 w-4" />
-              Search
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleReset}
-              className="gap-1.5 shrink-0"
-              title="Reset Filters"
-            >
-              <RotateCcw className="h-4 w-4" />
-              Reset
-            </Button>
-          </form>
+        {/* Filter Bar with HeroUI Card */}
+        <Card shadow="sm" className="rounded-3xl border border-border/80 bg-card p-4 sm:p-6 mb-10">
+          <CardBody className="p-0 space-y-4">
+            <form onSubmit={handleSearchSubmit} className="flex flex-col md:flex-row gap-3">
+              <div className="relative flex-1">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <input
+                  type="text"
+                  placeholder="Search by tuition title, subject or location..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="w-full h-12 pl-10 pr-4 rounded-2xl border border-border bg-background text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
+                />
+              </div>
 
-          {/* Dropdown Filters */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-border/50">
-            {/* Subject Dropdown */}
-            <div>
-              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
-                Subject
-              </label>
-              <select
-                value={subject}
-                onChange={(e) => {
-                  setSubject(e.target.value);
-                  setPage(1);
-                }}
-                className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-              >
-                {subjectOptions.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt === 'All' ? 'All Subjects' : opt}
-                  </option>
-                ))}
-              </select>
-            </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <Button
+                  type="submit"
+                  color="primary"
+                  radius="full"
+                  className="h-12 px-6 font-bold text-xs gap-1.5 shadow-md shadow-primary/20"
+                  startContent={<Search className="h-4 w-4" />}
+                >
+                  Search
+                </Button>
+                <Button
+                  type="button"
+                  variant="bordered"
+                  radius="full"
+                  onClick={handleReset}
+                  className="h-12 px-4 gap-1.5 font-bold text-xs border-border text-foreground"
+                  startContent={<RotateCcw className="h-4 w-4" />}
+                >
+                  Reset
+                </Button>
+              </div>
+            </form>
 
-            {/* Class Level Dropdown */}
-            <div>
-              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
-                Class / Target Level
-              </label>
-              <select
-                value={classLevel}
-                onChange={(e) => {
-                  setClassLevel(e.target.value);
-                  setPage(1);
-                }}
-                className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-              >
-                {classLevelOptions.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt === 'All' ? 'All Class Levels' : opt}
-                  </option>
-                ))}
-              </select>
-            </div>
+            {/* Dropdown Filters (Exactly identical to Hero Section) */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t border-border/50">
+              {/* Subject Dropdown */}
+              <div>
+                <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
+                  Subject
+                </label>
+                <select
+                  value={subject}
+                  onChange={(e) => {
+                    setSubject(e.target.value);
+                    setPage(1);
+                  }}
+                  className="w-full h-11 rounded-xl border border-border bg-background px-3 text-xs sm:text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  {subjectOptions.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt === 'All' ? 'All Subjects' : opt}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-            {/* Mode Dropdown */}
-            <div>
-              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
-                Tuition Mode
-              </label>
-              <select
-                value={mode}
-                onChange={(e) => {
-                  setMode(e.target.value);
-                  setPage(1);
-                }}
-                className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-              >
-                {modeOptions.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt === 'All' ? 'All Modes (Online & Offline)' : opt}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-        </div>
+              {/* Class Level Dropdown */}
+              <div>
+                <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
+                  Class / Target Level
+                </label>
+                <select
+                  value={classLevel}
+                  onChange={(e) => {
+                    setClassLevel(e.target.value);
+                    setPage(1);
+                  }}
+                  className="w-full h-11 rounded-xl border border-border bg-background px-3 text-xs sm:text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  {classLevelOptions.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt === 'All' ? 'All Class Levels' : opt}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-        {/* Results Count */}
-        <div className="flex items-center justify-between mb-6 text-xs text-muted-foreground">
-          <span>
-            Showing <strong className="text-foreground">{tuitions.length}</strong> of{' '}
-            <strong className="text-foreground">{pagination.total}</strong> approved listings
-          </span>
+              {/* Mode Dropdown */}
+              <div>
+                <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
+                  Teaching Mode
+                </label>
+                <select
+                  value={mode}
+                  onChange={(e) => {
+                    setMode(e.target.value);
+                    setPage(1);
+                  }}
+                  className="w-full h-11 rounded-xl border border-border bg-background px-3 text-xs sm:text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  {modeOptions.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt === 'All' ? 'All Modes (Online & Offline)' : opt}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </CardBody>
+        </Card>
+
+        {/* Results Metadata */}
+        <div className="flex items-center justify-between mb-6">
+          <p className="text-xs sm:text-sm font-semibold text-muted-foreground">
+            Found <span className="font-bold text-foreground">{pagination.total}</span> Approved Tuitions
+          </p>
           {(subject !== 'All' || classLevel !== 'All' || mode !== 'All' || search) && (
-            <span className="text-primary font-medium">Filters Applied</span>
+            <div className="flex flex-wrap items-center gap-1.5">
+              {search && (
+                <Chip size="sm" variant="flat" onClose={() => setSearch('')}>
+                  &ldquo;{search}&rdquo;
+                </Chip>
+              )}
+              {subject !== 'All' && (
+                <Chip size="sm" variant="flat" color="primary" onClose={() => setSubject('All')}>
+                  {subject}
+                </Chip>
+              )}
+              {classLevel !== 'All' && (
+                <Chip size="sm" variant="flat" color="secondary" onClose={() => setClassLevel('All')}>
+                  {classLevel}
+                </Chip>
+              )}
+              {mode !== 'All' && (
+                <Chip size="sm" variant="flat" color="warning" onClose={() => setMode('All')}>
+                  {mode}
+                </Chip>
+              )}
+            </div>
           )}
         </div>
 
@@ -235,70 +288,46 @@ function BrowseTuitionsContent() {
           </div>
         ) : tuitions.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-            {tuitions.map((item) => (
-              <div key={item._id} className="h-full">
-                <TuitionCard {...item} />
+            {tuitions.map((tuition) => (
+              <div key={tuition._id} className="h-full">
+                <TuitionCard {...tuition} />
               </div>
             ))}
           </div>
         ) : (
-          <div className="rounded-2xl border border-border bg-card p-16 text-center space-y-3">
-            <BookOpen className="mx-auto h-12 w-12 text-muted-foreground/60" />
-            <h3 className="text-lg font-bold text-foreground">No matching tuitions found</h3>
-            <p className="text-xs sm:text-sm text-muted-foreground max-w-sm mx-auto">
-              We couldn&apos;t find any approved tuition listing matching your current filters. Try resetting
-              or searching for different keywords.
-            </p>
-            <Button variant="outline" size="sm" onClick={handleReset} className="mt-2">
-              Clear All Filters
-            </Button>
-          </div>
+          <Card className="rounded-3xl border border-border bg-card p-12 text-center">
+            <CardBody className="items-center">
+              <BookOpen className="mx-auto h-12 w-12 text-muted-foreground/60 mb-3" />
+              <h3 className="text-lg font-bold text-foreground">No Tuitions Found</h3>
+              <p className="text-sm text-muted-foreground mt-1 max-w-sm mx-auto">
+                No active tuition batches match your current filter parameters. Try adjusting your subject, level, or clearing filters.
+              </p>
+              <Button
+                variant="bordered"
+                radius="full"
+                size="sm"
+                onClick={handleReset}
+                className="mt-4 font-bold border-border"
+              >
+                Clear All Filters
+              </Button>
+            </CardBody>
+          </Card>
         )}
 
-        {/* Server-Side Pagination */}
+        {/* Server-Side Pagination with HeroUI */}
         {pagination.totalPages > 1 && (
-          <div className="mt-12 flex items-center justify-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              disabled={page <= 1}
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-              className="gap-1 font-semibold"
-            >
-              <ChevronLeft className="h-4 w-4" />
-              Previous
-            </Button>
-
-            <div className="flex items-center gap-1 px-2">
-              {Array.from({ length: pagination.totalPages }).map((_, idx) => {
-                const pageNumber = idx + 1;
-                const isCurrent = pageNumber === page;
-                return (
-                  <button
-                    key={pageNumber}
-                    onClick={() => setPage(pageNumber)}
-                    className={`h-9 w-9 rounded-xl text-xs font-bold transition-colors ${
-                      isCurrent
-                        ? 'bg-primary text-primary-foreground shadow-sm'
-                        : 'text-foreground hover:bg-muted'
-                    }`}
-                  >
-                    {pageNumber}
-                  </button>
-                );
-              })}
-            </div>
-
-            <Button
-              variant="outline"
-              size="sm"
-              disabled={page >= pagination.totalPages}
-              onClick={() => setPage((p) => Math.min(pagination.totalPages, p + 1))}
-              className="gap-1 font-semibold"
-            >
-              Next
-              <ChevronRight className="h-4 w-4" />
-            </Button>
+          <div className="mt-12 flex justify-center">
+            <Pagination
+              isCompact
+              showControls
+              total={pagination.totalPages}
+              page={page}
+              onChange={(newPage) => setPage(newPage)}
+              color="primary"
+              radius="full"
+              className="font-bold"
+            />
           </div>
         )}
       </div>
