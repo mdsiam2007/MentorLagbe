@@ -1,6 +1,7 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 
 interface LogoProps {
   className?: string;
@@ -10,41 +11,39 @@ interface LogoProps {
 
 export const Logo: React.FC<LogoProps> = ({ className = '', showText = true, size = 'md' }) => {
   const sizeMap = {
-    sm: { icon: 28, text: 'text-lg' },
-    md: { icon: 36, text: 'text-2xl' },
-    lg: { icon: 48, text: 'text-3xl' },
+    sm: { icon: 30, text: 'text-lg', badge: 'text-[9px]' },
+    md: { icon: 38, text: 'text-2xl', badge: 'text-[10px]' },
+    lg: { icon: 48, text: 'text-3xl', badge: 'text-xs' },
   };
 
   const { icon, text } = sizeMap[size];
 
   return (
-    <Link href="/" className={`inline-flex items-center gap-2.5 font-bold tracking-tight ${className}`}>
-      {/* Modern Gradient AI Logo Mark */}
+    <Link
+      href="/"
+      className={`inline-flex items-center gap-2.5 font-bold tracking-tight group select-none transition-transform active:scale-95 ${className}`}
+    >
+      {/* AI Generated Brand Logo Icon from /public/logo-icon.jpg */}
       <div
-        className="relative flex items-center justify-center rounded-xl bg-gradient-to-tr from-primary via-indigo-600 to-secondary p-1.5 shadow-md shadow-primary/20 text-white overflow-hidden"
+        className="relative flex items-center justify-center rounded-xl overflow-hidden border border-border shadow-sm group-hover:border-primary/60 group-hover:shadow-md transition-all duration-300 bg-card"
         style={{ width: icon, height: icon }}
       >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="w-full h-full text-white"
-        >
-          {/* Graduation Cap */}
-          <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-          <path d="M6 12v5c3 3 9 3 12 0v-5" />
-          {/* Guiding Mentor Star Sparkle */}
-          <circle cx="12" cy="7.5" r="1.2" fill="currentColor" stroke="none" />
-        </svg>
+        <img
+          src="/logo-icon.jpg"
+          alt="MentorLagbe Brand Logo"
+          className="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+        />
       </div>
 
       {showText && (
-        <span className={`font-extrabold ${text} text-foreground tracking-tight`}>
-          Mentor<span className="text-primary font-black">Lagbe</span>
-        </span>
+        <div className="flex flex-col leading-none">
+          <span className={`font-black ${text} text-foreground tracking-tight transition-colors group-hover:text-primary`}>
+            Mentor<span className="text-primary font-black">Lagbe</span>
+          </span>
+          <span className="text-[9px] font-semibold text-muted-foreground uppercase tracking-widest">
+            Tuition Platform
+          </span>
+        </div>
       )}
     </Link>
   );
