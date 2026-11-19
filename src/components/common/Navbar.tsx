@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Logo from './Logo';
+import ThemeToggle from './ThemeToggle';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -73,6 +74,9 @@ export const Navbar = () => {
 
         {/* User Auth Actions (Desktop) */}
         <div className="hidden md:flex items-center gap-3">
+          {/* Dark / Light Theme Switcher */}
+          <ThemeToggle />
+
           {user ? (
             <div className="relative">
               <button
@@ -185,8 +189,9 @@ export const Navbar = () => {
           )}
         </div>
 
-        {/* Mobile Hamburger Toggle */}
+        {/* Mobile Hamburger Toggle & Theme */}
         <div className="flex md:hidden items-center gap-2">
+          <ThemeToggle />
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2 text-foreground focus:outline-none"
