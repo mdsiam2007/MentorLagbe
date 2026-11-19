@@ -2,22 +2,20 @@
 
 import React, { useEffect, useState, useCallback, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 import api from '@/lib/api';
 import TuitionCard from '@/components/tuition/TuitionCard';
 import { TuitionCardSkeleton } from '@/components/ui/skeleton';
-import {
-  Button,
-  Card,
-  CardBody,
-  Chip,
-  Pagination,
-} from '@heroui/react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import {
   Search,
   RotateCcw,
   BookOpen,
   Filter,
   Sparkles,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 
 function BrowseTuitionsContent() {
@@ -131,10 +129,10 @@ function BrowseTuitionsContent() {
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8 space-y-2">
-          <Chip color="primary" variant="flat" size="sm" className="font-bold text-xs">
+          <Badge variant="default" className="text-xs font-black">
             <Sparkles className="h-3.5 w-3.5 mr-1" /> Tuition Marketplace
-          </Chip>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">
+          </Badge>
+          <h1 className="text-3xl sm:text-4xl font-black text-foreground tracking-tight">
             Browse Approved Tuitions
           </h1>
           <p className="text-sm text-muted-foreground">
@@ -142,138 +140,134 @@ function BrowseTuitionsContent() {
           </p>
         </div>
 
-        {/* Filter Bar with HeroUI Card */}
-        <Card shadow="sm" className="rounded-3xl border border-border/80 bg-card p-4 sm:p-6 mb-10">
-          <CardBody className="p-0 space-y-4">
-            <form onSubmit={handleSearchSubmit} className="flex flex-col md:flex-row gap-3">
-              <div className="relative flex-1">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <input
-                  type="text"
-                  placeholder="Search by tuition title, subject or location..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="w-full h-12 pl-10 pr-4 rounded-2xl border border-border bg-background text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
-                />
-              </div>
-
-              <div className="flex items-center gap-2 shrink-0">
-                <Button
-                  type="submit"
-                  color="primary"
-                  radius="full"
-                  className="h-12 px-6 font-bold text-xs gap-1.5 shadow-md shadow-primary/20"
-                  startContent={<Search className="h-4 w-4" />}
-                >
-                  Search
-                </Button>
-                <Button
-                  type="button"
-                  variant="bordered"
-                  radius="full"
-                  onClick={handleReset}
-                  className="h-12 px-4 gap-1.5 font-bold text-xs border-border text-foreground"
-                  startContent={<RotateCcw className="h-4 w-4" />}
-                >
-                  Reset
-                </Button>
-              </div>
-            </form>
-
-            {/* Dropdown Filters (Exactly identical to Hero Section) */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t border-border/50">
-              {/* Subject Dropdown */}
-              <div>
-                <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
-                  Subject
-                </label>
-                <select
-                  value={subject}
-                  onChange={(e) => {
-                    setSubject(e.target.value);
-                    setPage(1);
-                  }}
-                  className="w-full h-11 rounded-xl border border-border bg-background px-3 text-xs sm:text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                >
-                  {subjectOptions.map((opt) => (
-                    <option key={opt} value={opt}>
-                      {opt === 'All' ? 'All Subjects' : opt}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Class Level Dropdown */}
-              <div>
-                <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
-                  Class / Target Level
-                </label>
-                <select
-                  value={classLevel}
-                  onChange={(e) => {
-                    setClassLevel(e.target.value);
-                    setPage(1);
-                  }}
-                  className="w-full h-11 rounded-xl border border-border bg-background px-3 text-xs sm:text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                >
-                  {classLevelOptions.map((opt) => (
-                    <option key={opt} value={opt}>
-                      {opt === 'All' ? 'All Class Levels' : opt}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Mode Dropdown */}
-              <div>
-                <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
-                  Teaching Mode
-                </label>
-                <select
-                  value={mode}
-                  onChange={(e) => {
-                    setMode(e.target.value);
-                    setPage(1);
-                  }}
-                  className="w-full h-11 rounded-xl border border-border bg-background px-3 text-xs sm:text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                >
-                  {modeOptions.map((opt) => (
-                    <option key={opt} value={opt}>
-                      {opt === 'All' ? 'All Modes (Online & Offline)' : opt}
-                    </option>
-                  ))}
-                </select>
-              </div>
+        {/* Filter Bar with Flat Uiverse Card Styling */}
+        <div className="rounded-3xl border-2 border-border bg-card p-4 sm:p-6 mb-10 shadow-[0_6px_0_0_hsl(var(--border))] space-y-4">
+          <form onSubmit={handleSearchSubmit} className="flex flex-col md:flex-row gap-3">
+            <div className="relative flex-1">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <input
+                type="text"
+                placeholder="Search by tuition title, subject or location..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full h-12 pl-10 pr-4 rounded-2xl border-2 border-border bg-background text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
+              />
             </div>
-          </CardBody>
-        </Card>
+
+            <div className="flex items-center gap-2 shrink-0">
+              <Button
+                type="submit"
+                variant="default"
+                className="h-12 px-6 gap-2"
+              >
+                <Search className="h-4 w-4" />
+                Search
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleReset}
+                className="h-12 px-4 gap-2"
+              >
+                <RotateCcw className="h-4 w-4" />
+                Reset
+              </Button>
+            </div>
+          </form>
+
+          {/* Dropdown Filters (Exactly identical to Hero Section) */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t-2 border-border/40">
+            {/* Subject Dropdown */}
+            <div>
+              <label className="block text-[11px] font-black uppercase tracking-wider text-muted-foreground mb-1">
+                Subject
+              </label>
+              <select
+                value={subject}
+                onChange={(e) => {
+                  setSubject(e.target.value);
+                  setPage(1);
+                }}
+                className="w-full h-11 rounded-xl border-2 border-border bg-background px-3 text-xs sm:text-sm text-foreground focus:outline-none focus:border-primary"
+              >
+                {subjectOptions.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt === 'All' ? 'All Subjects' : opt}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Class Level Dropdown */}
+            <div>
+              <label className="block text-[11px] font-black uppercase tracking-wider text-muted-foreground mb-1">
+                Class / Target Level
+              </label>
+              <select
+                value={classLevel}
+                onChange={(e) => {
+                  setClassLevel(e.target.value);
+                  setPage(1);
+                }}
+                className="w-full h-11 rounded-xl border-2 border-border bg-background px-3 text-xs sm:text-sm text-foreground focus:outline-none focus:border-primary"
+              >
+                {classLevelOptions.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt === 'All' ? 'All Class Levels' : opt}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Mode Dropdown */}
+            <div>
+              <label className="block text-[11px] font-black uppercase tracking-wider text-muted-foreground mb-1">
+                Teaching Mode
+              </label>
+              <select
+                value={mode}
+                onChange={(e) => {
+                  setMode(e.target.value);
+                  setPage(1);
+                }}
+                className="w-full h-11 rounded-xl border-2 border-border bg-background px-3 text-xs sm:text-sm text-foreground focus:outline-none focus:border-primary"
+              >
+                {modeOptions.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt === 'All' ? 'All Modes (Online & Offline)' : opt}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
 
         {/* Results Metadata */}
         <div className="flex items-center justify-between mb-6">
-          <p className="text-xs sm:text-sm font-semibold text-muted-foreground">
-            Found <span className="font-bold text-foreground">{pagination.total}</span> Approved Tuitions
+          <p className="text-xs sm:text-sm font-bold text-muted-foreground">
+            Found <span className="font-black text-foreground">{pagination.total}</span> Approved Tuitions
           </p>
           {(subject !== 'All' || classLevel !== 'All' || mode !== 'All' || search) && (
-            <div className="flex flex-wrap items-center gap-1.5">
+            <div className="flex flex-wrap items-center gap-2">
               {search && (
-                <Chip size="sm" variant="flat" onClose={() => setSearch('')}>
+                <Badge variant="flat">
                   &ldquo;{search}&rdquo;
-                </Chip>
+                </Badge>
               )}
               {subject !== 'All' && (
-                <Chip size="sm" variant="flat" color="primary" onClose={() => setSubject('All')}>
+                <Badge variant="default">
                   {subject}
-                </Chip>
+                </Badge>
               )}
               {classLevel !== 'All' && (
-                <Chip size="sm" variant="flat" color="secondary" onClose={() => setClassLevel('All')}>
+                <Badge variant="secondary">
                   {classLevel}
-                </Chip>
+                </Badge>
               )}
               {mode !== 'All' && (
-                <Chip size="sm" variant="flat" color="warning" onClose={() => setMode('All')}>
+                <Badge variant="warning">
                   {mode}
-                </Chip>
+                </Badge>
               )}
             </div>
           )}
@@ -295,39 +289,67 @@ function BrowseTuitionsContent() {
             ))}
           </div>
         ) : (
-          <Card className="rounded-3xl border border-border bg-card p-12 text-center">
-            <CardBody className="items-center">
-              <BookOpen className="mx-auto h-12 w-12 text-muted-foreground/60 mb-3" />
-              <h3 className="text-lg font-bold text-foreground">No Tuitions Found</h3>
-              <p className="text-sm text-muted-foreground mt-1 max-w-sm mx-auto">
-                No active tuition batches match your current filter parameters. Try adjusting your subject, level, or clearing filters.
-              </p>
-              <Button
-                variant="bordered"
-                radius="full"
-                size="sm"
-                onClick={handleReset}
-                className="mt-4 font-bold border-border"
-              >
-                Clear All Filters
-              </Button>
-            </CardBody>
-          </Card>
+          <div className="rounded-3xl border-2 border-border bg-card p-12 text-center shadow-[0_4px_0_0_hsl(var(--border))]">
+            <BookOpen className="mx-auto h-12 w-12 text-muted-foreground/60 mb-3" />
+            <h3 className="text-lg font-bold text-foreground">No Tuitions Found</h3>
+            <p className="text-sm text-muted-foreground mt-1 max-w-sm mx-auto">
+              No active tuition batches match your current filter parameters. Try adjusting your subject, level, or clearing filters.
+            </p>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleReset}
+              className="mt-4"
+            >
+              Clear All Filters
+            </Button>
+          </div>
         )}
 
-        {/* Server-Side Pagination with HeroUI */}
+        {/* Server-Side Pagination with Flat Styling */}
         {pagination.totalPages > 1 && (
-          <div className="mt-12 flex justify-center">
-            <Pagination
-              isCompact
-              showControls
-              total={pagination.totalPages}
-              page={page}
-              onChange={(newPage) => setPage(newPage)}
-              color="primary"
-              radius="full"
-              className="font-bold"
-            />
+          <div className="mt-12 flex items-center justify-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={page <= 1}
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              className="gap-1.5"
+            >
+              <ChevronLeft className="h-4 w-4" />
+              Previous
+            </Button>
+
+            <div className="flex items-center gap-1.5 px-2">
+              {Array.from({ length: pagination.totalPages }).map((_, idx) => {
+                const pageNumber = idx + 1;
+                const isCurrent = pageNumber === page;
+                return (
+                  <button
+                    key={pageNumber}
+                    onClick={() => setPage(pageNumber)}
+                    className={`h-9 w-9 rounded-xl text-xs font-black transition-all border-2 ${
+                      isCurrent
+                        ? 'bg-primary text-primary-foreground border-primary shadow-[0_2px_0_0_hsl(var(--primary)/0.5)]'
+                        : 'border-border bg-card text-foreground hover:border-primary/50'
+                    }`}
+                  >
+                    {pageNumber}
+                  </button>
+                );
+              })}
+            </div>
+
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={page >= pagination.totalPages}
+              onClick={() => setPage((p) => Math.min(pagination.totalPages, p + 1))}
+              className="gap-1.5"
+            >
+              Next
+              <ChevronRight className="h-4 w-4" />
+            </Button>
           </div>
         )}
       </div>

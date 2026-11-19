@@ -1,19 +1,22 @@
+'use client';
+
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const badgeVariants = cva(
-  'inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
+  'inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold transition-all border-2 select-none',
   {
     variants: {
       variant: {
-        default: 'border-transparent bg-primary text-primary-foreground shadow',
-        secondary: 'border-transparent bg-secondary/15 text-secondary border-secondary/30',
-        destructive: 'border-transparent bg-destructive/15 text-destructive border-destructive/30',
-        outline: 'text-foreground border-border',
-        success: 'border-transparent bg-emerald-500/15 text-emerald-700 border-emerald-500/30',
-        warning: 'border-transparent bg-amber-500/15 text-amber-700 border-amber-500/30',
-        pro: 'border-transparent bg-gradient-to-r from-amber-500 to-indigo-600 text-white shadow-sm font-bold',
+        default: 'border-primary/30 bg-primary/10 text-primary',
+        secondary: 'border-secondary/40 bg-secondary/10 text-secondary',
+        destructive: 'border-destructive/40 bg-destructive/10 text-destructive',
+        outline: 'border-border bg-card text-foreground',
+        success: 'border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
+        warning: 'border-amber-500/40 bg-amber-500/10 text-amber-600 dark:text-amber-400',
+        pro: 'border-amber-500/50 bg-amber-500/15 text-amber-700 dark:text-amber-300 font-black uppercase tracking-wider',
+        flat: 'border-border/60 bg-muted/60 text-muted-foreground',
       },
     },
     defaultVariants: {

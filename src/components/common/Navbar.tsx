@@ -6,7 +6,8 @@ import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Logo from './Logo';
 import ThemeToggle from './ThemeToggle';
-import { Button, Chip, Avatar } from '@heroui/react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import {
   Menu,
   X,
@@ -83,26 +84,25 @@ export const Navbar = () => {
             <div className="relative">
               <button
                 onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-                className="flex items-center gap-2.5 rounded-full border border-border/80 bg-card p-1 pr-3 text-sm font-medium hover:border-primary/50 transition-all focus:outline-none"
+                className="flex items-center gap-2.5 rounded-full border-2 border-border bg-card p-1 pr-3 text-sm font-medium hover:border-primary transition-all focus:outline-none"
               >
-                <Avatar
-                  src={user.image}
-                  name={user.name}
-                  size="sm"
-                  className="w-7 h-7 text-xs border border-border"
+                <img
+                  src={user.image || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80'}
+                  alt={user.name}
+                  className="w-7 h-7 rounded-full object-cover border border-border"
                 />
                 <div className="flex flex-col text-left">
                   <div className="flex items-center gap-1.5">
-                    <span className="font-semibold text-foreground text-xs leading-none">
+                    <span className="font-bold text-foreground text-xs leading-none">
                       {user.name.split(' ')[0]}
                     </span>
                     {user.plan === 'pro' && (
-                      <Chip color="primary" variant="solid" size="sm" className="px-1 py-0 h-4 text-[9px] font-black uppercase">
+                      <Badge variant="pro" className="px-1.5 py-0 h-4 text-[9px] font-black uppercase">
                         PRO
-                      </Chip>
+                      </Badge>
                     )}
                   </div>
-                  <span className="text-[10px] text-muted-foreground capitalize leading-tight">
+                  <span className="text-[10px] text-muted-foreground capitalize font-semibold leading-tight">
                     {user.role}
                   </span>
                 </div>
@@ -112,20 +112,20 @@ export const Navbar = () => {
               {/* Profile Dropdown */}
               {profileDropdownOpen && (
                 <div
-                  className="absolute right-0 mt-2 w-56 rounded-2xl border border-border bg-card p-2 shadow-xl animate-in fade-in zoom-in-95 duration-150 z-50"
+                  className="absolute right-0 mt-2 w-56 rounded-2xl border-2 border-border bg-card p-2 shadow-[0_4px_0_0_hsl(var(--border))] animate-in fade-in zoom-in-95 duration-150 z-50"
                   onMouseLeave={() => setProfileDropdownOpen(false)}
                 >
-                  <div className="px-3 py-2 border-b border-border/60">
-                    <p className="text-xs font-semibold text-foreground truncate">{user.name}</p>
+                  <div className="px-3 py-2 border-b-2 border-border/60">
+                    <p className="text-xs font-bold text-foreground truncate">{user.name}</p>
                     <p className="text-[11px] text-muted-foreground truncate">{user.email}</p>
                     <div className="mt-1 flex items-center gap-1.5">
-                      <Chip size="sm" color={getRoleChipColor(user.role)} variant="flat" className="capitalize text-[10px] h-5">
+                      <Badge variant="secondary" className="capitalize text-[10px] h-5">
                         {user.role}
-                      </Chip>
+                      </Badge>
                       {user.plan === 'pro' && (
-                        <Chip size="sm" color="primary" variant="solid" className="text-[10px] h-5">
+                        <Badge variant="pro" className="text-[10px] h-5">
                           Pro Member
-                        </Chip>
+                        </Badge>
                       )}
                     </div>
                   </div>
@@ -179,12 +179,12 @@ export const Navbar = () => {
           ) : (
             <>
               <Link href="/sign-in">
-                <Button variant="light" size="sm" radius="full" className="font-semibold text-xs">
+                <Button variant="outline" size="sm">
                   Sign In
                 </Button>
               </Link>
               <Link href="/sign-up">
-                <Button color="primary" size="sm" radius="full" className="font-bold text-xs shadow-md shadow-primary/25">
+                <Button variant="default" size="sm">
                   Sign Up
                 </Button>
               </Link>
@@ -270,12 +270,12 @@ export const Navbar = () => {
             ) : (
               <div className="flex flex-col gap-2 pt-2">
                 <Link href="/sign-in" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="bordered" radius="full" className="w-full justify-center border-border">
+                  <Button variant="outline" size="sm" className="w-full justify-center">
                     Sign In
                   </Button>
                 </Link>
                 <Link href="/sign-up" onClick={() => setMobileMenuOpen(false)}>
-                  <Button color="primary" radius="full" className="w-full justify-center font-bold shadow-md shadow-primary/25">
+                  <Button variant="default" size="sm" className="w-full justify-center">
                     Sign Up
                   </Button>
                 </Link>

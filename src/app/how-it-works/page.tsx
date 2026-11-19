@@ -2,12 +2,9 @@
 
 import React from 'react';
 import Link from 'next/link';
-import {
-  Button,
-  Card,
-  CardBody,
-  Chip,
-} from '@heroui/react';
+import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import {
   ShieldCheck,
   CheckCircle2,
@@ -94,13 +91,13 @@ export default function HowItWorksPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       {/* 1. Header */}
-      <section className="bg-gradient-to-b from-primary/10 via-background to-background py-16 sm:py-20 border-b border-border/60">
+      <section className="bg-background py-16 sm:py-20 border-b-2 border-border/80">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-          <Chip color="primary" variant="flat" size="sm" className="mb-3 font-bold text-xs">
+          <Badge variant="default" className="mb-3">
             <ShieldCheck className="h-3.5 w-3.5 mr-1" /> Transparent, Safe & Verified
-          </Chip>
+          </Badge>
           <h1 className="text-3xl sm:text-5xl font-black text-foreground tracking-tight">
-            How MentorLagbe Works & <span className="text-primary underline decoration-primary/30">Our Safety Promise</span>
+            How MentorLagbe Works & <span className="text-primary underline decoration-primary/40 underline-offset-4">Our Safety Promise</span>
           </h1>
           <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto mt-3">
             Learn how MentorLagbe connects dedicated learners with top university mentors, and discover our stringent trust & safety guidelines.
@@ -114,24 +111,27 @@ export default function HowItWorksPage() {
           {/* For Students */}
           <div>
             <div className="flex items-center gap-3 mb-8">
-              <div className="h-10 w-10 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary">
+              <div className="h-10 w-10 rounded-2xl bg-secondary/15 border-2 border-secondary/30 flex items-center justify-center text-secondary">
                 <GraduationCap className="h-6 w-6" />
               </div>
               <div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground">For Students & Parents</h2>
-                <p className="text-xs text-muted-foreground">Follow these 4 simple steps to find your ideal mentor.</p>
+                <h2 className="text-2xl sm:text-3xl font-black text-foreground">For Students & Parents</h2>
+                <p className="text-xs text-muted-foreground font-semibold">Follow these 4 simple steps to find your ideal mentor.</p>
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {studentSteps.map((st) => (
-                <Card key={st.step} shadow="sm" className="p-6 rounded-3xl border border-border/80 bg-card">
-                  <CardBody className="p-0">
-                    <span className="text-2xl font-black text-secondary block mb-3">0{st.step}</span>
-                    <h3 className="text-base font-bold text-foreground mb-2">{st.title}</h3>
-                    <p className="text-xs text-muted-foreground leading-relaxed">{st.desc}</p>
-                  </CardBody>
-                </Card>
+                <motion.div
+                  key={st.step}
+                  whileHover={{ y: -6 }}
+                  transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                  className="p-6 rounded-3xl border-2 border-border bg-card shadow-[0_4px_0_0_hsl(var(--border))]"
+                >
+                  <span className="text-2xl font-black text-secondary block mb-3">0{st.step}</span>
+                  <h3 className="text-base font-bold text-foreground mb-2">{st.title}</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{st.desc}</p>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -139,24 +139,27 @@ export default function HowItWorksPage() {
           {/* For Tutors */}
           <div>
             <div className="flex items-center gap-3 mb-8">
-              <div className="h-10 w-10 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+              <div className="h-10 w-10 rounded-2xl bg-primary/15 border-2 border-primary/30 flex items-center justify-center text-primary">
                 <Users className="h-6 w-6" />
               </div>
               <div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground">For Teachers & Mentors</h2>
-                <p className="text-xs text-muted-foreground">Start reaching genuine students across Bangladesh.</p>
+                <h2 className="text-2xl sm:text-3xl font-black text-foreground">For Teachers & Mentors</h2>
+                <p className="text-xs text-muted-foreground font-semibold">Start reaching genuine students across Bangladesh.</p>
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {tutorSteps.map((st) => (
-                <Card key={st.step} shadow="sm" className="p-6 rounded-3xl border border-border/80 bg-card">
-                  <CardBody className="p-0">
-                    <span className="text-2xl font-black text-primary block mb-3">0{st.step}</span>
-                    <h3 className="text-base font-bold text-foreground mb-2">{st.title}</h3>
-                    <p className="text-xs text-muted-foreground leading-relaxed">{st.desc}</p>
-                  </CardBody>
-                </Card>
+                <motion.div
+                  key={st.step}
+                  whileHover={{ y: -6 }}
+                  transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                  className="p-6 rounded-3xl border-2 border-border bg-card shadow-[0_4px_0_0_hsl(var(--border))]"
+                >
+                  <span className="text-2xl font-black text-primary block mb-3">0{st.step}</span>
+                  <h3 className="text-base font-bold text-foreground mb-2">{st.title}</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{st.desc}</p>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -164,28 +167,26 @@ export default function HowItWorksPage() {
       </section>
 
       {/* 3. Safety & Trust Section with AI Graphic */}
-      <section className="py-16 sm:py-24 bg-muted/40 border-y border-border/60">
+      <section className="py-16 sm:py-24 bg-muted/40 border-y-2 border-border/80">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Graphic */}
             <div className="lg:col-span-5 flex justify-center">
               <div className="relative w-full max-w-md">
-                <Card shadow="lg" className="overflow-hidden rounded-3xl border-4 border-card bg-card">
+                <div className="overflow-hidden rounded-3xl border-4 border-foreground/15 bg-card shadow-[0_8px_0_0_hsl(var(--border))]">
                   <img
                     src="/images/trust-safety.jpg"
                     alt="Trust and Safety Shield"
                     className="h-[380px] w-full object-cover"
                   />
-                </Card>
+                </div>
               </div>
             </div>
 
             {/* Right Safety Pillars */}
             <div className="lg:col-span-7 space-y-6">
-              <Chip size="sm" variant="bordered" className="font-bold text-xs">
-                Trust & Verification Policy
-              </Chip>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">
+              <Badge variant="outline">Trust & Verification Policy</Badge>
+              <h2 className="text-3xl sm:text-4xl font-black text-foreground tracking-tight">
                 Safety First: How We Protect Both Parties
               </h2>
               <p className="text-sm text-muted-foreground leading-relaxed">
@@ -196,15 +197,18 @@ export default function HowItWorksPage() {
                 {safetyGuarantees.map((item, idx) => {
                   const Icon = item.icon;
                   return (
-                    <Card key={idx} shadow="sm" className="p-4 rounded-2xl border border-border/70 bg-card space-y-2">
-                      <CardBody className="p-0">
-                        <div className="flex items-center gap-2 text-primary font-bold text-sm mb-1">
-                          <Icon className="h-4 w-4" />
-                          <span>{item.title}</span>
-                        </div>
-                        <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
-                      </CardBody>
-                    </Card>
+                    <motion.div
+                      key={idx}
+                      whileHover={{ y: -4 }}
+                      transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                      className="p-4 rounded-2xl border-2 border-border bg-card shadow-[0_3px_0_0_hsl(var(--border))] space-y-2"
+                    >
+                      <div className="flex items-center gap-2 text-primary font-bold text-sm">
+                        <Icon className="h-4 w-4" />
+                        <span>{item.title}</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+                    </motion.div>
                   );
                 })}
               </div>
@@ -216,16 +220,16 @@ export default function HowItWorksPage() {
       {/* 4. Bottom Action */}
       <section className="py-16 text-center">
         <div className="container mx-auto max-w-3xl px-4 space-y-6">
-          <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Have Questions or Need Help?</h2>
+          <h2 className="text-2xl sm:text-3xl font-black text-foreground">Have Questions or Need Help?</h2>
           <p className="text-xs sm:text-sm text-muted-foreground">
             Our support team in Dhaka is here to help you get the best tutor or setup your first tuition batch.
           </p>
           <div className="flex items-center justify-center gap-4">
             <Link href="/tuitions">
-              <Button color="primary" radius="full" className="font-bold">Browse Tuitions</Button>
+              <Button variant="default">Browse Tuitions</Button>
             </Link>
             <Link href="/contact">
-              <Button variant="bordered" radius="full" className="font-bold border-border">Contact Support</Button>
+              <Button variant="outline">Contact Support</Button>
             </Link>
           </div>
         </div>

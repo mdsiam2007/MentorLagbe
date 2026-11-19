@@ -1,15 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import {
-  Button,
-  Card,
-  CardBody,
-  Chip,
-  Accordion,
-  AccordionItem,
-} from '@heroui/react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import {
   Sparkles,
   ArrowRight,
@@ -18,12 +13,15 @@ import {
   Calendar,
   Users,
   ShieldCheck,
-  Star,
   Award,
   Zap,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
 
 export default function BecomeATutorPage() {
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
   const perks = [
     {
       icon: DollarSign,
@@ -92,24 +90,19 @@ export default function BecomeATutorPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       {/* 1. HERO SECTION */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-primary/10 via-background to-background py-16 sm:py-24 border-b border-border/60">
+      <section className="relative overflow-hidden bg-background py-16 sm:py-24 border-b-2 border-border/80">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Copy */}
             <div className="lg:col-span-7 space-y-6">
-              <Chip
-                color="secondary"
-                variant="flat"
-                size="md"
-                startContent={<Sparkles className="h-4 w-4 ml-1" />}
-                className="font-bold text-xs px-3 py-1"
-              >
+              <Badge variant="secondary" className="px-3.5 py-1 text-xs font-black">
+                <Sparkles className="h-3.5 w-3.5 mr-1 text-secondary" />
                 Join Bangladesh&apos;s Fastest Growing Mentorship Community
-              </Chip>
+              </Badge>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-foreground tracking-tight leading-[1.15]">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-foreground tracking-tight leading-[1.12]">
                 Teach What You Love, <br />
-                <span className="text-primary underline decoration-primary/30">Earn On Your Terms</span>
+                <span className="text-primary underline decoration-primary/40 underline-offset-4">Earn On Your Terms</span>
               </h1>
 
               <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl">
@@ -118,61 +111,54 @@ export default function BecomeATutorPage() {
 
               <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <Link href="/sign-up">
-                  <Button
-                    size="lg"
-                    color="primary"
-                    radius="full"
-                    className="w-full sm:w-auto font-bold gap-2 shadow-lg shadow-primary/25"
-                    endContent={<ArrowRight className="h-4 w-4" />}
-                  >
+                  <Button size="lg" variant="default" className="gap-2">
                     Start Teaching Today (Free)
+                    <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
                 <Link href="/pricing">
-                  <Button
-                    size="lg"
-                    variant="bordered"
-                    radius="full"
-                    className="w-full sm:w-auto font-bold border-border"
-                  >
+                  <Button size="lg" variant="outline">
                     View Pro Tutor Benefits
                   </Button>
                 </Link>
               </div>
 
-              {/* Quick stats checklist */}
-              <div className="pt-6 grid grid-cols-2 sm:grid-cols-3 gap-3 border-t border-border/60 text-xs text-muted-foreground">
-                <Chip size="sm" variant="flat" color="success" startContent={<CheckCircle2 className="h-3.5 w-3.5 ml-1" />}>
+              {/* Flat stats checklist */}
+              <div className="pt-6 grid grid-cols-2 sm:grid-cols-3 gap-3 border-t-2 border-border/40 text-xs text-muted-foreground">
+                <Badge variant="success">
+                  <CheckCircle2 className="h-3.5 w-3.5" />
                   0% Commission Fee
-                </Chip>
-                <Chip size="sm" variant="flat" color="primary" startContent={<CheckCircle2 className="h-3.5 w-3.5 ml-1" />}>
+                </Badge>
+                <Badge variant="default">
+                  <CheckCircle2 className="h-3.5 w-3.5" />
                   Direct Inquiries
-                </Chip>
-                <Chip size="sm" variant="flat" color="secondary" startContent={<CheckCircle2 className="h-3.5 w-3.5 ml-1" />}>
+                </Badge>
+                <Badge variant="secondary">
+                  <CheckCircle2 className="h-3.5 w-3.5" />
                   Online & Offline Freedom
-                </Chip>
+                </Badge>
               </div>
             </div>
 
-            {/* Right Hero Image */}
+            {/* Right Hero Image with Flat Neo-Card */}
             <div className="lg:col-span-5 relative flex justify-center">
               <div className="relative w-full max-w-md">
-                <Card shadow="lg" className="overflow-hidden rounded-3xl border-4 border-card bg-card shadow-2xl">
+                <div className="overflow-hidden rounded-3xl border-4 border-foreground/15 bg-card shadow-[0_8px_0_0_hsl(var(--border))]">
                   <img
                     src="/images/become-a-tutor.jpg"
                     alt="Become a Mentor on MentorLagbe"
                     className="h-[420px] w-full object-cover"
                   />
-                </Card>
+                </div>
 
                 {/* Floating Badge */}
-                <div className="absolute -bottom-5 -left-4 rounded-2xl border border-border/80 bg-card p-4 shadow-xl flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                <div className="absolute -bottom-5 -left-4 rounded-2xl border-2 border-border bg-card p-4 shadow-[0_4px_0_0_hsl(var(--border))] flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-xl bg-primary/10 border-2 border-primary/20 flex items-center justify-center text-primary">
                     <Zap className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-foreground">350+ Tutors Joined</p>
-                    <p className="text-[10px] text-muted-foreground">Earning up to ৳ 45,000/mo</p>
+                    <p className="text-xs font-black text-foreground">350+ Tutors Joined</p>
+                    <p className="text-[10px] font-semibold text-muted-foreground">Earning up to ৳ 45,000/mo</p>
                   </div>
                 </div>
               </div>
@@ -185,10 +171,8 @@ export default function BecomeATutorPage() {
       <section className="py-16 sm:py-24 bg-background">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <Chip size="sm" variant="bordered" className="mb-2 font-bold text-[11px]">
-              Why Teach With Us?
-            </Chip>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">
+            <Badge variant="outline" className="mb-2">Why Teach With Us?</Badge>
+            <h2 className="text-3xl sm:text-4xl font-black text-foreground tracking-tight">
               Designed For Educators, Built For Growth
             </h2>
             <p className="text-sm text-muted-foreground mt-2">
@@ -200,19 +184,20 @@ export default function BecomeATutorPage() {
             {perks.map((perk, idx) => {
               const Icon = perk.icon;
               return (
-                <Card
+                <motion.div
                   key={idx}
-                  shadow="sm"
-                  className="p-6 rounded-3xl border border-border/80 bg-card hover:border-primary/50 hover:shadow-lg transition-all"
+                  whileHover={{ y: -6 }}
+                  transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                  className="p-6 rounded-3xl border-2 border-border bg-card shadow-[0_4px_0_0_hsl(var(--border))] hover:border-primary transition-colors flex flex-col justify-between"
                 >
-                  <CardBody className="p-0">
-                    <div className="h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-4">
+                  <div>
+                    <div className="h-12 w-12 rounded-2xl bg-primary/10 border-2 border-primary/20 text-primary flex items-center justify-center mb-4">
                       <Icon className="h-6 w-6" />
                     </div>
                     <h3 className="text-base font-bold text-foreground mb-2">{perk.title}</h3>
                     <p className="text-xs text-muted-foreground leading-relaxed">{perk.desc}</p>
-                  </CardBody>
-                </Card>
+                  </div>
+                </motion.div>
               );
             })}
           </div>
@@ -220,82 +205,97 @@ export default function BecomeATutorPage() {
       </section>
 
       {/* 3. HOW IT WORKS (4 STEPS) */}
-      <section className="py-16 sm:py-24 bg-muted/40 border-y border-border/60">
+      <section className="py-16 sm:py-24 bg-muted/40 border-y-2 border-border/80">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <Chip size="sm" color="primary" variant="flat" className="mb-2 font-bold text-[11px]">
-              Simple Workflow
-            </Chip>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">
+            <Badge variant="default" className="mb-2">Simple Workflow</Badge>
+            <h2 className="text-3xl sm:text-4xl font-black text-foreground tracking-tight">
               Start Teaching in 4 Simple Steps
             </h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((st) => (
-              <Card
+              <motion.div
                 key={st.num}
-                shadow="sm"
-                className="relative p-6 rounded-3xl border border-border/80 bg-card shadow-sm flex flex-col justify-between"
+                whileHover={{ y: -6 }}
+                transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                className="relative p-6 rounded-3xl border-2 border-border bg-card shadow-[0_4px_0_0_hsl(var(--border))] flex flex-col justify-between"
               >
-                <CardBody className="p-0">
+                <div>
                   <span className="text-2xl font-black text-primary/40 block mb-3">{st.num}</span>
                   <h3 className="text-base font-bold text-foreground mb-2">{st.title}</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">{st.desc}</p>
-                </CardBody>
-              </Card>
+                </div>
+              </motion.div>
             ))}
           </div>
 
           <div className="mt-12 text-center">
             <Link href="/sign-up">
-              <Button
-                size="lg"
-                color="primary"
-                radius="full"
-                className="font-bold gap-2 shadow-lg shadow-primary/25"
-                endContent={<ArrowRight className="h-4 w-4" />}
-              >
+              <Button size="lg" variant="default" className="gap-2">
                 Register as Tutor Now
+                <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* 4. FAQ ACCORDION WITH HEROUI ACCORDION */}
+      {/* 4. FAQ ACCORDION WITH ANIMATEPRESENCE */}
       <section className="py-16 sm:py-24 bg-background">
         <div className="container mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <Chip size="sm" variant="bordered" className="mb-2 font-bold text-[11px]">
-              Got Questions?
-            </Chip>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">
+            <Badge variant="outline" className="mb-2">Got Questions?</Badge>
+            <h2 className="text-3xl sm:text-4xl font-black text-foreground tracking-tight">
               Frequently Asked Questions by Tutors
             </h2>
           </div>
 
-          <Card shadow="sm" className="rounded-3xl border border-border/80 bg-card p-4 sm:p-6">
-            <Accordion variant="splitted" className="px-0">
-              {tutorFaqs.map((faq, idx) => (
-                <AccordionItem
+          <div className="space-y-4">
+            {tutorFaqs.map((faq, idx) => {
+              const isOpen = openFaq === idx;
+              return (
+                <div
                   key={idx}
-                  aria-label={faq.q}
-                  title={faq.q}
-                  className="text-sm font-bold"
+                  className="rounded-2xl border-2 border-border bg-card shadow-[0_3px_0_0_hsl(var(--border))] overflow-hidden transition-all"
                 >
-                  <p className="text-xs text-muted-foreground leading-relaxed font-normal">
-                    {faq.a}
-                  </p>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </Card>
+                  <button
+                    onClick={() => setOpenFaq(isOpen ? null : idx)}
+                    className="w-full flex items-center justify-between p-5 text-left text-sm font-bold text-foreground hover:text-primary transition-colors"
+                  >
+                    <span>{faq.q}</span>
+                    {isOpen ? (
+                      <ChevronUp className="h-4 w-4 shrink-0 text-primary" />
+                    ) : (
+                      <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
+                    )}
+                  </button>
+
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-5 pb-5 text-xs text-muted-foreground leading-relaxed border-t-2 border-border/40 pt-3">
+                          {faq.a}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
       {/* 5. BOTTOM CTA BANNER */}
-      <section className="py-16 bg-primary text-primary-foreground">
+      <section className="py-16 bg-primary text-primary-foreground border-t-2 border-primary/20">
         <div className="container mx-auto max-w-5xl px-4 text-center space-y-6">
           <h2 className="text-3xl sm:text-4xl font-black tracking-tight">
             Ready to Inspire the Next Generation of Achievers?
@@ -305,12 +305,7 @@ export default function BecomeATutorPage() {
           </p>
           <div className="pt-2">
             <Link href="/sign-up">
-              <Button
-                size="lg"
-                color="secondary"
-                radius="full"
-                className="font-extrabold px-8 py-6 text-base shadow-xl"
-              >
+              <Button size="lg" variant="secondary" className="px-8 py-6 text-base font-black">
                 Create Free Tutor Account
               </Button>
             </Link>

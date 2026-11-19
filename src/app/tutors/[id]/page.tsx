@@ -2,15 +2,11 @@
 
 import React, { useEffect, useState, use } from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import api from '@/lib/api';
 import TuitionCard from '@/components/tuition/TuitionCard';
-import {
-  Button,
-  Card,
-  CardBody,
-  Chip,
-  Avatar,
-} from '@heroui/react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import {
   ArrowLeft,
   Star,
@@ -100,7 +96,7 @@ export default function TutorProfilePage({ params }: { params: Promise<{ id: str
     return (
       <div className="container mx-auto max-w-5xl px-4 py-20 text-center">
         <div className="h-10 w-10 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-        <p className="text-muted-foreground text-sm">Loading Tutor Profile...</p>
+        <p className="text-muted-foreground text-sm font-semibold">Loading Tutor Profile...</p>
       </div>
     );
   }
@@ -108,10 +104,10 @@ export default function TutorProfilePage({ params }: { params: Promise<{ id: str
   if (!tutor) {
     return (
       <div className="container mx-auto max-w-5xl px-4 py-20 text-center">
-        <h2 className="text-2xl font-bold text-foreground">Tutor Not Found</h2>
+        <h2 className="text-2xl font-black text-foreground">Tutor Not Found</h2>
         <p className="text-sm text-muted-foreground mt-2">The tutor profile you requested does not exist.</p>
         <Link href="/tutors">
-          <Button color="primary" radius="full" className="mt-4 font-bold">Back to All Tutors</Button>
+          <Button variant="default" className="mt-4">Back to All Tutors</Button>
         </Link>
       </div>
     );
@@ -123,78 +119,77 @@ export default function TutorProfilePage({ params }: { params: Promise<{ id: str
         {/* Navigation Breadcrumb */}
         <Link
           href="/tutors"
-          className="inline-flex items-center gap-2 text-xs font-semibold text-muted-foreground hover:text-primary transition-colors mb-6"
+          className="inline-flex items-center gap-2 text-xs font-bold text-muted-foreground hover:text-primary transition-colors mb-6"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Tutors Directory
         </Link>
 
         {/* Tutor Profile Header Card */}
-        <Card shadow="md" className="p-8 sm:p-10 rounded-3xl border border-border bg-card relative overflow-hidden">
-          <CardBody className="p-0">
-            <div className="flex flex-col md:flex-row items-start md:items-center gap-6 relative z-10">
-              <div className="relative">
-                <Avatar
-                  src={tutor.image}
-                  name={tutor.name}
-                  className="w-28 h-28 sm:w-32 sm:h-32 text-2xl font-bold border-4 border-background shadow-lg"
-                />
-                <span className="absolute -bottom-2 -right-2 h-7 w-7 bg-emerald-500 rounded-full border-2 border-background flex items-center justify-center text-white shadow-md">
-                  <CheckCircle2 className="h-4 w-4" />
-                </span>
-              </div>
-
-              <div className="flex-1 space-y-2">
-                <div className="flex flex-wrap items-center gap-3">
-                  <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground">{tutor.name}</h1>
-                  {tutor.plan === 'pro' && (
-                    <Chip color="primary" variant="solid" size="sm" className="uppercase font-bold text-xs tracking-wider">
-                      PRO MENTOR
-                    </Chip>
-                  )}
-                  <Chip color="success" variant="flat" size="sm" startContent={<ShieldCheck className="h-3.5 w-3.5 ml-1" />}>
-                    Verified Identity
-                  </Chip>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
-                  <div className="flex items-center gap-1 text-amber-500 font-bold">
-                    <Star className="h-4 w-4 fill-amber-500" />
-                    <span>4.9 / 5.0 Rating</span>
-                  </div>
-                  <span>•</span>
-                  <div className="flex items-center gap-1.5">
-                    <Mail className="h-3.5 w-3.5 text-primary" />
-                    <span>{tutor.email}</span>
-                  </div>
-                  {tutor.phone && (
-                    <>
-                      <span>•</span>
-                      <div className="flex items-center gap-1.5">
-                        <Phone className="h-3.5 w-3.5 text-primary" />
-                        <span>{tutor.phone}</span>
-                      </div>
-                    </>
-                  )}
-                </div>
-
-                <p className="text-sm text-muted-foreground leading-relaxed pt-2 max-w-3xl">
-                  {tutor.bio || 'Professional academic mentor offering comprehensive subject assistance and exam preparation.'}
-                </p>
-              </div>
+        <div className="p-8 sm:p-10 rounded-3xl border-2 border-border bg-card shadow-[0_8px_0_0_hsl(var(--border))] relative overflow-hidden">
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-6 relative z-10">
+            <div className="relative">
+              <img
+                src={tutor.image || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80'}
+                alt={tutor.name}
+                className="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl object-cover border-4 border-foreground/15 shadow-[0_4px_0_0_hsl(var(--border))]"
+              />
+              <span className="absolute -bottom-2 -right-2 h-7 w-7 bg-emerald-500 rounded-full border-2 border-background flex items-center justify-center text-white shadow-md">
+                <CheckCircle2 className="h-4 w-4" />
+              </span>
             </div>
-          </CardBody>
-        </Card>
+
+            <div className="flex-1 space-y-2">
+              <div className="flex flex-wrap items-center gap-3">
+                <h1 className="text-2xl sm:text-3xl font-black text-foreground">{tutor.name}</h1>
+                {tutor.plan === 'pro' && (
+                  <Badge variant="pro" className="uppercase font-black text-xs tracking-wider">
+                    PRO MENTOR
+                  </Badge>
+                )}
+                <Badge variant="success">
+                  <ShieldCheck className="h-3.5 w-3.5" />
+                  Verified Identity
+                </Badge>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
+                <div className="flex items-center gap-1 text-amber-500 font-bold">
+                  <Star className="h-4 w-4 fill-amber-500" />
+                  <span>4.9 / 5.0 Rating</span>
+                </div>
+                <span>•</span>
+                <div className="flex items-center gap-1.5 font-medium">
+                  <Mail className="h-3.5 w-3.5 text-primary" />
+                  <span>{tutor.email}</span>
+                </div>
+                {tutor.phone && (
+                  <>
+                    <span>•</span>
+                    <div className="flex items-center gap-1.5 font-medium">
+                      <Phone className="h-3.5 w-3.5 text-primary" />
+                      <span>{tutor.phone}</span>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              <p className="text-sm text-muted-foreground leading-relaxed pt-2 max-w-3xl">
+                {tutor.bio || 'Professional academic mentor offering comprehensive subject assistance and exam preparation.'}
+              </p>
+            </div>
+          </div>
+        </div>
 
         {/* Main Content Grid: Tuitions & Trust info */}
         <div className="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Active Tuitions List */}
           <div className="lg:col-span-8 space-y-6">
             <div>
-              <h2 className="text-xl sm:text-2xl font-bold text-foreground">
+              <h2 className="text-xl sm:text-2xl font-black text-foreground">
                 Active Tuition Batches ({tutor.tuitions?.length || 0})
               </h2>
-              <p className="text-xs text-muted-foreground mt-0.5">
+              <p className="text-xs text-muted-foreground mt-0.5 font-medium">
                 Available batches offered by {tutor.name}. Students can apply directly.
               </p>
             </div>
@@ -208,67 +203,61 @@ export default function TutorProfilePage({ params }: { params: Promise<{ id: str
                 ))}
               </div>
             ) : (
-              <Card shadow="sm" className="p-8 text-center border-dashed border-2 rounded-3xl">
-                <CardBody className="p-0 items-center">
-                  <BookOpen className="h-10 w-10 text-muted-foreground/60 mx-auto mb-2" />
-                  <h3 className="text-sm font-bold text-foreground">No Active Tuitions At This Moment</h3>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    This tutor is currently not accepting new batch applications.
-                  </p>
-                </CardBody>
-              </Card>
+              <div className="p-8 text-center border-dashed border-2 border-border rounded-3xl">
+                <BookOpen className="h-10 w-10 text-muted-foreground/60 mx-auto mb-2" />
+                <h3 className="text-sm font-bold text-foreground">No Active Tuitions At This Moment</h3>
+                <p className="text-xs text-muted-foreground mt-1">
+                  This tutor is currently not accepting new batch applications.
+                </p>
+              </div>
             )}
           </div>
 
           {/* Right Sidebar: Trust & Guarantee */}
           <div className="lg:col-span-4 space-y-6">
-            <Card shadow="sm" className="p-6 rounded-3xl border border-border bg-card space-y-4">
-              <CardBody className="p-0">
-                <h3 className="text-base font-bold text-foreground flex items-center gap-2 mb-4">
-                  <Award className="h-5 w-5 text-primary" />
-                  Mentor Verification Checklist
-                </h3>
+            <div className="p-6 rounded-3xl border-2 border-border bg-card shadow-[0_4px_0_0_hsl(var(--border))] space-y-4">
+              <h3 className="text-base font-black text-foreground flex items-center gap-2">
+                <Award className="h-5 w-5 text-primary" />
+                Mentor Verification Checklist
+              </h3>
 
-                <div className="space-y-3 text-xs text-muted-foreground">
-                  <div className="flex items-start gap-2.5">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
-                    <span>Academic Degree & University ID Verified</span>
-                  </div>
-                  <div className="flex items-start gap-2.5">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
-                    <span>National ID / NID Checked by Admin</span>
-                  </div>
-                  <div className="flex items-start gap-2.5">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
-                    <span>Student Feedback & Class Performance Audited</span>
-                  </div>
-                  <div className="flex items-start gap-2.5">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
-                    <span>Direct Communication After Application Approval</span>
-                  </div>
+              <div className="space-y-3 text-xs text-muted-foreground">
+                <div className="flex items-start gap-2.5">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
+                  <span className="font-medium">Academic Degree & University ID Verified</span>
                 </div>
+                <div className="flex items-start gap-2.5">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
+                  <span className="font-medium">National ID / NID Checked by Admin</span>
+                </div>
+                <div className="flex items-start gap-2.5">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
+                  <span className="font-medium">Student Feedback & Class Performance Audited</span>
+                </div>
+                <div className="flex items-start gap-2.5">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
+                  <span className="font-medium">Direct Communication After Application Approval</span>
+                </div>
+              </div>
 
-                <div className="pt-5 border-t border-border mt-5">
-                  <Link href="/how-it-works">
-                    <Button variant="bordered" radius="full" size="sm" className="w-full text-xs font-bold border-border">
-                      Read Safety & Verification Policy →
-                    </Button>
-                  </Link>
-                </div>
-              </CardBody>
-            </Card>
+              <div className="pt-4 border-t-2 border-border/40">
+                <Link href="/how-it-works">
+                  <Button variant="outline" size="sm" className="w-full text-xs">
+                    Read Safety & Verification Policy →
+                  </Button>
+                </Link>
+              </div>
+            </div>
 
-            <Card shadow="sm" className="p-6 rounded-3xl border border-primary/20 bg-primary/5">
-              <CardBody className="p-0">
-                <div className="flex items-center gap-2 text-primary font-bold text-sm mb-2">
-                  <Sparkles className="h-4 w-4" />
-                  Need Personalized Guidance?
-                </div>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  Click on any of the active batches above to submit your application. Once the tutor accepts your request, you can finalize schedules and start your classes.
-                </p>
-              </CardBody>
-            </Card>
+            <div className="p-6 rounded-3xl border-2 border-primary/30 bg-primary/10 shadow-[0_4px_0_0_hsl(var(--primary)/0.2)]">
+              <div className="flex items-center gap-2 text-primary font-black text-sm mb-2">
+                <Sparkles className="h-4 w-4" />
+                Need Personalized Guidance?
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed font-medium">
+                Click on any of the active batches above to submit your application. Once the tutor accepts your request, you can finalize schedules and start your classes.
+              </p>
+            </div>
           </div>
         </div>
       </div>
