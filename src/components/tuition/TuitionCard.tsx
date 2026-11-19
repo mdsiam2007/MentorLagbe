@@ -58,31 +58,33 @@ export const TuitionCard: React.FC<TuitionCardProps> = ({
       <div className="flex flex-col flex-1 p-5 justify-between">
         <div>
           {/* Class Level Badge */}
-          <span className="text-xs font-semibold uppercase tracking-wider text-primary">
-            {classLevel}
-          </span>
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-primary">
+              {classLevel}
+            </span>
+            <span className="text-[11px] font-semibold text-muted-foreground flex items-center gap-1">
+              <Calendar className="h-3 w-3" />
+              {daysPerWeek}d / wk
+            </span>
+          </div>
 
           {/* Title */}
-          <h3 className="mt-1 text-base font-bold text-foreground line-clamp-2 leading-snug group-hover:text-primary transition-colors">
+          <h3 className="mt-2 text-base font-bold text-foreground line-clamp-2 leading-snug group-hover:text-primary transition-colors">
             {title}
           </h3>
 
           {/* Tutor Info */}
-          <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
-            <UserCheck className="h-4 w-4 text-emerald-600 shrink-0" />
-            <span className="font-medium text-foreground truncate">{tutorName}</span>
+          <div className="mt-3.5 flex items-center gap-2 text-xs text-muted-foreground">
+            <div className="h-6 w-6 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-[10px] shrink-0 border border-primary/20">
+              {tutorName.charAt(0)}
+            </div>
+            <span className="font-semibold text-foreground truncate">{tutorName}</span>
           </div>
 
-          {/* Location & Schedule */}
-          <div className="mt-2.5 space-y-1 text-xs text-muted-foreground border-t border-border/50 pt-2.5">
-            <div className="flex items-center gap-1.5">
-              <MapPin className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-              <span className="truncate">{location}</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Calendar className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-              <span>{daysPerWeek} Days / Week</span>
-            </div>
+          {/* Location */}
+          <div className="mt-2.5 flex items-center gap-1.5 text-xs text-muted-foreground border-t border-border/40 pt-2.5">
+            <MapPin className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+            <span className="truncate">{location}</span>
           </div>
         </div>
 
