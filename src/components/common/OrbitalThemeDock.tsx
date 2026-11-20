@@ -1,10 +1,12 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { useTheme } from '@/context/ThemeContext';
 import { Sun, Moon, ArrowUp } from 'lucide-react';
 
 export const OrbitalThemeDock: React.FC = () => {
+  const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
   const [scrollProgress, setScrollProgress] = useState(0);
   const [mounted, setMounted] = useState(false);
@@ -33,6 +35,11 @@ export const OrbitalThemeDock: React.FC = () => {
   };
 
   if (!mounted) {
+    return null;
+  }
+
+  // Hide floating dock in all dashboard routes (sidebar already has a dedicated theme toggle)
+  if (pathname?.startsWith('/dashboard')) {
     return null;
   }
 

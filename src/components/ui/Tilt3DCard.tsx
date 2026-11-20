@@ -115,9 +115,9 @@ export const Tilt3DCard: React.FC<Tilt3DCardProps> = ({
       onMouseLeave={handleMouseLeave}
       onTouchStart={handleTouchStart}
       style={{
-        transformStyle: 'preserve-3d',
         rotateX,
         rotateY,
+        transformOrigin: 'center center',
       }}
       animate={{
         scale: isHovered ? scaleOnHover : 1,
@@ -125,7 +125,7 @@ export const Tilt3DCard: React.FC<Tilt3DCardProps> = ({
       transition={{
         scale: { type: 'spring', stiffness: 350, damping: 25 },
       }}
-      className={`relative perspective-1000 will-change-transform ${className}`}
+      className={`relative ${className}`}
     >
       {/* 3D Specular Sheen Layer */}
       {glareOpacity > 0 && isHovered && (
@@ -137,8 +137,8 @@ export const Tilt3DCard: React.FC<Tilt3DCardProps> = ({
         />
       )}
 
-      {/* Card Content with 3D child preservation */}
-      <div style={{ transformStyle: 'preserve-3d' }} className="h-full w-full">
+      {/* Card Content with 100% crisp font rendering */}
+      <div className="h-full w-full">
         {children}
       </div>
     </motion.div>
