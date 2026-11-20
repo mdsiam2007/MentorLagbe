@@ -50,10 +50,10 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       origin: { x, y }
     });
 
-    // 3. Remove overlay cleanly when the wave finishes
+    // 3. Remove overlay cleanly when the 1.4s wave finishes
     setTimeout(() => {
       setRippleState(null);
-    }, 650);
+    }, 1400);
   };
 
   const toggleTheme = (e?: React.MouseEvent) => {
