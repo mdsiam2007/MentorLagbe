@@ -34,32 +34,26 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const x = origin?.x ?? 40;
     const y = origin?.y ?? (typeof window !== 'undefined' ? window.innerHeight - 40 : 800);
 
-    // Trigger high-z-index circular wave over all page elements
+    // 1. Immediately apply theme to background DOM & storage with zero delay
+    setThemeState(newTheme);
+    localStorage.setItem('mentorlagbe_theme', newTheme);
+    if (newTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+
+    // 2. Concurrently run the high z-index circular expansion wave on top
     setRippleState({
       active: true,
       targetTheme: newTheme,
       origin: { x, y }
     });
 
-    const applyTheme = () => {
-      setThemeState(newTheme);
-      localStorage.setItem('mentorlagbe_theme', newTheme);
-      if (newTheme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    };
-
-    // Flip theme underneath while the wave is at maximum coverage
-    setTimeout(() => {
-      applyTheme();
-    }, 220);
-
-    // Clear overlay after wave completes
+    // 3. Remove overlay cleanly when the wave finishes
     setTimeout(() => {
       setRippleState(null);
-    }, 780);
+    }, 650);
   };
 
   const toggleTheme = (e?: React.MouseEvent) => {
