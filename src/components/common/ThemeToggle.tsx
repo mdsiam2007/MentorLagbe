@@ -16,7 +16,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className = '', showLa
 
   return (
     <motion.button
-      onClick={toggleTheme}
+      onClick={(e) => toggleTheme(e)}
       type="button"
       whileHover={{ scale: 1.05, y: -1 }}
       whileTap={{ scale: 0.92, y: 1 }}

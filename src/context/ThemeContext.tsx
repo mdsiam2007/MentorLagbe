@@ -6,8 +6,8 @@ type Theme = 'light' | 'dark';
 
 interface ThemeContextType {
   theme: Theme;
-  toggleTheme: () => void;
-  setTheme: (theme: Theme) => void;
+  toggleTheme: (e?: React.MouseEvent) => void;
+  setTheme: (theme: Theme, origin?: { x: number; y: number }) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -22,7 +22,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setThemeState(initialTheme);
   }, []);
 
-  const setTheme = (newTheme: Theme) => {
+  const setTheme = (newTheme: Theme, origin?: { x: number; y: number }) => {
     const applyTheme = () => {
       setThemeState(newTheme);
       localStorage.setItem('mentorlagbe_theme', newTheme);
@@ -33,17 +33,42 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       }
     };
 
-    // Use native View Transitions API for 60fps smooth crossfade
+    // Use native View Transitions API with bottom-left circular expansion
     if (typeof document !== 'undefined' && 'startViewTransition' in document) {
-      (document as any).startViewTransition(applyTheme);
+      // Default to bottom-left OrbitalThemeDock coordinates
+      const x = origin?.x ?? 40;
+      const y = origin?.y ?? (typeof window !== 'undefined' ? window.innerHeight - 40 : 800);
+      const endRadius = typeof window !== 'undefined'
+        ? Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y))
+        : 1500;
+
+      const transition = (document as any).startViewTransition(applyTheme);
+      transition.ready.then(() => {
+        document.documentElement.animate(
+          {
+            clipPath: [
+              `circle(0px at ${x}px ${y}px)`,
+              `circle(${endRadius}px at ${x}px ${y}px)`
+            ]
+          },
+          {
+            duration: 650,
+            easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+            pseudoElement: '::view-transition-new(root)'
+          }
+        );
+      }).catch(() => {
+        // Fallback gracefully if animation rejected
+      });
     } else {
       applyTheme();
     }
   };
 
-  const toggleTheme = () => {
+  const toggleTheme = (e?: React.MouseEvent) => {
     const nextTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(nextTheme);
+    const origin = e ? { x: e.clientX, y: e.clientY } : { x: 40, y: typeof window !== 'undefined' ? window.innerHeight - 40 : 800 };
+    setTheme(nextTheme, origin);
   };
 
   return (

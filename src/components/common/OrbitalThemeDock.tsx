@@ -24,12 +24,8 @@ export const OrbitalThemeDock: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleToggle = () => {
-    document.documentElement.classList.add('theme-transitioning');
-    toggleTheme();
-    setTimeout(() => {
-      document.documentElement.classList.remove('theme-transitioning');
-    }, 600);
+  const handleToggle = (e: React.MouseEvent) => {
+    toggleTheme(e);
   };
 
   const scrollToTop = () => {

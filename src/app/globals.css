@@ -315,3 +315,53 @@ html.dark .journey-step {
 .smooth-hover {
   @apply transition-all duration-300 ease-in-out;
 }
+
+/* ======================================================== */
+/* BOTTOM-LEFT CIRCULAR THEME REVEAL ANIMATION              */
+/* ======================================================== */
+
+/* 1. Native View Transitions API Circular Clip-Path */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 99999;
+}
+
+/* 2. Fallback CSS Circle Grow from Bottom-Left */
+.darkCircle-bl {
+  position: fixed;
+  inset: 0;
+  background-color: #081612;
+  clip-path: circle(0% at 40px calc(100% - 40px));
+  z-index: 99998;
+  pointer-events: none;
+}
+
+.lightCircle-bl {
+  position: fixed;
+  inset: 0;
+  background-color: #FAF8F5;
+  clip-path: circle(0% at 40px calc(100% - 40px));
+  z-index: 99998;
+  pointer-events: none;
+}
+
+.darkCircle-bl.grow,
+.lightCircle-bl.grow {
+  animation: circle-grow-bottom-left 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes circle-grow-bottom-left {
+  0% {
+    clip-path: circle(0% at 40px calc(100% - 40px));
+  }
+  100% {
+    clip-path: circle(160% at 40px calc(100% - 40px));
+  }
+}
