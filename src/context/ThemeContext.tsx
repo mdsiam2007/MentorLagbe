@@ -56,16 +56,33 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }, 1400);
   };
 
-  const toggleTheme = (e?: React.MouseEvent) => {
+  const toggleTheme = (e?: React.MouseEvent | any) => {
     const nextTheme = theme === 'dark' ? 'light' : 'dark';
-    const origin = e
-      ? { x: e.clientX, y: e.clientY }
+    const origin = (e && typeof e.clientX === 'number' && !isNaN(e.clientX) && e.clientX > 0)
+      ? { x: Math.round(e.clientX), y: Math.round(e.clientY) }
       : { x: 40, y: typeof window !== 'undefined' ? window.innerHeight - 40 : 800 };
     setTheme(nextTheme, origin);
   };
 
   return (
     <ThemeContext.Provider value={{ theme, rippleState, toggleTheme, setTheme }}>
+      {rippleState?.active && (
+        <div
+          className="theme-ripple-overlay"
+          aria-hidden="true"
+          style={{ zIndex: 2147483646 }}
+        >
+          <div
+            className={`theme-ripple-wave ${
+              rippleState.targetTheme === 'dark' ? 'bg-[#081612]' : 'bg-[#FAF8F5]'
+            }`}
+            style={{
+              ['--ripple-x' as any]: `${rippleState.origin.x}px`,
+              ['--ripple-y' as any]: `${rippleState.origin.y}px`,
+            }}
+          />
+        </div>
+      )}
       {children}
     </ThemeContext.Provider>
   );

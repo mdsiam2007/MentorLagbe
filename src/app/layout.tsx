@@ -8,7 +8,6 @@ import { Toaster } from 'sonner';
 import Navbar from '@/components/common/Navbar';
 import ConditionalFooter from '@/components/common/ConditionalFooter';
 import OrbitalThemeDock from '@/components/common/OrbitalThemeDock';
-import ThemeRippleOverlay from '@/components/common/ThemeRippleOverlay';
 
 const fraunces = Fraunces({
   subsets: ['latin'],
@@ -64,7 +63,6 @@ export default function RootLayout({
       </head>
       <body className="font-sans min-h-screen flex flex-col antialiased relative">
         <ThemeProvider>
-          <ThemeRippleOverlay />
           <HeroUIProviderWrapper>
             <AuthProvider>
               <Navbar />
