@@ -51,6 +51,11 @@ export const Navbar: React.FC = () => {
     return '/dashboard/student';
   };
 
+  // Do not render public marketing navbar on dashboard routes
+  if (pathname.startsWith('/dashboard')) {
+    return null;
+  }
+
   return (
     <header className="sticky top-4 z-50 px-4 sm:px-6 lg:px-8 select-none">
       <nav className="max-w-7xl mx-auto bg-white/85 dark:bg-[#0F241E]/85 backdrop-blur-md border border-forest-900/10 dark:border-white/10 rounded-full px-5 sm:px-6 py-3 shadow-soft flex items-center justify-between transition-all">

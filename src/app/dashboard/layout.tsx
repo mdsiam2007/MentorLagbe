@@ -23,6 +23,8 @@ import {
   Bookmark,
   Shield,
   GraduationCap,
+  Globe,
+  ArrowUpRight,
 } from 'lucide-react';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -161,6 +163,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </button>
           </div>
 
+          {/* Main Website Quick Link */}
+          <Link
+            href="/"
+            onClick={() => setSidebarOpen(false)}
+            className="flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs font-bold text-cream/95 bg-white/10 hover:bg-white/15 border border-white/15 transition-all duration-200 group shadow-sm hover:scale-[1.01]"
+          >
+            <div className="flex items-center gap-2.5">
+              <Globe className="h-4 w-4 text-emerald-400 group-hover:rotate-45 transition-transform duration-300" />
+              <span>Main Website</span>
+            </div>
+            <ArrowUpRight className="h-3.5 w-3.5 text-white/60 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </Link>
+
           {/* User Preview Card */}
           <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-3 shadow-inner">
             <img
@@ -238,7 +253,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </nav>
         </div>
 
-        {/* Upgrade Card or Sign Out */}
+        {/* Upgrade Card, Theme Toggle & Sign Out */}
         <div className="space-y-3 pt-5 border-t border-white/10 mt-6">
           {user.plan !== 'pro' && user.role !== 'admin' && (
             <Link href="/pricing" className="block group">
@@ -254,6 +269,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </Link>
           )}
 
+          <div className="flex items-center justify-between px-3.5 py-2 rounded-2xl bg-white/5 border border-white/10 text-xs text-[#FAF8F5]/80">
+            <span className="font-bold text-[11px]">Theme Mode</span>
+            <ThemeToggle />
+          </div>
+
           <button
             onClick={logout}
             className="flex w-full items-center gap-2.5 px-3.5 py-2.5 rounded-2xl text-xs font-bold text-rose-300 hover:text-white hover:bg-rose-500/20 transition-all duration-200"
@@ -266,48 +286,23 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Dashboard Topbar */}
-        <header className="h-16 border-b border-forest-900/10 dark:border-white/10 bg-card/80 backdrop-blur-md px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30 transition-colors">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="md:hidden p-2 text-foreground rounded-xl border border-forest-900/15 dark:border-white/15 hover:bg-forest-900/5 dark:hover:bg-white/5 transition-colors"
-              aria-label="Open Sidebar"
-            >
-              <Menu className="h-5 w-5" />
-            </button>
-            <div className="hidden sm:flex items-center gap-1.5 text-xs">
-              <span className="text-muted-foreground font-sans">Portal Navigation / </span>
-              <span className="font-serif font-bold text-foreground capitalize tracking-tight">
-                {pathname.split('/').pop()?.replace(/-/g, ' ')}
-              </span>
-            </div>
+        {/* Mobile-Only Header Bar (Drawer Toggle on small screens) */}
+        <div className="md:hidden flex items-center justify-between px-4 py-3 border-b border-forest-900/10 dark:border-white/10 bg-card/90 backdrop-blur-md sticky top-0 z-30">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="p-2 text-foreground rounded-xl border border-forest-900/15 dark:border-white/15 hover:bg-forest-900/5 dark:hover:bg-white/5 transition-colors"
+            aria-label="Open Sidebar"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] uppercase font-bold text-muted-foreground">{user.role}</span>
+            <span className="font-serif font-black text-sm text-foreground capitalize">
+              {pathname.split('/').pop()?.replace(/-/g, ' ') || 'Dashboard'}
+            </span>
           </div>
-
-          <div className="flex items-center gap-3 sm:gap-4">
-            <ThemeToggle />
-            <Link
-              href="/tuitions"
-              className="text-xs font-bold text-terracotta-500 hover:text-terracotta-600 transition-colors hidden sm:block"
-            >
-              Browse Tuitions
-            </Link>
-            <div className="h-4 w-px bg-forest-900/15 dark:bg-white/15 hidden sm:block" />
-            <Link
-              href="/dashboard/profile"
-              className="flex items-center gap-2.5 p-1 rounded-full hover:bg-forest-900/5 dark:hover:bg-white/5 transition-colors"
-            >
-              <img
-                src={user.image || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80'}
-                alt={user.name}
-                className="h-8 w-8 rounded-full object-cover border border-forest-900/20 dark:border-white/20"
-              />
-              <span className="text-xs font-bold text-foreground hidden sm:block">
-                {user.name.split(' ')[0]}
-              </span>
-            </Link>
-          </div>
-        </header>
+          <ThemeToggle />
+        </div>
 
         {/* Sub-page Content */}
         <main className="p-4 sm:p-8 flex-1 bg-cream dark:bg-[#081612] transition-colors">

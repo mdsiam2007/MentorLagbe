@@ -9,10 +9,12 @@ import { TuitionCardSkeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
+import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
 import { Bookmark, Search, Trash2, ArrowRight, Sparkles, BookOpen } from 'lucide-react';
 
 export default function SavedTuitionsPage() {
+  const { user, updateLocalUser } = useAuth();
   const [tuitions, setTuitions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [removingId, setRemovingId] = useState<string | null>(null);
@@ -21,8 +23,12 @@ export default function SavedTuitionsPage() {
     setLoading(true);
     try {
       const res = await api.get('/users/bookmarks');
-      const items = res.data?.data || (Array.isArray(res.data) ? res.data : []);
+      const items = res.data?.data || res.data?.tuitions || (Array.isArray(res.data) ? res.data : []);
       setTuitions(items);
+      // Synchronize bookmarks in auth context
+      if (Array.isArray(items)) {
+        updateLocalUser({ bookmarks: items.map((t: any) => t._id) });
+      }
     } catch (err: any) {
       console.error('Failed to load bookmarked tuitions:', err);
       toast.error('Failed to load your saved tuitions.');
@@ -41,6 +47,9 @@ export default function SavedTuitionsPage() {
       const res = await api.post(`/users/bookmarks/${tuitionId}`);
       toast.success(res.data?.message || 'Tuition removed from saved bookmarks.');
       setTuitions((prev) => prev.filter((t) => t._id !== tuitionId));
+      if (user?.bookmarks) {
+        updateLocalUser({ bookmarks: user.bookmarks.filter((id) => id !== tuitionId) });
+      }
     } catch (err: any) {
       const message = err.response?.data?.message || 'Failed to remove bookmark.';
       toast.error(message);
@@ -52,6 +61,9 @@ export default function SavedTuitionsPage() {
   const handleBookmarkToggle = (tuitionId: string, isBookmarked: boolean) => {
     if (!isBookmarked) {
       setTuitions((prev) => prev.filter((t) => t._id !== tuitionId));
+      if (user?.bookmarks) {
+        updateLocalUser({ bookmarks: user.bookmarks.filter((id) => id !== tuitionId) });
+      }
     }
   };
 

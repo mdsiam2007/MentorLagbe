@@ -42,7 +42,7 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
   const resolvedParams = use(params);
   const tuitionId = resolvedParams.id;
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, updateLocalUser } = useAuth();
 
   const [tuition, setTuition] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -75,15 +75,22 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
 
     // Check bookmark status for student
     if (user && user.role === 'student') {
-      api.get('/users/bookmarks')
-        .then((res) => {
-          const bookmarks = res.data?.data || (Array.isArray(res.data) ? res.data : []);
-          const isSaved = bookmarks.some((b: any) =>
-            typeof b === 'string' ? b === tuitionId : b._id === tuitionId
-          );
-          setBookmarked(isSaved);
-        })
-        .catch(() => {});
+      if (user.bookmarks && Array.isArray(user.bookmarks)) {
+        setBookmarked(user.bookmarks.includes(tuitionId));
+      } else {
+        api.get('/users/bookmarks')
+          .then((res) => {
+            const bookmarks = res.data?.data || res.data?.tuitions || (Array.isArray(res.data) ? res.data : []);
+            const isSaved = bookmarks.some((b: any) =>
+              typeof b === 'string' ? b === tuitionId : b._id === tuitionId
+            );
+            setBookmarked(isSaved);
+            if (Array.isArray(bookmarks)) {
+              updateLocalUser({ bookmarks: bookmarks.map((b: any) => typeof b === 'string' ? b : b._id) });
+            }
+          })
+          .catch(() => {});
+      }
     }
   }, [tuitionId, user]);
 
@@ -98,6 +105,13 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
       const res = await api.post(`/users/bookmarks/${tuitionId}`);
       const nextState = !bookmarked;
       setBookmarked(nextState);
+
+      const current = user.bookmarks || [];
+      const updatedBookmarks = nextState
+        ? Array.from(new Set([...current, tuitionId]))
+        : current.filter((id) => id !== tuitionId);
+      updateLocalUser({ bookmarks: updatedBookmarks });
+
       toast.success(res.data?.message || (nextState ? 'Tuition saved to bookmarks!' : 'Bookmark removed!'));
     } catch (err: any) {
       toast.error(err.response?.data?.message || 'Failed to update bookmark.');

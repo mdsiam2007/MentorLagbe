@@ -48,7 +48,7 @@ export const TuitionCard: React.FC<TuitionCardProps> = ({
   averageRating,
   totalReviews,
 }) => {
-  const { user } = useAuth();
+  const { user, updateLocalUser } = useAuth();
   const [bookmarked, setBookmarked] = useState<boolean>(() => {
     if (initialBookmarked !== undefined) return initialBookmarked;
     if ((user as any)?.bookmarks && Array.isArray((user as any).bookmarks)) {
@@ -61,8 +61,10 @@ export const TuitionCard: React.FC<TuitionCardProps> = ({
   useEffect(() => {
     if (initialBookmarked !== undefined) {
       setBookmarked(initialBookmarked);
+    } else if (user?.bookmarks && Array.isArray(user.bookmarks)) {
+      setBookmarked(user.bookmarks.includes(_id));
     }
-  }, [initialBookmarked]);
+  }, [initialBookmarked, user?.bookmarks, _id]);
 
   const handleBookmarkToggle = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -78,6 +80,13 @@ export const TuitionCard: React.FC<TuitionCardProps> = ({
       const res = await api.post(`/users/bookmarks/${_id}`);
       const nextState = !bookmarked;
       setBookmarked(nextState);
+
+      const current = user?.bookmarks || [];
+      const updatedBookmarks = nextState
+        ? Array.from(new Set([...current, _id]))
+        : current.filter((id) => id !== _id);
+      updateLocalUser({ bookmarks: updatedBookmarks });
+
       onBookmarkToggle?.(_id, nextState);
       toast.success(res.data?.message || (nextState ? 'Tuition saved to bookmarks!' : 'Bookmark removed!'));
     } catch (err: any) {
