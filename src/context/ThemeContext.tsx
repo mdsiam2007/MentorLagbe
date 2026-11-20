@@ -110,6 +110,28 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
               ['--ripple-y' as any]: `${rippleState.origin.y}px`,
             }}
           />
+
+          {/* Layer 4: Cinematic Brand Text Reveal (MentorLagbe) */}
+          <div className="theme-ripple-text-container" aria-hidden="true">
+            <div
+              className={`theme-ripple-text-pill ${
+                rippleState.targetTheme === 'dark'
+                  ? 'theme-ripple-text-dark'
+                  : 'theme-ripple-text-light'
+              }`}
+            >
+              <div className="flex items-center justify-center gap-2 mb-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-terracotta-500 animate-pulse" />
+                <span className="text-[10px] font-extrabold uppercase tracking-[0.25em] opacity-80">
+                  {rippleState.targetTheme === 'dark' ? 'Nightfall Atmosphere' : 'Solar Dawn Atmosphere'}
+                </span>
+                <span className="w-1.5 h-1.5 rounded-full bg-terracotta-500 animate-pulse" />
+              </div>
+              <div className="theme-ripple-brand-title font-serif">
+                MentorLagbe
+              </div>
+            </div>
+          </div>
         </div>
       )}
       {children}
