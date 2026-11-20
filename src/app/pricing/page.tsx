@@ -1,0 +1,317 @@
+'use client';
+
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
+import { usePageGsapReveal } from '@/hooks/useGsapScroll';
+import api from '@/lib/api';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
+import { toast } from 'sonner';
+import { CheckCircle2, Sparkles, Zap, Shield, Lock, AlertCircle, ArrowRight } from 'lucide-react';
+
+export default function PricingPage() {
+  const pageRef = usePageGsapReveal();
+  const { user } = useAuth();
+  const router = useRouter();
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+
+  const handleSubscribe = async (planType: 'pro_tutor' | 'pro_student') => {
+    if (!user) {
+      toast.info('Please sign in first to upgrade your account.');
+      router.push('/sign-in');
+      return;
+    }
+
+    if (user.role === 'admin') {
+      toast.info('Administrator accounts already enjoy full platform access without subscription.');
+      return;
+    }
+
+    // Role-based subscription authorization guard
+    if (user.role === 'student' && planType !== 'pro_student') {
+      toast.error('Role Restriction: Student accounts can only purchase the Pro Student Plan ($10).');
+      return;
+    }
+
+    if (user.role === 'tutor' && planType !== 'pro_tutor') {
+      toast.error('Role Restriction: Tutor accounts can only purchase the Pro Tutor Plan ($15).');
+      return;
+    }
+
+    if (user.plan === 'pro') {
+      toast.success('You already have an active Pro Plan! Enjoy your premium privileges.');
+      return;
+    }
+
+    setLoadingPlan(planType);
+    try {
+      const res = await api.post('/payments/create-checkout-session', { planType });
+      if (res.data.success && res.data.url) {
+        window.location.href = res.data.url;
+      } else {
+        toast.error('Failed to initiate Stripe session.');
+      }
+    } catch (err: any) {
+      console.error('Checkout error:', err);
+      toast.error(err.response?.data?.message || 'Failed to start Stripe checkout.');
+    } finally {
+      setLoadingPlan(null);
+    }
+  };
+
+  const isTutor = user?.role === 'tutor';
+  const isStudent = user?.role === 'student';
+  const isAdmin = user?.role === 'admin';
+  const hasPro = user?.plan === 'pro';
+
+  return (
+    <div ref={pageRef} className="min-h-screen bg-cream/40 dark:bg-[#081612] py-16 transition-colors duration-300">
+      <div className="page-header-reveal container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 text-center space-y-4">
+        <Badge variant="pro" className="px-3.5 py-1 text-xs rounded-full">
+          Stripe Powered Plans
+        </Badge>
+        <h1 className="font-serif text-3xl sm:text-5xl font-bold text-forest-900 dark:text-[#F5F2EB] tracking-tight">
+          Upgrade Your MentorLagbe Experience
+        </h1>
+        <p className="text-sm sm:text-base text-forest-800/75 dark:text-[#F5F2EB]/75 max-w-xl mx-auto">
+          Choose the plan designed specifically for your account role. Simple, transparent, and strictly role-protected.
+        </p>
+
+        {user && (
+          <div className="flex flex-wrap items-center justify-center gap-2 mt-4">
+            <span className="text-xs font-semibold text-forest-800/60 dark:text-white/60">Logged in as:</span>
+            <Badge variant="outline" className="text-xs uppercase font-bold tracking-wider rounded-full border-forest-900/15 dark:border-white/15">
+              {user.role}
+            </Badge>
+            {hasPro ? (
+              <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-500/30 px-3 py-1 text-xs font-bold text-emerald-700 dark:text-emerald-300">
+                <Sparkles className="h-3.5 w-3.5" />
+                Active Pro Membership
+              </div>
+            ) : (
+              <Badge variant="secondary" className="text-xs rounded-full">
+                Free Tier
+              </Badge>
+            )}
+          </div>
+        )}
+
+        {/* Pricing Cards with Clean 2D Lift & Strict Role Access Controls */}
+        <div className="mt-14 grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-8 text-left items-stretch">
+          {/* 1. TUTOR PRO PLAN CARD */}
+          <Card
+            className={`page-card-reveal flex flex-col justify-between h-full border ${
+              isStudent
+                ? 'border-forest-900/10 dark:border-white/10 opacity-75 bg-cream/30 dark:bg-[#0F241E]/40'
+                : 'border-terracotta-500/30 shadow-card bg-white dark:bg-[#0F241E] hover:border-terracotta-500/60 hover:shadow-soft'
+            } relative overflow-hidden p-8 rounded-3xl hover:-translate-y-1.5 transition-all duration-300`}
+          >
+              <div className="absolute top-0 right-0 bg-terracotta-500 text-white text-[11px] font-black px-4 py-1.5 rounded-bl-2xl uppercase tracking-wider">
+                Exclusively For Mentors
+              </div>
+
+              <div>
+                <div className="flex items-center gap-2">
+                  <Zap className="h-5 w-5 text-terracotta-500" />
+                  <span className="text-xs font-bold uppercase text-terracotta-500 tracking-wider">
+                    Pro Tutor Subscription
+                  </span>
+                </div>
+
+                <div className="mt-4 flex items-baseline gap-1.5">
+                  <span className="font-serif text-5xl font-black text-forest-900 dark:text-white">$15</span>
+                  <span className="text-sm text-forest-800/60 dark:text-white/60 font-medium">USD one-time / lifetime</span>
+                </div>
+                <p className="text-xs text-forest-800/75 dark:text-[#F5F2EB]/75 mt-2 leading-relaxed">
+                  Empower your tutoring career. Post unlimited tuition batches and build instant credibility with a verified mentor badge.
+                </p>
+
+                {/* Role Warning Banner if Student views Tutor card */}
+                {isStudent && (
+                  <div className="mt-4 p-3 rounded-2xl bg-amberwarm-100 dark:bg-amberwarm-500/20 border border-amberwarm-500/30 flex items-start gap-2.5 text-xs text-amberwarm-700 dark:text-amberwarm-300">
+                    <Lock className="h-4 w-4 shrink-0 mt-0.5" />
+                    <span>
+                      <strong>Tutors Only:</strong> Your account is registered as a Student. You can only subscribe to the Pro Student Plan below.
+                    </span>
+                  </div>
+                )}
+
+                <div className="mt-8 space-y-3.5 text-xs text-forest-900 dark:text-white">
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                    <span>
+                      <strong>Unlimited Tuition Postings</strong> (Free capped at 2 posts)
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                    <span>
+                      <strong>Verified Pro Tutor Badge</strong> displayed on listings & profile
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                    <span>
+                      <strong>Priority Search Placement</strong> in the Tuitions catalog
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                    <span>Instant student applicant SMS & direct messaging alerts</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 pt-6 border-t border-forest-900/10 dark:border-white/10">
+                {!user ? (
+                  <Button
+                    onClick={() => router.push('/sign-in')}
+                    className="w-full font-bold h-12 text-sm rounded-full shadow-soft bg-forest-900 text-white hover:bg-forest-800 cursor-pointer"
+                  >
+                    Sign In as Tutor to Upgrade ($15)
+                  </Button>
+                ) : isAdmin ? (
+                  <Button disabled className="w-full font-bold h-12 text-xs opacity-60 rounded-full">
+                    Admin Full Access Active
+                  </Button>
+                ) : isStudent ? (
+                  <Button
+                    disabled
+                    variant="outline"
+                    className="w-full font-bold h-12 text-xs opacity-50 cursor-not-allowed rounded-full border-forest-900/15 dark:border-white/15"
+                  >
+                    <Lock className="h-3.5 w-3.5 mr-1" />
+                    Restricted (Tutor Role Required)
+                  </Button>
+                ) : isTutor && hasPro ? (
+                  <Button disabled className="w-full font-bold h-12 text-sm bg-emerald-600 text-white opacity-90 rounded-full">
+                    <CheckCircle2 className="h-4 w-4 mr-1.5" />
+                    Current Plan Active (Pro Tutor)
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => handleSubscribe('pro_tutor')}
+                    disabled={loadingPlan === 'pro_tutor'}
+                    variant="terracotta"
+                    className="w-full font-bold shadow-glow h-12 text-sm rounded-full cursor-pointer hover:bg-terracotta-600"
+                  >
+                    {loadingPlan === 'pro_tutor'
+                      ? 'Redirecting to Stripe...'
+                      : 'Upgrade Tutor to Pro ($15)'}
+                  </Button>
+                )}
+              </div>
+            </Card>
+
+          {/* 2. STUDENT PRO PLAN CARD */}
+          <Card
+            className={`page-card-reveal flex flex-col justify-between h-full border ${
+              isTutor
+                ? 'border-forest-900/10 dark:border-white/10 opacity-75 bg-cream/30 dark:bg-[#0F241E]/40'
+                : 'border-forest-900/20 dark:border-white/20 shadow-card bg-white dark:bg-[#0F241E] hover:border-emerald-500/50 hover:shadow-soft'
+            } relative overflow-hidden p-8 rounded-3xl hover:-translate-y-1.5 transition-all duration-300`}
+          >
+              <div className="absolute top-0 right-0 bg-forest-900 dark:bg-emerald-700 text-white text-[11px] font-black px-4 py-1.5 rounded-bl-2xl uppercase tracking-wider">
+                Exclusively For Students
+              </div>
+
+              <div>
+                <div className="flex items-center gap-2">
+                  <Shield className="h-5 w-5 text-forest-900 dark:text-emerald-400" />
+                  <span className="text-xs font-bold uppercase text-forest-900 dark:text-emerald-400 tracking-wider">
+                    Pro Student Subscription
+                  </span>
+                </div>
+
+                <div className="mt-4 flex items-baseline gap-1.5">
+                  <span className="font-serif text-5xl font-black text-forest-900 dark:text-white">$10</span>
+                  <span className="text-sm text-forest-800/60 dark:text-white/60 font-medium">USD one-time / lifetime</span>
+                </div>
+                <p className="text-xs text-forest-800/75 dark:text-[#F5F2EB]/75 mt-2 leading-relaxed">
+                  Get first priority in competitive batches and access direct academic mentoring privileges.
+                </p>
+
+                {/* Role Warning Banner if Tutor views Student card */}
+                {isTutor && (
+                  <div className="mt-4 p-3 rounded-2xl bg-amberwarm-100 dark:bg-amberwarm-500/20 border border-amberwarm-500/30 flex items-start gap-2.5 text-xs text-amberwarm-700 dark:text-amberwarm-300">
+                    <Lock className="h-4 w-4 shrink-0 mt-0.5" />
+                    <span>
+                      <strong>Students Only:</strong> Your account is registered as a Tutor. You can only subscribe to the Pro Tutor Plan above.
+                    </span>
+                  </div>
+                )}
+
+                <div className="mt-8 space-y-3.5 text-xs text-forest-900 dark:text-white">
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                    <span>
+                      <strong>Priority Application Status:</strong> Top of mentor review queue
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                    <span>
+                      <strong>Pro Student Verified Badge:</strong> Stand out to premium mentors
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                    <span>
+                      <strong>Fast-Track Review:</strong> 2x quicker mentor acceptance times
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                    <span>Free access to future platform learning resources & test series</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 pt-6 border-t border-forest-900/10 dark:border-white/10">
+                {!user ? (
+                  <Button
+                    onClick={() => router.push('/sign-in')}
+                    variant="outline"
+                    className="w-full font-bold h-12 text-sm rounded-full border-forest-900/15 dark:border-white/15 text-forest-900 dark:text-white hover:bg-forest-900/5 cursor-pointer"
+                  >
+                    Sign In as Student to Upgrade ($10)
+                  </Button>
+                ) : isAdmin ? (
+                  <Button disabled className="w-full font-bold h-12 text-xs opacity-60 rounded-full">
+                    Admin Full Access Active
+                  </Button>
+                ) : isTutor ? (
+                  <Button
+                    disabled
+                    variant="outline"
+                    className="w-full font-bold h-12 text-xs opacity-50 cursor-not-allowed rounded-full border-forest-900/15 dark:border-white/15"
+                  >
+                    <Lock className="h-3.5 w-3.5 mr-1" />
+                    Restricted (Student Role Required)
+                  </Button>
+                ) : isStudent && hasPro ? (
+                  <Button disabled className="w-full font-bold h-12 text-sm bg-emerald-600 text-white opacity-90 rounded-full">
+                    <CheckCircle2 className="h-4 w-4 mr-1.5" />
+                    Current Plan Active (Pro Student)
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => handleSubscribe('pro_student')}
+                    disabled={loadingPlan === 'pro_student'}
+                    variant="default"
+                    className="w-full font-bold h-12 text-sm rounded-full shadow-soft cursor-pointer hover:bg-terracotta-500 transition-colors"
+                  >
+                    {loadingPlan === 'pro_student'
+                      ? 'Redirecting to Stripe...'
+                      : 'Upgrade Student to Pro ($10)'}
+                  </Button>
+                )}
+              </div>
+            </Card>
+        </div>
+      </div>
+    </div>
+  );
+}
