@@ -317,51 +317,38 @@ html.dark .journey-step {
 }
 
 /* ======================================================== */
-/* BOTTOM-LEFT CIRCULAR THEME REVEAL ANIMATION              */
+/* HIGHEST Z-INDEX BOTTOM-LEFT CIRCULAR THEME REVEAL        */
 /* ======================================================== */
 
-/* 1. Native View Transitions API Circular Clip-Path */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-}
-::view-transition-old(root) {
-  z-index: 1;
-}
-::view-transition-new(root) {
-  z-index: 99999;
-}
-
-/* 2. Fallback CSS Circle Grow from Bottom-Left */
-.darkCircle-bl {
+.theme-ripple-overlay {
   position: fixed;
   inset: 0;
-  background-color: #081612;
-  clip-path: circle(0% at 40px calc(100% - 40px));
-  z-index: 99998;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
+  z-index: 2147483646; /* Sober upore: Maximum possible 32-bit z-index */
+  overflow: hidden;
+  transform: translateZ(0);
 }
 
-.lightCircle-bl {
-  position: fixed;
-  inset: 0;
-  background-color: #FAF8F5;
-  clip-path: circle(0% at 40px calc(100% - 40px));
-  z-index: 99998;
-  pointer-events: none;
+.theme-ripple-wave {
+  width: 100%;
+  height: 100%;
+  animation: circle-ripple-expand 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: clip-path, opacity;
 }
 
-.darkCircle-bl.grow,
-.lightCircle-bl.grow {
-  animation: circle-grow-bottom-left 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-@keyframes circle-grow-bottom-left {
+@keyframes circle-ripple-expand {
   0% {
-    clip-path: circle(0% at 40px calc(100% - 40px));
+    clip-path: circle(0px at var(--ripple-x, 40px) var(--ripple-y, calc(100vh - 40px)));
+    opacity: 1;
+  }
+  85% {
+    clip-path: circle(160vmax at var(--ripple-x, 40px) var(--ripple-y, calc(100vh - 40px)));
+    opacity: 1;
   }
   100% {
-    clip-path: circle(160% at 40px calc(100% - 40px));
+    clip-path: circle(160vmax at var(--ripple-x, 40px) var(--ripple-y, calc(100vh - 40px)));
+    opacity: 0;
   }
 }
