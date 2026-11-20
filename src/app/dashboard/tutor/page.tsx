@@ -7,7 +7,7 @@ import api from '@/lib/api';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { StatsCardSkeleton } from '@/components/ui/skeleton';
+import { DashboardStatCardSkeleton } from '@/components/common/Skeleton';
 import {
   BookOpen,
   CheckCircle,
@@ -101,7 +101,7 @@ export default function TutorOverviewPage() {
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {Array.from({ length: 4 }).map((_, i) => (
-            <StatsCardSkeleton key={i} />
+            <DashboardStatCardSkeleton key={i} />
           ))}
         </div>
       ) : (

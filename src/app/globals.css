@@ -533,3 +533,53 @@ html.dark .journey-step {
     background-position: 200% center;
   }
 }
+
+/* ======================================================== */
+/* EDITORIAL SKELETON LOADING & SHIMMER SYSTEM              */
+/* Crisp, hardware-accelerated warm cream / forest shimmer  */
+/* ======================================================== */
+@keyframes editorial-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.editorial-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.editorial-shimmer::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(250, 248, 245, 0.45) 20%,
+    rgba(255, 255, 255, 0.75) 50%,
+    rgba(250, 248, 245, 0.45) 80%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: editorial-shimmer 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  content: '';
+  pointer-events: none;
+}
+
+html.dark .editorial-shimmer::after {
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.04) 20%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.04) 80%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+

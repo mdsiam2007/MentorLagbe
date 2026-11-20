@@ -12,7 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton, TuitionDetailsSkeleton } from '@/components/common/Skeleton';
 import { Tilt3DCard } from '@/components/ui/Tilt3DCard';
 import { toast } from 'sonner';
 import {
@@ -162,21 +162,7 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
   };
 
   if (loading) {
-    return (
-      <div className="container mx-auto max-w-6xl px-4 py-12 space-y-8">
-        <Skeleton className="h-80 sm:h-96 w-full rounded-3xl" />
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          <div className="lg:col-span-8 space-y-4">
-            <Skeleton className="h-10 w-3/4 rounded-xl" />
-            <Skeleton className="h-6 w-1/2 rounded-lg" />
-            <Skeleton className="h-48 w-full rounded-2xl" />
-          </div>
-          <div className="lg:col-span-4">
-            <Skeleton className="h-96 w-full rounded-3xl" />
-          </div>
-        </div>
-      </div>
-    );
+    return <TuitionDetailsSkeleton />;
   }
 
   if (!tuition) {

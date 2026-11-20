@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { usePageGsapReveal } from '@/hooks/useGsapScroll';
 import api from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -12,6 +13,7 @@ import { toast } from 'sonner';
 import { CheckCircle2, Sparkles, Zap, Shield, Lock, AlertCircle, ArrowRight } from 'lucide-react';
 
 export default function PricingPage() {
+  const pageRef = usePageGsapReveal();
   const { user } = useAuth();
   const router = useRouter();
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
@@ -66,8 +68,8 @@ export default function PricingPage() {
   const hasPro = user?.plan === 'pro';
 
   return (
-    <div className="min-h-screen bg-cream/40 dark:bg-[#081612] py-16 transition-colors duration-300">
-      <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 text-center space-y-4">
+    <div ref={pageRef} className="min-h-screen bg-cream/40 dark:bg-[#081612] py-16 transition-colors duration-300">
+      <div className="page-header-reveal container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 text-center space-y-4">
         <Badge variant="pro" className="px-3.5 py-1 text-xs rounded-full">
           Stripe Powered Plans
         </Badge>
@@ -98,7 +100,7 @@ export default function PricingPage() {
         )}
 
         {/* Pricing Cards with 3D Tilt & Strict Role Access Controls */}
-        <div className="mt-14 grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-8 text-left items-stretch">
+        <div className="page-card-reveal mt-14 grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-8 text-left items-stretch">
           {/* 1. TUTOR PRO PLAN CARD */}
           <Tilt3DCard
             tiltMaxAngle={isStudent ? 2 : 4}

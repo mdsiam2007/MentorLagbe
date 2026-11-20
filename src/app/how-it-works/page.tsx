@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { usePageGsapReveal } from '@/hooks/useGsapScroll';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -19,6 +20,8 @@ import {
 } from 'lucide-react';
 
 export default function HowItWorksPage() {
+  const pageRef = usePageGsapReveal();
+
   const studentSteps = [
     {
       step: '1',
@@ -89,9 +92,9 @@ export default function HowItWorksPage() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-cream/40 dark:bg-[#081612] transition-colors duration-300">
+    <div ref={pageRef} className="flex flex-col min-h-screen bg-cream/40 dark:bg-[#081612] transition-colors duration-300">
       {/* 1. Header */}
-      <section className="py-16 sm:py-20 border-b border-forest-900/10 dark:border-white/10 bg-cream/60 dark:bg-[#0B1E19]">
+      <section className="page-header-reveal py-16 sm:py-20 border-b border-forest-900/10 dark:border-white/10 bg-cream/60 dark:bg-[#0B1E19]">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
           <Badge variant="terracotta" className="mb-3 font-bold rounded-full text-xs">
             <ShieldCheck className="h-3.5 w-3.5 mr-1" /> Transparent, Safe & Verified
@@ -126,7 +129,7 @@ export default function HowItWorksPage() {
                   key={st.step}
                   whileHover={{ y: -4 }}
                   transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-                  className="p-6 sm:p-7 rounded-3xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] shadow-card hover:shadow-soft transition-all"
+                  className="page-card-reveal p-6 sm:p-7 rounded-3xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] shadow-card hover:shadow-soft transition-all"
                 >
                   <span className="font-serif text-3xl font-extrabold text-terracotta-500 block mb-3">0{st.step}</span>
                   <h3 className="font-serif text-base font-bold text-forest-900 dark:text-white mb-2">{st.title}</h3>
@@ -154,7 +157,7 @@ export default function HowItWorksPage() {
                   key={st.step}
                   whileHover={{ y: -4 }}
                   transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-                  className="p-6 sm:p-7 rounded-3xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] shadow-card hover:shadow-soft transition-all"
+                  className="page-card-reveal p-6 sm:p-7 rounded-3xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] shadow-card hover:shadow-soft transition-all"
                 >
                   <span className="font-serif text-3xl font-extrabold text-forest-900 dark:text-emerald-400 block mb-3">0{st.step}</span>
                   <h3 className="font-serif text-base font-bold text-forest-900 dark:text-white mb-2">{st.title}</h3>
@@ -201,7 +204,7 @@ export default function HowItWorksPage() {
                       key={idx}
                       whileHover={{ y: -3 }}
                       transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-                      className="p-4 sm:p-5 rounded-2xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] shadow-card space-y-2"
+                      className="page-card-reveal p-4 sm:p-5 rounded-2xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] shadow-card space-y-2"
                     >
                       <div className="flex items-center gap-2 text-terracotta-500 font-bold text-sm">
                         <Icon className="h-4 w-4" />

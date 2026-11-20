@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import api from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { TutorCardSkeleton } from '@/components/common/Skeleton';
 import {
   Search,
   Star,
@@ -208,7 +209,7 @@ export default function TutorsPage() {
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="h-72 rounded-3xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] animate-pulse p-6" />
+                <TutorCardSkeleton key={i} />
               ))}
             </div>
           ) : filteredTutors.length > 0 ? (

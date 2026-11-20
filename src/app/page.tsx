@@ -1,4 +1,7 @@
+'use client';
+
 import React from 'react';
+import { useGsapScroll } from '@/hooks/useGsapScroll';
 import {
   HeroSection,
   KineticRibbon,
@@ -17,8 +20,13 @@ import {
 } from '@/components/home';
 
 export default function HomePage() {
+  const containerRef = useGsapScroll();
+
   return (
-    <main className="flex flex-col min-h-screen bg-cream dark:bg-[#081612] text-forest-900 dark:text-[#F5F2EB] selection:bg-terracotta-500 selection:text-white">
+    <main
+      ref={containerRef}
+      className="flex flex-col min-h-screen bg-cream dark:bg-[#081612] text-forest-900 dark:text-[#F5F2EB] selection:bg-terracotta-500 selection:text-white"
+    >
       {/* 1. Split Hero & 30-Message Live WhatsApp Preview */}
       <HeroSection />
 

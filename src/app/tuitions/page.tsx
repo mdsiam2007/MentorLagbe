@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import api from '@/lib/api';
 import TuitionCard from '@/components/tuition/TuitionCard';
-import { TuitionCardSkeleton } from '@/components/ui/skeleton';
+import { TuitionCardSkeleton } from '@/components/common/Skeleton';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {

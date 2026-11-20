@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
-import { TableRowSkeleton } from '@/components/ui/skeleton';
+import { DashboardTableSkeleton } from '@/components/common/Skeleton';
 import { toast } from 'sonner';
 import { Trash2, AlertCircle, ExternalLink, Calendar, Search, Star, X, Send } from 'lucide-react';
 
@@ -141,94 +141,107 @@ export default function StudentApplicationsPage() {
         </Link>
       </div>
 
-      <Card className="border border-forest-900/10 dark:border-white/10 shadow-card bg-card overflow-hidden rounded-3xl">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs font-sans">
-            <thead className="bg-forest-900/5 dark:bg-white/5 text-muted-foreground uppercase text-[11px] font-bold border-b border-forest-900/10 dark:border-white/10">
-              <tr>
-                <th className="py-4 px-5">Tuition Title & Subject</th>
-                <th className="py-4 px-5">Tutor Details</th>
-                <th className="py-4 px-5">Monthly Fee</th>
-                <th className="py-4 px-5">Applied Date</th>
-                <th className="py-4 px-5">Status</th>
-                <th className="py-4 px-5 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-forest-900/10 dark:divide-white/10">
-              {loading ? (
-                Array.from({ length: 4 }).map((_, i) => <TableRowSkeleton key={i} columns={6} />)
-              ) : applications.length > 0 ? (
-                applications.map((app) => (
-                  <tr key={app._id} className="hover:bg-forest-900/5 dark:hover:bg-white/5 transition-colors">
-                    <td className="py-4 px-5 font-semibold text-foreground max-w-xs">
-                      <div className="truncate font-serif text-sm font-bold text-foreground">{app.tuitionTitle}</div>
-                      <span className="text-[10px] text-terracotta-500 font-extrabold uppercase tracking-wide">
-                        {app.subject}
-                      </span>
-                    </td>
-                    <td className="py-4 px-5 text-muted-foreground">
-                      <div className="font-bold text-foreground">{app.tutorEmail}</div>
-                      <span className="text-[10px] text-muted-foreground">{app.preferredSchedule}</span>
-                    </td>
-                    <td className="py-4 px-5 font-serif font-black text-sm text-foreground">
-                      {formatCurrency(app.monthlyFee)}
-                    </td>
-                    <td className="py-4 px-5 text-muted-foreground">
-                      {formatDate(app.appliedAt)}
-                    </td>
-                    <td className="py-4 px-5">{getStatusBadge(app.status)}</td>
-                    <td className="py-4 px-5 text-right">
-                      {app.status === 'pending' ? (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleCancel(app._id, app.tuitionTitle)}
-                          disabled={cancellingId === app._id}
-                          className="text-destructive hover:bg-destructive/10 font-bold gap-1 rounded-full"
-                        >
-                          <Trash2 className="h-3.5 w-3.5" />
-                          {cancellingId === app._id ? 'Cancelling...' : 'Cancel'}
-                        </Button>
-                      ) : app.status === 'accepted' ? (
-                        <div className="flex items-center justify-end gap-2">
-                          <Button
-                            variant="default"
-                            size="sm"
-                            onClick={() => openReviewModal(app)}
-                            className="bg-amberwarm-500 hover:bg-amber-600 text-white font-bold gap-1.5 text-xs rounded-full shadow-sm"
-                          >
-                            <Star className="h-3.5 w-3.5 fill-current" />
-                            Rate & Review
-                          </Button>
-                        </div>
-                      ) : (
-                        <span className="text-[11px] text-muted-foreground italic">
-                          Locked ({app.status})
+      {loading ? (
+        <DashboardTableSkeleton
+          columns={6}
+          rows={5}
+          headers={[
+            'Tuition Title & Subject',
+            'Tutor Details',
+            'Monthly Fee',
+            'Applied Date',
+            'Status',
+            'Actions',
+          ]}
+        />
+      ) : (
+        <Card className="border border-forest-900/10 dark:border-white/10 shadow-card bg-card overflow-hidden rounded-3xl">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs font-sans">
+              <thead className="bg-forest-900/5 dark:bg-white/5 text-muted-foreground uppercase text-[11px] font-bold border-b border-forest-900/10 dark:border-white/10">
+                <tr>
+                  <th className="py-4 px-5">Tuition Title & Subject</th>
+                  <th className="py-4 px-5">Tutor Details</th>
+                  <th className="py-4 px-5">Monthly Fee</th>
+                  <th className="py-4 px-5">Applied Date</th>
+                  <th className="py-4 px-5">Status</th>
+                  <th className="py-4 px-5 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-forest-900/10 dark:divide-white/10">
+                {applications.length > 0 ? (
+                  applications.map((app) => (
+                    <tr key={app._id} className="hover:bg-forest-900/5 dark:hover:bg-white/5 transition-colors">
+                      <td className="py-4 px-5 font-semibold text-foreground max-w-xs">
+                        <div className="truncate font-serif text-sm font-bold text-foreground">{app.tuitionTitle}</div>
+                        <span className="text-[10px] text-terracotta-500 font-extrabold uppercase tracking-wide">
+                          {app.subject}
                         </span>
-                      )}
+                      </td>
+                      <td className="py-4 px-5 text-muted-foreground">
+                        <div className="font-bold text-foreground">{app.tutorEmail}</div>
+                        <span className="text-[10px] text-muted-foreground">{app.preferredSchedule}</span>
+                      </td>
+                      <td className="py-4 px-5 font-serif font-black text-sm text-foreground">
+                        {formatCurrency(app.monthlyFee)}
+                      </td>
+                      <td className="py-4 px-5 text-muted-foreground">
+                        {formatDate(app.appliedAt)}
+                      </td>
+                      <td className="py-4 px-5">{getStatusBadge(app.status)}</td>
+                      <td className="py-4 px-5 text-right">
+                        {app.status === 'pending' ? (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleCancel(app._id, app.tuitionTitle)}
+                            disabled={cancellingId === app._id}
+                            className="text-destructive hover:bg-destructive/10 font-bold gap-1 rounded-full"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                            {cancellingId === app._id ? 'Cancelling...' : 'Cancel'}
+                          </Button>
+                        ) : app.status === 'accepted' ? (
+                          <div className="flex items-center justify-end gap-2">
+                            <Button
+                              variant="default"
+                              size="sm"
+                              onClick={() => openReviewModal(app)}
+                              className="bg-amberwarm-500 hover:bg-amber-600 text-white font-bold gap-1.5 text-xs rounded-full shadow-sm"
+                            >
+                              <Star className="h-3.5 w-3.5 fill-current" />
+                              Rate & Review
+                            </Button>
+                          </div>
+                        ) : (
+                          <span className="text-[11px] text-muted-foreground italic">
+                            Locked ({app.status})
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={6} className="py-14 text-center text-muted-foreground">
+                      <AlertCircle className="mx-auto h-8 w-8 text-muted-foreground/60 mb-2" />
+                      <p className="font-serif font-bold text-foreground text-base">No applications found</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        You haven&apos;t applied for any tuition batches yet.
+                      </p>
+                      <Link href="/tuitions" className="inline-block mt-4">
+                        <Button size="sm" variant="outline" className="rounded-full font-bold">
+                          Browse Available Tuitions
+                        </Button>
+                      </Link>
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={6} className="py-14 text-center text-muted-foreground">
-                    <AlertCircle className="mx-auto h-8 w-8 text-muted-foreground/60 mb-2" />
-                    <p className="font-serif font-bold text-foreground text-base">No applications found</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">
-                      You haven&apos;t applied for any tuition batches yet.
-                    </p>
-                    <Link href="/tuitions" className="inline-block mt-4">
-                      <Button size="sm" variant="outline" className="rounded-full font-bold">
-                        Browse Available Tuitions
-                      </Button>
-                    </Link>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </Card>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </Card>
+      )}
 
       {/* STUDENT RATING & REVIEW MODAL */}
       <AnimatePresence>

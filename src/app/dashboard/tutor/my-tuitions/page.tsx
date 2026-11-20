@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { TableRowSkeleton } from '@/components/ui/skeleton';
+import { DashboardTableSkeleton } from '@/components/common/Skeleton';
 import { toast } from 'sonner';
 import {
   PlusCircle,
@@ -166,97 +166,110 @@ export default function MyTuitionsPage() {
         </Link>
       </div>
 
-      <Card className="border border-forest-900/10 dark:border-white/10 shadow-card bg-card overflow-hidden rounded-3xl">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs font-sans">
-            <thead className="bg-forest-900/5 dark:bg-white/5 text-muted-foreground uppercase text-[11px] font-bold border-b border-forest-900/10 dark:border-white/10">
-              <tr>
-                <th className="py-4 px-5">Tuition Title & Subject</th>
-                <th className="py-4 px-5">Fee / Month</th>
-                <th className="py-4 px-5">Schedule & Mode</th>
-                <th className="py-4 px-5">Admin Status</th>
-                <th className="py-4 px-5">Listing State</th>
-                <th className="py-4 px-5 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-forest-900/10 dark:divide-white/10">
-              {loading ? (
-                Array.from({ length: 3 }).map((_, i) => <TableRowSkeleton key={i} columns={6} />)
-              ) : tuitions.length > 0 ? (
-                tuitions.map((t) => (
-                  <tr key={t._id} className="hover:bg-forest-900/5 dark:hover:bg-white/5 transition-colors">
-                    <td className="py-4 px-5 font-semibold text-foreground max-w-xs">
-                      <div className="truncate font-serif text-sm font-bold text-foreground">{t.title}</div>
-                      <span className="text-[10px] text-terracotta-500 font-extrabold uppercase tracking-wide">
-                        {t.subject}
-                      </span>
-                    </td>
-                    <td className="py-4 px-5 font-serif font-black text-sm text-foreground">
-                      {formatCurrency(t.monthlyFee)}
-                    </td>
-                    <td className="py-4 px-5 text-muted-foreground">
-                      <div className="font-medium text-foreground">{t.daysPerWeek} Days / Week</div>
-                      <span className="text-[10px] text-muted-foreground">{t.mode}</span>
-                    </td>
-                    <td className="py-4 px-5">{getApprovalBadge(t.approvalStatus)}</td>
-                    <td className="py-4 px-5">
-                      <button
-                        onClick={() => handleToggleStatus(t._id, t.isActive)}
-                        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold transition-all border ${
-                          t.isActive
-                            ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30'
-                            : 'bg-muted text-muted-foreground border-border'
-                        }`}
-                        title="Click to toggle Active / Closed state"
-                      >
-                        <Power className="h-3 w-3" />
-                        {t.isActive ? 'Active' : 'Closed'}
-                      </button>
-                    </td>
-                    <td className="py-4 px-5 text-right">
-                      <div className="flex items-center justify-end gap-1.5">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => openEditModal(t)}
-                          className="h-8 w-8 p-0 rounded-full hover:bg-forest-900/10 dark:hover:bg-white/10"
-                          title="Edit"
+      {loading ? (
+        <DashboardTableSkeleton
+          columns={6}
+          rows={4}
+          headers={[
+            'Tuition Title & Subject',
+            'Fee / Month',
+            'Schedule & Mode',
+            'Admin Status',
+            'Listing State',
+            'Actions',
+          ]}
+        />
+      ) : (
+        <Card className="border border-forest-900/10 dark:border-white/10 shadow-card bg-card overflow-hidden rounded-3xl">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs font-sans">
+              <thead className="bg-forest-900/5 dark:bg-white/5 text-muted-foreground uppercase text-[11px] font-bold border-b border-forest-900/10 dark:border-white/10">
+                <tr>
+                  <th className="py-4 px-5">Tuition Title & Subject</th>
+                  <th className="py-4 px-5">Fee / Month</th>
+                  <th className="py-4 px-5">Schedule & Mode</th>
+                  <th className="py-4 px-5">Admin Status</th>
+                  <th className="py-4 px-5">Listing State</th>
+                  <th className="py-4 px-5 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-forest-900/10 dark:divide-white/10">
+                {tuitions.length > 0 ? (
+                  tuitions.map((t) => (
+                    <tr key={t._id} className="hover:bg-forest-900/5 dark:hover:bg-white/5 transition-colors">
+                      <td className="py-4 px-5 font-semibold text-foreground max-w-xs">
+                        <div className="truncate font-serif text-sm font-bold text-foreground">{t.title}</div>
+                        <span className="text-[10px] text-terracotta-500 font-extrabold uppercase tracking-wide">
+                          {t.subject}
+                        </span>
+                      </td>
+                      <td className="py-4 px-5 font-serif font-black text-sm text-foreground">
+                        {formatCurrency(t.monthlyFee)}
+                      </td>
+                      <td className="py-4 px-5 text-muted-foreground">
+                        <div className="font-medium text-foreground">{t.daysPerWeek} Days / Week</div>
+                        <span className="text-[10px] text-muted-foreground">{t.mode}</span>
+                      </td>
+                      <td className="py-4 px-5">{getApprovalBadge(t.approvalStatus)}</td>
+                      <td className="py-4 px-5">
+                        <button
+                          onClick={() => handleToggleStatus(t._id, t.isActive)}
+                          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold transition-all border ${
+                            t.isActive
+                              ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30'
+                              : 'bg-muted text-muted-foreground border-border'
+                          }`}
+                          title="Click to toggle Active / Closed state"
                         >
-                          <Edit2 className="h-3.5 w-3.5" />
+                          <Power className="h-3 w-3" />
+                          {t.isActive ? 'Active' : 'Closed'}
+                        </button>
+                      </td>
+                      <td className="py-4 px-5 text-right">
+                        <div className="flex items-center justify-end gap-1.5">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => openEditModal(t)}
+                            className="h-8 w-8 p-0 rounded-full hover:bg-forest-900/10 dark:hover:bg-white/10"
+                            title="Edit"
+                          >
+                            <Edit2 className="h-3.5 w-3.5" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDelete(t._id, t.title)}
+                            className="h-8 w-8 p-0 text-destructive hover:bg-destructive/10 rounded-full"
+                            title="Delete"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={6} className="py-14 text-center text-muted-foreground">
+                      <AlertCircle className="mx-auto h-8 w-8 text-muted-foreground/60 mb-2" />
+                      <p className="font-serif font-bold text-foreground text-base">No tuitions posted yet</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        Publish your first batch to start receiving student applications.
+                      </p>
+                      <Link href="/dashboard/tutor/post-tuition" className="inline-block mt-4">
+                        <Button size="sm" variant="terracotta" className="rounded-full font-bold shadow-glow">
+                          Post a Tuition
                         </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleDelete(t._id, t.title)}
-                          className="h-8 w-8 p-0 text-destructive hover:bg-destructive/10 rounded-full"
-                          title="Delete"
-                        >
-                          <Trash2 className="h-3.5 w-3.5" />
-                        </Button>
-                      </div>
+                      </Link>
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={6} className="py-14 text-center text-muted-foreground">
-                    <AlertCircle className="mx-auto h-8 w-8 text-muted-foreground/60 mb-2" />
-                    <p className="font-serif font-bold text-foreground text-base">No tuitions posted yet</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">
-                      Publish your first batch to start receiving student applications.
-                    </p>
-                    <Link href="/dashboard/tutor/post-tuition" className="inline-block mt-4">
-                      <Button size="sm" variant="terracotta" className="rounded-full font-bold shadow-glow">
-                        Post a Tuition
-                      </Button>
-                    </Link>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </Card>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </Card>
+      )}
 
       {/* Edit Tuition Modal */}
       {editingTuition && (
