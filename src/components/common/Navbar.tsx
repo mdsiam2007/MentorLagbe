@@ -38,6 +38,7 @@ export const Navbar: React.FC = () => {
 
   const navLinks = [
     { name: 'Browse Batches', href: '/tuitions' },
+    { name: 'Our Tutors', href: '/tutors' },
     { name: 'Why MentorLagbe', href: '/#bonding' },
     { name: 'Subjects', href: '/#subjects' },
     { name: 'How It Works', href: '/how-it-works' },
@@ -279,18 +280,12 @@ export const Navbar: React.FC = () => {
                   })}
                   <div className="pt-2 border-t border-forest-900/10 dark:border-white/10 mt-3 space-y-1.5">
                     <Link
-                      href="/tutors"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center justify-between px-4 py-2.5 rounded-2xl text-sm font-semibold text-forest-800/80 dark:text-[#F5F2EB]/80 hover:bg-forest-900/5"
-                    >
-                      <span>Find Tutors</span>
-                    </Link>
-                    <Link
                       href="/become-a-tutor"
                       onClick={() => setMobileMenuOpen(false)}
                       className="flex items-center justify-between px-4 py-2.5 rounded-2xl text-sm font-semibold text-forest-800/80 dark:text-[#F5F2EB]/80 hover:bg-forest-900/5"
                     >
                       <span>Become a Tutor</span>
+                      <ArrowRight className="h-4 w-4 text-terracotta-500" />
                     </Link>
                   </div>
                 </nav>
