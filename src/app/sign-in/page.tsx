@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import Logo from '@/components/common/Logo';
 import { toast } from 'sonner';
-import { LogIn, Key, Mail, Sparkles, ArrowRight } from 'lucide-react';
+import { LogIn, Key, Mail, Sparkles, ArrowRight, ChevronDown } from 'lucide-react';
 
 export default function SignInPage() {
   const router = useRouter();
@@ -20,6 +20,7 @@ export default function SignInPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showTestCredentials, setShowTestCredentials] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -121,34 +122,67 @@ export default function SignInPage() {
             </Button>
           </form>
 
-          {/* Quick Demo Credentials Box */}
-          <div className="mt-6 pt-5 border-t border-forest-900/10 dark:border-white/10 space-y-2.5">
-            <span className="text-[11px] font-bold text-forest-800/60 dark:text-white/60 uppercase tracking-wider block text-center">
-              Quick Test Credentials
-            </span>
-            <div className="grid grid-cols-3 gap-2">
-              <button
-                type="button"
-                onClick={() => fillDemo('admin@mentorlagbe.com', 'Admin@12345')}
-                className="rounded-full border border-forest-900/15 dark:border-white/15 bg-cream/50 dark:bg-[#153028] p-2 text-center hover:border-terracotta-500 text-[11px] font-bold text-forest-900 dark:text-white transition-all cursor-pointer"
-              >
-                Admin
-              </button>
-              <button
-                type="button"
-                onClick={() => fillDemo('tutor.rahim@mentorlagbe.com', 'Tutor@12345')}
-                className="rounded-full border border-forest-900/15 dark:border-white/15 bg-cream/50 dark:bg-[#153028] p-2 text-center hover:border-terracotta-500 text-[11px] font-bold text-forest-900 dark:text-white transition-all cursor-pointer"
-              >
-                Tutor
-              </button>
-              <button
-                type="button"
-                onClick={() => fillDemo('student.siam@mentorlagbe.com', 'Student@12345')}
-                className="rounded-full border border-forest-900/15 dark:border-white/15 bg-cream/50 dark:bg-[#153028] p-2 text-center hover:border-terracotta-500 text-[11px] font-bold text-forest-900 dark:text-white transition-all cursor-pointer"
-              >
-                Student
-              </button>
-            </div>
+          {/* Quick Demo Credentials Box - Collapsible Toggle */}
+          <div className="mt-6 pt-5 border-t border-forest-900/10 dark:border-white/10 flex flex-col items-center">
+            <button
+              type="button"
+              onClick={() => setShowTestCredentials((prev) => !prev)}
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-forest-800/70 dark:text-white/70 hover:text-terracotta-500 dark:hover:text-terracotta-400 transition-colors py-1 px-3 rounded-full hover:bg-forest-900/5 dark:hover:bg-white/5 cursor-pointer"
+            >
+              <Sparkles className="h-3.5 w-3.5 text-terracotta-500" />
+              <span>{showTestCredentials ? 'Hide Test Credentials' : 'Show Test Credentials'}</span>
+              <ChevronDown
+                className={`h-3.5 w-3.5 transition-transform duration-200 ${
+                  showTestCredentials ? 'rotate-180' : ''
+                }`}
+              />
+            </button>
+
+            {showTestCredentials && (
+              <div className="mt-3.5 w-full space-y-2.5 animate-in fade-in duration-200">
+                <span className="text-[11px] font-bold text-forest-800/60 dark:text-white/60 uppercase tracking-wider block text-center">
+                  Click any role to auto-fill credentials
+                </span>
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => fillDemo('admin@mentorlagbe.com', 'Admin@12345')}
+                    className="group rounded-2xl border border-forest-900/15 dark:border-white/15 bg-cream/50 dark:bg-[#153028] p-2.5 text-center hover:border-terracotta-500 hover:bg-terracotta-50/50 dark:hover:bg-terracotta-950/30 transition-all cursor-pointer shadow-sm"
+                  >
+                    <span className="block text-xs font-bold text-forest-900 dark:text-white group-hover:text-terracotta-500">
+                      Admin
+                    </span>
+                    <span className="block text-[10px] text-muted-foreground mt-0.5">
+                      Full Access
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => fillDemo('tutor.rahim@mentorlagbe.com', 'Tutor@12345')}
+                    className="group rounded-2xl border border-forest-900/15 dark:border-white/15 bg-cream/50 dark:bg-[#153028] p-2.5 text-center hover:border-terracotta-500 hover:bg-terracotta-50/50 dark:hover:bg-terracotta-950/30 transition-all cursor-pointer shadow-sm"
+                  >
+                    <span className="block text-xs font-bold text-forest-900 dark:text-white group-hover:text-terracotta-500">
+                      Tutor
+                    </span>
+                    <span className="block text-[10px] text-muted-foreground mt-0.5">
+                      Post Batches
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => fillDemo('student.siam@mentorlagbe.com', 'Student@12345')}
+                    className="group rounded-2xl border border-forest-900/15 dark:border-white/15 bg-cream/50 dark:bg-[#153028] p-2.5 text-center hover:border-terracotta-500 hover:bg-terracotta-50/50 dark:hover:bg-terracotta-950/30 transition-all cursor-pointer shadow-sm"
+                  >
+                    <span className="block text-xs font-bold text-forest-900 dark:text-white group-hover:text-terracotta-500">
+                      Student
+                    </span>
+                    <span className="block text-[10px] text-muted-foreground mt-0.5">
+                      Apply Batches
+                    </span>
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="mt-6 text-center text-xs text-forest-800/70 dark:text-white/70">

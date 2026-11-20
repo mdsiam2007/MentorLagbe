@@ -8,7 +8,6 @@ import api from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
-import { Tilt3DCard } from '@/components/ui/Tilt3DCard';
 import { toast } from 'sonner';
 import { CheckCircle2, Sparkles, Zap, Shield, Lock, AlertCircle, ArrowRight } from 'lucide-react';
 
@@ -99,22 +98,16 @@ export default function PricingPage() {
           </div>
         )}
 
-        {/* Pricing Cards with 3D Tilt & Strict Role Access Controls */}
-        <div className="page-card-reveal mt-14 grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-8 text-left items-stretch">
+        {/* Pricing Cards with Clean 2D Lift & Strict Role Access Controls */}
+        <div className="mt-14 grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-8 text-left items-stretch">
           {/* 1. TUTOR PRO PLAN CARD */}
-          <Tilt3DCard
-            tiltMaxAngle={isStudent ? 2 : 4}
-            scaleOnHover={isStudent ? 1 : 1.01}
-            glareOpacity={isStudent ? 0.05 : 0.08}
-            className="h-full rounded-3xl"
+          <Card
+            className={`page-card-reveal flex flex-col justify-between h-full border ${
+              isStudent
+                ? 'border-forest-900/10 dark:border-white/10 opacity-75 bg-cream/30 dark:bg-[#0F241E]/40'
+                : 'border-terracotta-500/30 shadow-card bg-white dark:bg-[#0F241E] hover:border-terracotta-500/60 hover:shadow-soft'
+            } relative overflow-hidden p-8 rounded-3xl hover:-translate-y-1.5 transition-all duration-300`}
           >
-            <Card
-              className={`flex flex-col justify-between h-full border ${
-                isStudent
-                  ? 'border-forest-900/10 dark:border-white/10 opacity-75 bg-cream/30 dark:bg-[#0F241E]/40'
-                  : 'border-terracotta-500/30 shadow-card bg-white dark:bg-[#0F241E]'
-              } relative overflow-hidden p-8 rounded-3xl transition-all`}
-            >
               <div className="absolute top-0 right-0 bg-terracotta-500 text-white text-[11px] font-black px-4 py-1.5 rounded-bl-2xl uppercase tracking-wider">
                 Exclusively For Mentors
               </div>
@@ -202,7 +195,7 @@ export default function PricingPage() {
                     onClick={() => handleSubscribe('pro_tutor')}
                     disabled={loadingPlan === 'pro_tutor'}
                     variant="terracotta"
-                    className="w-full font-bold shadow-glow h-12 text-sm rounded-full cursor-pointer"
+                    className="w-full font-bold shadow-glow h-12 text-sm rounded-full cursor-pointer hover:bg-terracotta-600"
                   >
                     {loadingPlan === 'pro_tutor'
                       ? 'Redirecting to Stripe...'
@@ -211,22 +204,15 @@ export default function PricingPage() {
                 )}
               </div>
             </Card>
-          </Tilt3DCard>
 
           {/* 2. STUDENT PRO PLAN CARD */}
-          <Tilt3DCard
-            tiltMaxAngle={isTutor ? 2 : 4}
-            scaleOnHover={isTutor ? 1 : 1.01}
-            glareOpacity={isTutor ? 0.05 : 0.08}
-            className="h-full rounded-3xl"
+          <Card
+            className={`page-card-reveal flex flex-col justify-between h-full border ${
+              isTutor
+                ? 'border-forest-900/10 dark:border-white/10 opacity-75 bg-cream/30 dark:bg-[#0F241E]/40'
+                : 'border-forest-900/20 dark:border-white/20 shadow-card bg-white dark:bg-[#0F241E] hover:border-emerald-500/50 hover:shadow-soft'
+            } relative overflow-hidden p-8 rounded-3xl hover:-translate-y-1.5 transition-all duration-300`}
           >
-            <Card
-              className={`flex flex-col justify-between h-full border ${
-                isTutor
-                  ? 'border-forest-900/10 dark:border-white/10 opacity-75 bg-cream/30 dark:bg-[#0F241E]/40'
-                  : 'border-forest-900/20 dark:border-white/20 shadow-card bg-white dark:bg-[#0F241E]'
-              } relative overflow-hidden p-8 rounded-3xl transition-all`}
-            >
               <div className="absolute top-0 right-0 bg-forest-900 dark:bg-emerald-700 text-white text-[11px] font-black px-4 py-1.5 rounded-bl-2xl uppercase tracking-wider">
                 Exclusively For Students
               </div>
@@ -324,7 +310,6 @@ export default function PricingPage() {
                 )}
               </div>
             </Card>
-          </Tilt3DCard>
         </div>
       </div>
     </div>

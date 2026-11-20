@@ -427,15 +427,14 @@ export function usePageGsapReveal() {
       if (cards.length > 0) {
         gsap.fromTo(
           cards,
-          { y: 28, opacity: 0, scale: 0.97 },
+          { y: 24, opacity: 0 },
           {
             y: 0,
             opacity: 1,
-            scale: 1,
             duration: 0.55,
             stagger: 0.08,
             ease: 'power3.out',
-            clearProps: 'all', // Zero blur on hover
+            clearProps: 'all', // Zero residual transform or filter on hover
             scrollTrigger: {
               trigger: cards[0],
               start: 'top 90%',
