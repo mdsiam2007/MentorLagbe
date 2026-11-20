@@ -1,10 +1,17 @@
-import React from 'react';
+'use client';
+
+import React, { Suspense } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { XCircle, ArrowLeft, RefreshCw } from 'lucide-react';
+import { Skeleton } from '@/components/common/Skeleton';
 
-export default function PaymentCancelPage() {
+function PaymentCancelContent() {
+  const searchParams = useSearchParams();
+  const plan = searchParams.get('plan') || 'Pro';
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-cream/40 dark:bg-[#081612] px-4 py-16 transition-colors duration-300">
       <Card className="w-full max-w-md p-8 sm:p-10 border border-forest-900/10 dark:border-white/10 shadow-card bg-white dark:bg-[#0F241E] rounded-3xl text-center space-y-6">
@@ -17,7 +24,7 @@ export default function PaymentCancelPage() {
             Checkout Cancelled
           </h1>
           <p className="text-xs sm:text-sm text-forest-800/70 dark:text-white/70 mt-2">
-            No charges were made to your account. You can retry the upgrade whenever you are ready.
+            No charges were made to your account for {plan} plan. You can retry the upgrade whenever you are ready.
           </p>
         </div>
 
@@ -37,5 +44,23 @@ export default function PaymentCancelPage() {
         </div>
       </Card>
     </div>
+  );
+}
+
+export default function PaymentCancelPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-cream/40 dark:bg-[#081612] px-4">
+          <div className="w-full max-w-md p-8 space-y-4">
+            <Skeleton className="h-16 w-16 rounded-full mx-auto" />
+            <Skeleton className="h-8 w-48 mx-auto rounded-lg" />
+            <Skeleton className="h-4 w-64 mx-auto rounded-md" />
+          </div>
+        </div>
+      }
+    >
+      <PaymentCancelContent />
+    </Suspense>
   );
 }
