@@ -48,12 +48,12 @@ export const OrbitalThemeDock: React.FC = () => {
         onClick={handleToggle}
         aria-label="Toggle Dark and Light Mode"
         title="Switch Day / Night Atmosphere"
-        className="w-9 h-9 rounded-full bg-forest-900 text-amberwarm-500 flex items-center justify-center shadow-sm hover:scale-105 active:scale-95 transition-all relative overflow-hidden"
+        className="w-9 h-9 rounded-full bg-forest-900 text-amberwarm-500 flex items-center justify-center shadow-sm hover:scale-110 active:scale-90 transition-all duration-300 relative overflow-hidden group focus:outline-none"
       >
         {isDark ? (
-          <Sun id="themeSunIcon" className="w-4 h-4 text-amberwarm-500 transition-transform duration-300" />
+          <Sun id="themeSunIcon" className="w-4 h-4 text-amberwarm-500 transition-transform duration-500 group-hover:rotate-90 group-hover:scale-110" />
         ) : (
-          <Moon id="themeMoonIcon" className="w-4 h-4 text-amberwarm-500 transition-transform duration-300" />
+          <Moon id="themeMoonIcon" className="w-4 h-4 text-amberwarm-500 transition-transform duration-500 group-hover:-rotate-45 group-hover:scale-110" />
         )}
       </button>
 

@@ -72,9 +72,38 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           aria-hidden="true"
           style={{ zIndex: 2147483646 }}
         >
+          {/* Layer 1: Expanding Radiant Shockwave Halo Ring */}
+          <div
+            className={`theme-ripple-shockwave ${
+              rippleState.targetTheme === 'dark'
+                ? 'theme-ripple-shockwave-dark'
+                : 'theme-ripple-shockwave-light'
+            }`}
+            style={{
+              ['--ripple-x' as any]: `${rippleState.origin.x}px`,
+              ['--ripple-y' as any]: `${rippleState.origin.y}px`,
+            }}
+          />
+
+          {/* Layer 2: Primary Celestial Radial Gradient Spherical Wave */}
           <div
             className={`theme-ripple-wave ${
-              rippleState.targetTheme === 'dark' ? 'bg-[#081612]' : 'bg-[#FAF8F5]'
+              rippleState.targetTheme === 'dark'
+                ? 'theme-ripple-wave-dark'
+                : 'theme-ripple-wave-light'
+            }`}
+            style={{
+              ['--ripple-x' as any]: `${rippleState.origin.x}px`,
+              ['--ripple-y' as any]: `${rippleState.origin.y}px`,
+            }}
+          />
+
+          {/* Layer 3: Origin Core Flare Burst */}
+          <div
+            className={`theme-ripple-core-burst ${
+              rippleState.targetTheme === 'dark'
+                ? 'theme-ripple-burst-dark'
+                : 'theme-ripple-burst-light'
             }`}
             style={{
               ['--ripple-x' as any]: `${rippleState.origin.x}px`,

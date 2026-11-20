@@ -303,7 +303,7 @@ html.dark .journey-step {
 }
 
 /* ======================================================== */
-/* HIGHEST Z-INDEX BOTTOM-LEFT CIRCULAR THEME REVEAL        */
+/* JOSS CELESTIAL COSMIC THEME TRANSFORMATION SYSTEM       */
 /* ======================================================== */
 
 .theme-ripple-overlay {
@@ -312,11 +312,93 @@ html.dark .journey-step {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: 2147483646; /* Sober upore: Maximum possible 32-bit z-index */
+  z-index: 2147483646; /* Sober upore: Highest possible 32-bit z-index */
   overflow: hidden;
   transform: translateZ(0);
 }
 
+/* 1. Core Origin Flash Burst (Instant Supernova Flare) */
+.theme-ripple-core-burst {
+  position: absolute;
+  left: var(--ripple-x, 40px);
+  top: var(--ripple-y, calc(100vh - 40px));
+  width: 52px;
+  height: 52px;
+  border-radius: 9999px;
+  transform: translate3d(-50%, -50%, 0) scale(0.4);
+  transform-origin: center center;
+  animation: ripple-core-flash 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  filter: blur(2px);
+}
+
+.theme-ripple-burst-dark {
+  background: radial-gradient(circle, rgba(224, 90, 71, 0.95) 0%, rgba(16, 185, 129, 0.6) 45%, transparent 100%);
+  box-shadow: 0 0 50px 25px rgba(224, 90, 71, 0.65);
+}
+
+.theme-ripple-burst-light {
+  background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(245, 158, 11, 0.75) 55%, transparent 100%);
+  box-shadow: 0 0 50px 25px rgba(245, 158, 11, 0.65);
+}
+
+@keyframes ripple-core-flash {
+  0% {
+    transform: translate3d(-50%, -50%, 0) scale(0.4);
+    opacity: 1;
+  }
+  60% {
+    transform: translate3d(-50%, -50%, 0) scale(4);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0) scale(7);
+    opacity: 0;
+  }
+}
+
+/* 2. Radiant Expanding Shockwave Halo Ring */
+.theme-ripple-shockwave {
+  position: absolute;
+  left: var(--ripple-x, 40px);
+  top: var(--ripple-y, calc(100vh - 40px));
+  width: 64px;
+  height: 64px;
+  border-radius: 9999px;
+  transform: translate3d(-50%, -50%, 0) scale(0);
+  transform-origin: center center;
+  animation: ripple-shockwave-expand 1.35s cubic-bezier(0.15, 0.9, 0.25, 1) forwards;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.theme-ripple-shockwave-dark {
+  border: 2px solid rgba(224, 90, 71, 0.85);
+  box-shadow: 0 0 70px 25px rgba(224, 90, 71, 0.45), inset 0 0 45px rgba(16, 185, 129, 0.35);
+}
+
+.theme-ripple-shockwave-light {
+  border: 2px solid rgba(245, 158, 11, 0.9);
+  box-shadow: 0 0 80px 30px rgba(245, 158, 11, 0.45), inset 0 0 50px rgba(254, 243, 199, 0.6);
+}
+
+@keyframes ripple-shockwave-expand {
+  0% {
+    transform: translate3d(-50%, -50%, 0) scale(0);
+    opacity: 1;
+  }
+  65% {
+    transform: translate3d(-50%, -50%, 0) scale(78);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0) scale(85);
+    opacity: 0;
+  }
+}
+
+/* 3. Primary Celestial Radial Gradient Spherical Wave */
 .theme-ripple-wave {
   position: absolute;
   left: var(--ripple-x, 40px);
@@ -329,6 +411,16 @@ html.dark .journey-step {
   animation: bubble-expand-gpu 1.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   will-change: transform, opacity;
   backface-visibility: hidden;
+}
+
+.theme-ripple-wave-dark {
+  background: radial-gradient(circle at center, #163A30 0%, #0F241E 32%, #081612 70%, #050E0B 100%);
+  box-shadow: 0 0 80px 25px rgba(8, 22, 18, 0.85);
+}
+
+.theme-ripple-wave-light {
+  background: radial-gradient(circle at center, #FFFFFF 0%, #FAF8F5 45%, #F4EFEA 80%, #EDE6DC 100%);
+  box-shadow: 0 0 80px 25px rgba(250, 248, 245, 0.85);
 }
 
 @keyframes bubble-expand-gpu {
