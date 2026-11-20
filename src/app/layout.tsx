@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Fraunces, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
 import { ThemeProvider } from '@/context/ThemeContext';
@@ -7,11 +7,22 @@ import { HeroUIProviderWrapper } from '@/components/providers/HeroUIProviderWrap
 import { Toaster } from 'sonner';
 import Navbar from '@/components/common/Navbar';
 import ConditionalFooter from '@/components/common/ConditionalFooter';
+import OrbitalThemeDock from '@/components/common/OrbitalThemeDock';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-fraunces',
+  display: 'swap',
+});
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-plus-jakarta',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
-  title: 'MentorLagbe - Smart Tuition & Academic Mentorship Platform',
+  title: 'MentorLagbe | Where Mentors & Students Connect',
   description:
     'Find verified tutors by subject, class level, and mode. Secure tuition booking, role-based dashboards, and interactive learning in Bangladesh.',
   icons: {
@@ -25,7 +36,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`scroll-smooth ${plusJakartaSans.variable} ${fraunces.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         {/* Zero White Flash / Anti-FOUC Blocking Theme Script */}
         <script
@@ -46,13 +61,14 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.variable} font-sans min-h-screen flex flex-col antialiased bg-background text-foreground transition-colors duration-200`}>
+      <body className="font-sans min-h-screen flex flex-col antialiased relative">
         <ThemeProvider>
           <HeroUIProviderWrapper>
             <AuthProvider>
               <Navbar />
               <main className="flex-1">{children}</main>
               <ConditionalFooter />
+              <OrbitalThemeDock />
               <Toaster richColors position="top-right" closeButton />
             </AuthProvider>
           </HeroUIProviderWrapper>

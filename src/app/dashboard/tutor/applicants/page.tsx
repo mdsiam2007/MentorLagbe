@@ -73,76 +73,78 @@ export default function TutorApplicantsPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-7xl mx-auto font-sans">
       <div>
-        <h1 className="text-2xl font-black text-foreground tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-serif font-black text-foreground tracking-tight">
           Manage Student Applicants
         </h1>
-        <p className="text-xs text-muted-foreground mt-1">
+        <p className="text-xs sm:text-sm text-muted-foreground mt-1">
           Review incoming student bookings for your batches and accept or decline requests.
         </p>
       </div>
 
-      <Card className="border border-border/80 shadow-sm bg-card overflow-hidden rounded-2xl">
+      <Card className="border border-forest-900/10 dark:border-white/10 shadow-card bg-card overflow-hidden rounded-3xl">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-muted/60 text-muted-foreground uppercase text-[11px] font-bold border-b border-border/60">
+          <table className="w-full text-left text-xs font-sans">
+            <thead className="bg-forest-900/5 dark:bg-white/5 text-muted-foreground uppercase text-[11px] font-bold border-b border-forest-900/10 dark:border-white/10">
               <tr>
-                <th className="py-3.5 px-4">Student Info</th>
-                <th className="py-3.5 px-4">Applied Tuition</th>
-                <th className="py-3.5 px-4">Preferred Schedule</th>
-                <th className="py-3.5 px-4">Student Note</th>
-                <th className="py-3.5 px-4">Status</th>
-                <th className="py-3.5 px-4 text-right">Review Action</th>
+                <th className="py-4 px-5">Student Info</th>
+                <th className="py-4 px-5">Applied Tuition</th>
+                <th className="py-4 px-5">Preferred Schedule</th>
+                <th className="py-4 px-5">Student Note</th>
+                <th className="py-4 px-5">Status</th>
+                <th className="py-4 px-5 text-right">Review Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border/60">
+            <tbody className="divide-y divide-forest-900/10 dark:divide-white/10">
               {loading ? (
                 Array.from({ length: 3 }).map((_, i) => <TableRowSkeleton key={i} columns={6} />)
               ) : applicants.length > 0 ? (
                 applicants.map((item) => (
-                  <tr key={item._id} className="hover:bg-muted/30 transition-colors">
-                    <td className="py-4 px-4 font-semibold text-foreground">
-                      <div className="text-sm font-bold">{item.studentName}</div>
+                  <tr key={item._id} className="hover:bg-forest-900/5 dark:hover:bg-white/5 transition-colors">
+                    <td className="py-4 px-5 font-semibold text-foreground">
+                      <div className="text-sm font-bold text-foreground font-sans">{item.studentName}</div>
                       <div className="flex items-center gap-1.5 text-muted-foreground mt-0.5">
-                        <Mail className="h-3 w-3" />
+                        <Mail className="h-3 w-3 text-terracotta-500" />
                         <span>{item.studentEmail}</span>
                       </div>
                       <div className="flex items-center gap-1.5 text-muted-foreground mt-0.5">
-                        <Phone className="h-3 w-3" />
+                        <Phone className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
                         <span>{item.studentPhone}</span>
                       </div>
                     </td>
-                    <td className="py-4 px-4 max-w-xs">
-                      <div className="font-semibold text-foreground truncate">{item.tuitionTitle}</div>
-                      <span className="text-[10px] text-primary font-bold uppercase">{item.subject}</span>
+                    <td className="py-4 px-5 max-w-xs">
+                      <div className="font-serif font-bold text-sm text-foreground truncate">{item.tuitionTitle}</div>
+                      <span className="text-[10px] text-terracotta-500 font-extrabold uppercase tracking-wide">
+                        {item.subject}
+                      </span>
                     </td>
-                    <td className="py-4 px-4 text-muted-foreground">
-                      <div className="flex items-center gap-1 text-foreground font-medium">
-                        <Calendar className="h-3.5 w-3.5 text-primary shrink-0" />
+                    <td className="py-4 px-5 text-muted-foreground">
+                      <div className="flex items-center gap-1.5 text-foreground font-medium">
+                        <Calendar className="h-3.5 w-3.5 text-terracotta-500 shrink-0" />
                         <span>{item.preferredSchedule}</span>
                       </div>
                       <span className="text-[10px] text-muted-foreground mt-0.5 block">
                         Applied {formatDate(item.appliedAt)}
                       </span>
                     </td>
-                    <td className="py-4 px-4 text-muted-foreground max-w-xs">
-                      <p className="line-clamp-2 italic">
+                    <td className="py-4 px-5 text-muted-foreground max-w-xs">
+                      <p className="line-clamp-2 italic text-xs leading-relaxed">
                         {item.studentNote ? `"${item.studentNote}"` : 'No custom note.'}
                       </p>
                     </td>
-                    <td className="py-4 px-4">{getStatusBadge(item.status)}</td>
-                    <td className="py-4 px-4 text-right">
+                    <td className="py-4 px-5">{getStatusBadge(item.status)}</td>
+                    <td className="py-4 px-5 text-right">
                       <div className="flex items-center justify-end gap-1.5">
                         <Button
                           size="sm"
                           variant="outline"
                           onClick={() => handleUpdateStatus(item._id, 'accepted')}
                           disabled={updatingId === item._id || item.status === 'accepted'}
-                          className="text-emerald-700 hover:bg-emerald-500/15 border-emerald-500/30 gap-1 h-8 px-2.5 font-bold"
+                          className="text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/15 border-emerald-500/30 gap-1 h-8 px-3 font-bold rounded-full"
                           title="Accept Applicant"
                         >
-                          <Check className="h-3.5 w-3.5 text-emerald-600" />
+                          <Check className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
                           Accept
                         </Button>
                         <Button
@@ -150,7 +152,7 @@ export default function TutorApplicantsPage() {
                           variant="outline"
                           onClick={() => handleUpdateStatus(item._id, 'rejected')}
                           disabled={updatingId === item._id || item.status === 'rejected'}
-                          className="text-destructive hover:bg-destructive/15 border-destructive/30 gap-1 h-8 px-2.5 font-bold"
+                          className="text-destructive hover:bg-destructive/15 border-destructive/30 gap-1 h-8 px-3 font-bold rounded-full"
                           title="Reject Applicant"
                         >
                           <X className="h-3.5 w-3.5 text-destructive" />
@@ -162,9 +164,9 @@ export default function TutorApplicantsPage() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={6} className="py-12 text-center text-muted-foreground">
+                  <td colSpan={6} className="py-14 text-center text-muted-foreground">
                     <Users className="mx-auto h-8 w-8 text-muted-foreground/60 mb-2" />
-                    <p className="font-semibold text-foreground">No student applications yet</p>
+                    <p className="font-serif font-bold text-foreground text-base">No student applications yet</p>
                     <p className="text-xs text-muted-foreground mt-0.5">
                       When students apply for your tuition postings, they will appear here.
                     </p>

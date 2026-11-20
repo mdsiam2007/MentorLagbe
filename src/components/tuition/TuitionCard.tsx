@@ -10,7 +10,7 @@ import { Tilt3DCard } from '@/components/ui/Tilt3DCard';
 import { useAuth } from '@/context/AuthContext';
 import api from '@/lib/api';
 import { toast } from 'sonner';
-import { MapPin, Calendar, ArrowRight, Sparkles, Bookmark, Star } from 'lucide-react';
+import { MapPin, Calendar, ArrowRight, Bookmark, Star, BadgeCheck } from 'lucide-react';
 
 export interface TuitionCardProps {
   _id: string;
@@ -94,51 +94,50 @@ export const TuitionCard: React.FC<TuitionCardProps> = ({
 
   return (
     <Tilt3DCard
-      tiltMaxAngle={8}
-      scaleOnHover={1.025}
-      glareOpacity={0.12}
+      tiltMaxAngle={6}
+      scaleOnHover={1.02}
+      glareOpacity={0.08}
       className="h-full rounded-3xl"
     >
-      <div className="group flex flex-col h-full rounded-3xl border-2 border-border/80 bg-card hover:border-primary/80 transition-all duration-300 overflow-hidden shadow-sm hover:shadow-xl dark:hover:shadow-primary/5">
-        {/* Banner Image with 3D Pop Badges */}
-        <div className="relative h-48 w-full overflow-hidden bg-muted border-b-2 border-border/60">
+      <div className="group flex flex-col h-full rounded-3xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] hover:border-terracotta-500/40 transition-all duration-300 overflow-hidden shadow-card hover:shadow-soft">
+        {/* Banner Image with Warm Badges */}
+        <div className="relative h-48 w-full overflow-hidden bg-forest-900/10 dark:bg-forest-950 border-b border-forest-900/10 dark:border-white/10">
           <img
             src={
               bannerImage ||
               'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80'
             }
             alt={title}
-            className="h-full w-full object-cover object-center group-hover:scale-108 transition-transform duration-500 ease-out"
+            className="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
             loading="lazy"
           />
-          <div
-            className="absolute top-3 left-3 flex items-center gap-2 z-10 [transform:translateZ(20px)]"
-          >
-            <Badge
-              variant={mode === 'Online' ? 'default' : 'secondary'}
-              className="text-[11px] font-black uppercase tracking-wider shadow-md"
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+
+          {/* Mode & Subject Pills */}
+          <div className="absolute top-3.5 left-3.5 flex items-center gap-2 z-10 [transform:translateZ(20px)]">
+            <span
+              className={`px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider shadow-sm text-white ${
+                mode === 'Online' ? 'bg-forest-900 dark:bg-emerald-700' : 'bg-terracotta-500'
+              }`}
             >
               {mode}
-            </Badge>
-            <Badge
-              variant="outline"
-              className="bg-background/95 text-foreground text-[11px] font-bold shadow-sm backdrop-blur-sm"
-            >
+            </span>
+            <span className="px-3 py-1 rounded-full bg-white/95 dark:bg-[#0F241E]/95 backdrop-blur-sm text-forest-900 dark:text-cream text-[11px] font-bold shadow-sm border border-forest-900/10 dark:border-white/10">
               {subject}
-            </Badge>
+            </span>
           </div>
 
-          {/* Floating Bookmark Button in Top-Right Corner */}
+          {/* Floating Bookmark Button */}
           <button
             type="button"
             onClick={handleBookmarkToggle}
             disabled={bookmarkLoading}
             title={bookmarked ? 'Remove from saved' : 'Save tuition'}
             aria-label={bookmarked ? 'Remove bookmark' : 'Bookmark tuition'}
-            className={`absolute top-3 right-3 z-20 p-2 rounded-full backdrop-blur-md transition-all duration-200 shadow-lg [transform:translateZ(25px)] ${
+            className={`absolute top-3.5 right-3.5 z-20 p-2.5 rounded-full backdrop-blur-md transition-all duration-200 shadow-md [transform:translateZ(25px)] cursor-pointer ${
               bookmarked
-                ? 'bg-primary text-primary-foreground hover:bg-primary/90 scale-105'
-                : 'bg-black/50 hover:bg-black/75 text-white/90 hover:text-white hover:scale-110 border border-white/20'
+                ? 'bg-terracotta-500 text-white hover:bg-terracotta-600 scale-105 shadow-glow'
+                : 'bg-white/90 dark:bg-black/60 hover:bg-white text-forest-900 dark:text-white hover:scale-110 border border-forest-900/10 dark:border-white/20'
             }`}
           >
             <Bookmark
@@ -148,70 +147,75 @@ export const TuitionCard: React.FC<TuitionCardProps> = ({
         </div>
 
         {/* Card Body */}
-        <div className="flex flex-col flex-1 p-5 justify-between space-y-4">
+        <div className="flex flex-col flex-1 p-5 sm:p-6 justify-between space-y-4">
           <div>
-            {/* Class Level & Days with 3D Depth & Rating Pill */}
+            {/* Class Level, Rating & Days */}
             <div className="flex items-center justify-between gap-2 [transform:translateZ(12px)]">
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-[11px] font-black uppercase tracking-wider text-primary">
+                <span className="text-[11px] font-black uppercase tracking-wider text-terracotta-500 dark:text-terracotta-400">
                   {classLevel}
                 </span>
                 {averageRating && averageRating > 0 ? (
-                  <span className="inline-flex items-center gap-1 bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded-full text-[10px] font-bold border border-amber-500/30">
-                    <Star className="h-3 w-3 fill-amber-500 text-amber-500" />
+                  <span className="inline-flex items-center gap-1 bg-amberwarm-100 dark:bg-amberwarm-500/20 text-amberwarm-600 dark:text-amberwarm-300 px-2.5 py-0.5 rounded-full text-[10px] font-bold border border-amberwarm-500/30">
+                    <Star className="h-3 w-3 fill-amberwarm-500 text-amberwarm-500" />
                     <span>{Number(averageRating).toFixed(1)}</span>
                     {totalReviews !== undefined && totalReviews > 0 && (
-                      <span className="text-muted-foreground font-semibold">({totalReviews})</span>
+                      <span className="text-forest-800/60 dark:text-white/60 font-semibold">({totalReviews})</span>
                     )}
                   </span>
                 ) : null}
               </div>
-              <span className="text-[11px] font-bold text-muted-foreground flex items-center gap-1 bg-muted/60 px-2.5 py-0.5 rounded-full border border-border/60 shrink-0">
-                <Calendar className="h-3 w-3" />
+              <span className="text-[11px] font-bold text-forest-800/70 dark:text-white/70 flex items-center gap-1 bg-cream dark:bg-[#153028] px-2.5 py-1 rounded-full border border-forest-900/10 dark:border-white/10 shrink-0">
+                <Calendar className="h-3 w-3 text-terracotta-500" />
                 {daysPerWeek}d / week
               </span>
             </div>
 
-            {/* Title with 3D Depth */}
-            <Link href={`/tuitions/${_id}`} className="block">
-              <h3 className="mt-2.5 text-base font-bold text-foreground line-clamp-2 leading-snug group-hover:text-primary transition-colors [transform:translateZ(16px)]">
+            {/* Title with Editorial Serif */}
+            <Link href={`/tuitions/${_id}`} className="block mt-2.5">
+              <h3 className="font-serif text-lg font-bold text-forest-900 dark:text-[#F5F2EB] line-clamp-2 leading-snug group-hover:text-terracotta-500 transition-colors [transform:translateZ(16px)]">
                 {title}
               </h3>
             </Link>
 
-            {/* Tutor Info: Clickable Profile Link with Hover Polish */}
-            <div className="mt-3.5 [transform:translateZ(18px)]">
+            {/* Tutor Info: Capsule with Verified Check */}
+            <div className="mt-4 [transform:translateZ(18px)]">
               <Link
                 href={tutorHref}
-                className="inline-flex items-center gap-2.5 text-xs text-muted-foreground hover:text-primary transition-colors group/tutor"
+                className="flex items-center gap-3 p-2.5 rounded-2xl bg-cream/70 dark:bg-[#153028] border border-forest-900/5 dark:border-white/5 hover:border-terracotta-500/30 hover:bg-cream dark:hover:bg-[#1a3d33] transition-all group/tutor"
                 title={`View profile of ${tutorName}`}
               >
-                <div className="w-7 h-7 rounded-full bg-primary/10 text-primary border-2 border-primary/20 group-hover/tutor:border-primary group-hover/tutor:scale-110 flex items-center justify-center font-bold text-xs shrink-0 transition-all duration-200">
+                <div className="w-8 h-8 rounded-full bg-forest-900 text-white dark:bg-cream dark:text-forest-900 flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
                   {tutorName ? tutorName.charAt(0).toUpperCase() : 'T'}
                 </div>
-                <div className="flex flex-col">
-                  <span className="font-bold text-foreground group-hover/tutor:text-primary transition-colors truncate underline-offset-4 group-hover/tutor:underline">
-                    {tutorName}
+                <div className="flex flex-col min-w-0">
+                  <div className="flex items-center gap-1">
+                    <span className="font-bold text-xs text-forest-900 dark:text-white group-hover/tutor:text-terracotta-500 transition-colors truncate">
+                      {tutorName}
+                    </span>
+                    <BadgeCheck className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400 shrink-0" />
+                  </div>
+                  <span className="text-[10px] text-forest-800/60 dark:text-white/60 truncate">
+                    Verified Mentor Profile →
                   </span>
-                  <span className="text-[10px] text-muted-foreground">View Mentor Profile →</span>
                 </div>
               </Link>
             </div>
 
             {/* Location */}
-            <div className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground border-t-2 border-border/40 pt-2.5">
-              <MapPin className="h-3.5 w-3.5 text-primary shrink-0" />
+            <div className="mt-3.5 flex items-center gap-1.5 text-xs text-forest-800/70 dark:text-white/70 pt-2 border-t border-forest-900/10 dark:border-white/10">
+              <MapPin className="h-3.5 w-3.5 text-terracotta-500 shrink-0" />
               <span className="truncate">{location}</span>
             </div>
           </div>
 
-          {/* Footer: Price & Uiverse 3D Button */}
-          <div className="pt-3 border-t-2 border-border/60 flex items-center justify-between [transform:translateZ(20px)]">
+          {/* Footer: Price & Details Button */}
+          <div className="pt-3.5 border-t border-forest-900/10 dark:border-white/10 flex items-center justify-between [transform:translateZ(20px)]">
             <div>
-              <span className="text-[10px] text-muted-foreground uppercase font-bold block">
+              <span className="text-[10px] text-forest-800/60 dark:text-white/60 uppercase font-bold tracking-wider block">
                 Monthly Fee
               </span>
-              <span className="text-xl font-black text-foreground tracking-tight">
+              <span className="font-serif text-xl font-black text-forest-900 dark:text-white tracking-tight">
                 {formatCurrency(monthlyFee)}
               </span>
             </div>
@@ -220,7 +224,7 @@ export const TuitionCard: React.FC<TuitionCardProps> = ({
               <Button
                 size="sm"
                 variant="default"
-                className="gap-1.5 font-bold text-xs"
+                className="gap-1.5 font-bold text-xs rounded-full hover:bg-terracotta-500 transition-colors cursor-pointer"
               >
                 Details
                 <ArrowRight className="h-3.5 w-3.5" />

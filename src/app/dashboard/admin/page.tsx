@@ -37,26 +37,26 @@ export default function AdminOverviewPage() {
   }, []);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 max-w-7xl mx-auto font-sans">
       {/* Admin Banner */}
-      <div className="rounded-3xl bg-gradient-to-r from-destructive/15 via-primary/10 to-indigo-500/15 border border-destructive/20 p-6 sm:p-8">
+      <div className="rounded-3xl bg-gradient-to-r from-forest-900/15 via-terracotta-500/10 to-amberwarm-500/10 border border-forest-900/15 dark:border-white/10 p-6 sm:p-8 shadow-card">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <h1 className="text-2xl sm:text-3xl font-black text-foreground">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <h1 className="text-2xl sm:text-3xl font-serif font-black text-foreground tracking-tight">
                 Platform Administration 🛡️
               </h1>
-              <Badge variant="destructive" className="text-[10px]">
+              <Badge variant="destructive" className="text-[10px] rounded-full">
                 SUPER ADMIN
               </Badge>
             </div>
-            <p className="text-xs sm:text-sm text-muted-foreground">
+            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
               Moderate tuition listings, govern user roles, and monitor Stripe subscription revenue.
             </p>
           </div>
 
-          <Link href="/dashboard/admin/tuitions">
-            <Button className="font-bold gap-2 shrink-0">
+          <Link href="/dashboard/admin/tuitions" className="shrink-0">
+            <Button variant="terracotta" className="font-bold gap-2 rounded-full shadow-glow">
               <CheckSquare className="h-4 w-4" />
               Review Pending Tuitions
             </Button>
@@ -74,15 +74,15 @@ export default function AdminOverviewPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {/* Total Users */}
-          <Card className="p-6 border border-border shadow-sm flex flex-col justify-between">
+          <Card className="p-6 border border-forest-900/10 dark:border-white/10 shadow-card flex flex-col justify-between rounded-3xl bg-card hover:shadow-soft transition-all">
             <div className="flex items-center justify-between text-muted-foreground">
-              <span className="text-xs font-semibold">Total Registered Users</span>
-              <div className="h-8 w-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+              <span className="text-xs font-bold text-foreground">Total Registered Users</span>
+              <div className="h-9 w-9 rounded-2xl bg-forest-900/10 dark:bg-white/10 text-forest-900 dark:text-cream flex items-center justify-center">
                 <Users className="h-4 w-4" />
               </div>
             </div>
-            <div className="mt-4">
-              <p className="text-3xl font-black text-foreground">{stats?.totalUsers || 0}</p>
+            <div className="mt-5">
+              <p className="text-3xl sm:text-4xl font-serif font-black text-foreground">{stats?.totalUsers || 0}</p>
               <p className="text-[11px] text-muted-foreground mt-1">
                 {stats?.totalStudents || 0} Students • {stats?.totalTutors || 0} Tutors
               </p>
@@ -90,15 +90,15 @@ export default function AdminOverviewPage() {
           </Card>
 
           {/* Pending Tuitions */}
-          <Card className="p-6 border border-border shadow-sm flex flex-col justify-between">
+          <Card className="p-6 border border-forest-900/10 dark:border-white/10 shadow-card flex flex-col justify-between rounded-3xl bg-card hover:shadow-soft transition-all">
             <div className="flex items-center justify-between text-muted-foreground">
-              <span className="text-xs font-semibold">Pending Approvals</span>
-              <div className="h-8 w-8 rounded-lg bg-amber-500/10 text-amber-600 flex items-center justify-center">
+              <span className="text-xs font-bold text-foreground">Pending Approvals</span>
+              <div className="h-9 w-9 rounded-2xl bg-amberwarm-500/15 text-amberwarm-500 flex items-center justify-center">
                 <BookOpen className="h-4 w-4" />
               </div>
             </div>
-            <div className="mt-4">
-              <p className="text-3xl font-black text-amber-600">{stats?.pendingTuitions || 0}</p>
+            <div className="mt-5">
+              <p className="text-3xl sm:text-4xl font-serif font-black text-amberwarm-500">{stats?.pendingTuitions || 0}</p>
               <p className="text-[11px] text-muted-foreground mt-1">
                 {stats?.approvedTuitions || 0} batches currently live
               </p>
@@ -106,29 +106,29 @@ export default function AdminOverviewPage() {
           </Card>
 
           {/* Active Tutors */}
-          <Card className="p-6 border border-border shadow-sm flex flex-col justify-between">
+          <Card className="p-6 border border-forest-900/10 dark:border-white/10 shadow-card flex flex-col justify-between rounded-3xl bg-card hover:shadow-soft transition-all">
             <div className="flex items-center justify-between text-muted-foreground">
-              <span className="text-xs font-semibold">Total Tutors</span>
-              <div className="h-8 w-8 rounded-lg bg-secondary/15 text-secondary flex items-center justify-center">
+              <span className="text-xs font-bold text-foreground">Total Tutors</span>
+              <div className="h-9 w-9 rounded-2xl bg-terracotta-500/15 text-terracotta-500 flex items-center justify-center">
                 <ShieldCheck className="h-4 w-4" />
               </div>
             </div>
-            <div className="mt-4">
-              <p className="text-3xl font-black text-secondary">{stats?.totalTutors || 0}</p>
+            <div className="mt-5">
+              <p className="text-3xl sm:text-4xl font-serif font-black text-terracotta-500">{stats?.totalTutors || 0}</p>
               <p className="text-[11px] text-muted-foreground mt-1">Teachers offering mentorship</p>
             </div>
           </Card>
 
           {/* Stripe Revenue */}
-          <Card className="p-6 border border-border shadow-sm flex flex-col justify-between">
+          <Card className="p-6 border border-forest-900/10 dark:border-white/10 shadow-card flex flex-col justify-between rounded-3xl bg-card hover:shadow-soft transition-all">
             <div className="flex items-center justify-between text-muted-foreground">
-              <span className="text-xs font-semibold">Total Stripe Revenue</span>
-              <div className="h-8 w-8 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
+              <span className="text-xs font-bold text-foreground">Total Stripe Revenue</span>
+              <div className="h-9 w-9 rounded-2xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
                 <DollarSign className="h-4 w-4" />
               </div>
             </div>
-            <div className="mt-4">
-              <p className="text-3xl font-black text-emerald-600">
+            <div className="mt-5">
+              <p className="text-3xl sm:text-4xl font-serif font-black text-emerald-600 dark:text-emerald-400">
                 ${stats?.totalRevenue || 0} <span className="text-xs font-bold text-muted-foreground">USD</span>
               </p>
               <p className="text-[11px] text-muted-foreground mt-1">From Pro subscriptions</p>
@@ -141,54 +141,54 @@ export default function AdminOverviewPage() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
         <Link
           href="/dashboard/admin/users"
-          className="p-5 rounded-2xl border border-border bg-card hover:border-primary/50 shadow-sm transition-all group flex flex-col justify-between space-y-4"
+          className="p-6 rounded-3xl border border-forest-900/10 dark:border-white/10 bg-card hover:border-terracotta-500/50 shadow-card hover:shadow-soft transition-all group flex flex-col justify-between space-y-4"
         >
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+          <div className="flex items-center gap-3.5">
+            <div className="h-11 w-11 rounded-2xl bg-forest-900/10 dark:bg-white/10 text-forest-900 dark:text-cream flex items-center justify-center shrink-0">
               <Users className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-sm font-bold text-foreground">User Management</p>
-              <p className="text-[11px] text-muted-foreground">Promote or change user roles</p>
+              <p className="text-sm font-bold text-foreground font-sans">User Management</p>
+              <p className="text-[11px] text-muted-foreground mt-0.5">Promote or change user roles</p>
             </div>
           </div>
-          <span className="text-xs font-bold text-primary flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+          <span className="text-xs font-bold text-terracotta-500 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
             Manage Users <ArrowRight className="h-3.5 w-3.5" />
           </span>
         </Link>
 
         <Link
           href="/dashboard/admin/tuitions"
-          className="p-5 rounded-2xl border border-border bg-card hover:border-primary/50 shadow-sm transition-all group flex flex-col justify-between space-y-4"
+          className="p-6 rounded-3xl border border-forest-900/10 dark:border-white/10 bg-card hover:border-terracotta-500/50 shadow-card hover:shadow-soft transition-all group flex flex-col justify-between space-y-4"
         >
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center">
+          <div className="flex items-center gap-3.5">
+            <div className="h-11 w-11 rounded-2xl bg-amberwarm-500/15 text-amberwarm-500 flex items-center justify-center shrink-0">
               <CheckSquare className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-sm font-bold text-foreground">Tuition Moderation</p>
-              <p className="text-[11px] text-muted-foreground">Approve or reject tutor posts</p>
+              <p className="text-sm font-bold text-foreground font-sans">Tuition Moderation</p>
+              <p className="text-[11px] text-muted-foreground mt-0.5">Approve or reject tutor posts</p>
             </div>
           </div>
-          <span className="text-xs font-bold text-amber-600 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+          <span className="text-xs font-bold text-amberwarm-500 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
             Review Posts <ArrowRight className="h-3.5 w-3.5" />
           </span>
         </Link>
 
         <Link
           href="/dashboard/admin/transactions"
-          className="p-5 rounded-2xl border border-border bg-card hover:border-primary/50 shadow-sm transition-all group flex flex-col justify-between space-y-4"
+          className="p-6 rounded-3xl border border-forest-900/10 dark:border-white/10 bg-card hover:border-terracotta-500/50 shadow-card hover:shadow-soft transition-all group flex flex-col justify-between space-y-4"
         >
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
+          <div className="flex items-center gap-3.5">
+            <div className="h-11 w-11 rounded-2xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
               <CreditCard className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-sm font-bold text-foreground">Stripe Transactions</p>
-              <p className="text-[11px] text-muted-foreground">View all customer payments</p>
+              <p className="text-sm font-bold text-foreground font-sans">Stripe Transactions</p>
+              <p className="text-[11px] text-muted-foreground mt-0.5">View all customer payments</p>
             </div>
           </div>
-          <span className="text-xs font-bold text-emerald-600 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+          <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
             View Ledger <ArrowRight className="h-3.5 w-3.5" />
           </span>
         </Link>

@@ -125,40 +125,40 @@ function BrowseTuitionsContent() {
   };
 
   return (
-    <div className="min-h-screen bg-background py-10">
+    <div className="min-h-screen bg-cream/40 dark:bg-[#081612] py-12 lg:py-16 transition-colors duration-300">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-8 space-y-2">
-          <Badge variant="default" className="text-xs font-black">
+        {/* Header Section */}
+        <div className="mb-10 text-center sm:text-left space-y-3">
+          <Badge variant="terracotta" className="text-xs font-bold px-3 py-1">
             <Sparkles className="h-3.5 w-3.5 mr-1" /> Tuition Marketplace
           </Badge>
-          <h1 className="text-3xl sm:text-4xl font-black text-foreground tracking-tight">
+          <h1 className="font-serif text-3xl sm:text-5xl font-bold text-forest-900 dark:text-[#F5F2EB] tracking-tight">
             Browse Approved Tuitions
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm sm:text-base text-forest-800/75 dark:text-[#F5F2EB]/75 max-w-2xl">
             Find the perfect academic batch or private mentor with our real-time multi-criteria filter.
           </p>
         </div>
 
-        {/* Filter Bar with Flat Uiverse Card Styling */}
-        <div className="rounded-3xl border-2 border-border bg-card p-4 sm:p-6 mb-10 shadow-[0_6px_0_0_hsl(var(--border))] space-y-4">
+        {/* Filter Bar with Warm Editorial Card Styling */}
+        <div className="rounded-3xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] p-6 sm:p-8 mb-10 shadow-card space-y-6">
           <form onSubmit={handleSearchSubmit} className="flex flex-col md:flex-row gap-3">
             <div className="relative flex-1">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-forest-800/50 dark:text-white/50" />
               <input
                 type="text"
                 placeholder="Search by tuition title, subject or location..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full h-12 pl-10 pr-4 rounded-2xl border-2 border-border bg-background text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
+                className="w-full h-12 pl-11 pr-4 rounded-full border border-forest-900/15 dark:border-white/15 bg-cream/40 dark:bg-[#153028] text-sm text-forest-900 dark:text-[#F5F2EB] placeholder:text-forest-800/40 dark:placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-terracotta-500/40 transition-all"
               />
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center gap-2.5 shrink-0">
               <Button
                 type="submit"
-                variant="default"
-                className="h-12 px-6 gap-2"
+                variant="terracotta"
+                className="h-12 px-6 gap-2 rounded-full font-bold cursor-pointer"
               >
                 <Search className="h-4 w-4" />
                 Search
@@ -167,7 +167,7 @@ function BrowseTuitionsContent() {
                 type="button"
                 variant="outline"
                 onClick={handleReset}
-                className="h-12 px-4 gap-2"
+                className="h-12 px-5 gap-2 rounded-full font-semibold border-forest-900/15 dark:border-white/15 text-forest-900 dark:text-white hover:bg-forest-900/5 cursor-pointer"
               >
                 <RotateCcw className="h-4 w-4" />
                 Reset
@@ -175,11 +175,11 @@ function BrowseTuitionsContent() {
             </div>
           </form>
 
-          {/* Dropdown Filters (Exactly identical to Hero Section) */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t-2 border-border/40">
+          {/* Dropdown Filters */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-forest-900/10 dark:border-white/10">
             {/* Subject Dropdown */}
             <div>
-              <label className="block text-[11px] font-black uppercase tracking-wider text-muted-foreground mb-1">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-forest-800/60 dark:text-white/60 mb-1.5">
                 Subject
               </label>
               <select
@@ -188,10 +188,10 @@ function BrowseTuitionsContent() {
                   setSubject(e.target.value);
                   setPage(1);
                 }}
-                className="w-full h-11 rounded-xl border-2 border-border bg-background px-3 text-xs sm:text-sm text-foreground focus:outline-none focus:border-primary"
+                className="w-full h-11 rounded-2xl border border-forest-900/15 dark:border-white/15 bg-cream/40 dark:bg-[#153028] px-3.5 text-xs sm:text-sm text-forest-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-terracotta-500/40 cursor-pointer"
               >
                 {subjectOptions.map((opt) => (
-                  <option key={opt} value={opt}>
+                  <option key={opt} value={opt} className="bg-white dark:bg-[#0F241E] text-forest-900 dark:text-white">
                     {opt === 'All' ? 'All Subjects' : opt}
                   </option>
                 ))}
@@ -200,7 +200,7 @@ function BrowseTuitionsContent() {
 
             {/* Class Level Dropdown */}
             <div>
-              <label className="block text-[11px] font-black uppercase tracking-wider text-muted-foreground mb-1">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-forest-800/60 dark:text-white/60 mb-1.5">
                 Class / Target Level
               </label>
               <select
@@ -209,10 +209,10 @@ function BrowseTuitionsContent() {
                   setClassLevel(e.target.value);
                   setPage(1);
                 }}
-                className="w-full h-11 rounded-xl border-2 border-border bg-background px-3 text-xs sm:text-sm text-foreground focus:outline-none focus:border-primary"
+                className="w-full h-11 rounded-2xl border border-forest-900/15 dark:border-white/15 bg-cream/40 dark:bg-[#153028] px-3.5 text-xs sm:text-sm text-forest-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-terracotta-500/40 cursor-pointer"
               >
                 {classLevelOptions.map((opt) => (
-                  <option key={opt} value={opt}>
+                  <option key={opt} value={opt} className="bg-white dark:bg-[#0F241E] text-forest-900 dark:text-white">
                     {opt === 'All' ? 'All Class Levels' : opt}
                   </option>
                 ))}
@@ -221,7 +221,7 @@ function BrowseTuitionsContent() {
 
             {/* Mode Dropdown */}
             <div>
-              <label className="block text-[11px] font-black uppercase tracking-wider text-muted-foreground mb-1">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-forest-800/60 dark:text-white/60 mb-1.5">
                 Teaching Mode
               </label>
               <select
@@ -230,10 +230,10 @@ function BrowseTuitionsContent() {
                   setMode(e.target.value);
                   setPage(1);
                 }}
-                className="w-full h-11 rounded-xl border-2 border-border bg-background px-3 text-xs sm:text-sm text-foreground focus:outline-none focus:border-primary"
+                className="w-full h-11 rounded-2xl border border-forest-900/15 dark:border-white/15 bg-cream/40 dark:bg-[#153028] px-3.5 text-xs sm:text-sm text-forest-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-terracotta-500/40 cursor-pointer"
               >
                 {modeOptions.map((opt) => (
-                  <option key={opt} value={opt}>
+                  <option key={opt} value={opt} className="bg-white dark:bg-[#0F241E] text-forest-900 dark:text-white">
                     {opt === 'All' ? 'All Modes (Online & Offline)' : opt}
                   </option>
                 ))}
@@ -243,29 +243,29 @@ function BrowseTuitionsContent() {
         </div>
 
         {/* Results Metadata */}
-        <div className="flex items-center justify-between mb-6">
-          <p className="text-xs sm:text-sm font-bold text-muted-foreground">
-            Found <span className="font-black text-foreground">{pagination.total}</span> Approved Tuitions
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+          <p className="text-xs sm:text-sm font-semibold text-forest-800/70 dark:text-white/70">
+            Found <span className="font-extrabold text-forest-900 dark:text-white">{pagination.total}</span> Approved Tuitions
           </p>
           {(subject !== 'All' || classLevel !== 'All' || mode !== 'All' || search) && (
             <div className="flex flex-wrap items-center gap-2">
               {search && (
-                <Badge variant="flat">
+                <Badge variant="flat" className="rounded-full">
                   &ldquo;{search}&rdquo;
                 </Badge>
               )}
               {subject !== 'All' && (
-                <Badge variant="default">
+                <Badge variant="default" className="rounded-full">
                   {subject}
                 </Badge>
               )}
               {classLevel !== 'All' && (
-                <Badge variant="secondary">
+                <Badge variant="secondary" className="rounded-full">
                   {classLevel}
                 </Badge>
               )}
               {mode !== 'All' && (
-                <Badge variant="warning">
+                <Badge variant="terracotta" className="rounded-full">
                   {mode}
                 </Badge>
               )}
@@ -289,24 +289,24 @@ function BrowseTuitionsContent() {
             ))}
           </div>
         ) : (
-          <div className="rounded-3xl border-2 border-border bg-card p-12 text-center shadow-[0_4px_0_0_hsl(var(--border))]">
-            <BookOpen className="mx-auto h-12 w-12 text-muted-foreground/60 mb-3" />
-            <h3 className="text-lg font-bold text-foreground">No Tuitions Found</h3>
-            <p className="text-sm text-muted-foreground mt-1 max-w-sm mx-auto">
+          <div className="rounded-3xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] p-12 text-center shadow-card">
+            <BookOpen className="mx-auto h-12 w-12 text-forest-900/30 dark:text-white/30 mb-3" />
+            <h3 className="font-serif text-xl font-bold text-forest-900 dark:text-[#F5F2EB]">No Tuitions Found</h3>
+            <p className="text-sm text-forest-800/70 dark:text-white/70 mt-1.5 max-w-sm mx-auto">
               No active tuition batches match your current filter parameters. Try adjusting your subject, level, or clearing filters.
             </p>
             <Button
               variant="outline"
               size="sm"
               onClick={handleReset}
-              className="mt-4"
+              className="mt-5 rounded-full border-forest-900/15 dark:border-white/15 text-forest-900 dark:text-white hover:bg-forest-900/5 cursor-pointer"
             >
               Clear All Filters
             </Button>
           </div>
         )}
 
-        {/* Server-Side Pagination with Flat Styling */}
+        {/* Server-Side Pagination */}
         {pagination.totalPages > 1 && (
           <div className="mt-12 flex items-center justify-center gap-2">
             <Button
@@ -314,7 +314,7 @@ function BrowseTuitionsContent() {
               size="sm"
               disabled={page <= 1}
               onClick={() => setPage((p) => Math.max(1, p - 1))}
-              className="gap-1.5"
+              className="gap-1.5 rounded-full border-forest-900/15 dark:border-white/15 text-forest-900 dark:text-white cursor-pointer"
             >
               <ChevronLeft className="h-4 w-4" />
               Previous
@@ -328,10 +328,10 @@ function BrowseTuitionsContent() {
                   <button
                     key={pageNumber}
                     onClick={() => setPage(pageNumber)}
-                    className={`h-9 w-9 rounded-xl text-xs font-black transition-all border-2 ${
+                    className={`h-9 w-9 rounded-full text-xs font-bold transition-all border cursor-pointer ${
                       isCurrent
-                        ? 'bg-primary text-primary-foreground border-primary shadow-[0_2px_0_0_hsl(var(--primary)/0.5)]'
-                        : 'border-border bg-card text-foreground hover:border-primary/50'
+                        ? 'bg-forest-900 text-white dark:bg-emerald-600 border-forest-900 shadow-soft'
+                        : 'border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] text-forest-900 dark:text-white hover:border-terracotta-500'
                     }`}
                   >
                     {pageNumber}
@@ -345,7 +345,7 @@ function BrowseTuitionsContent() {
               size="sm"
               disabled={page >= pagination.totalPages}
               onClick={() => setPage((p) => Math.min(pagination.totalPages, p + 1))}
-              className="gap-1.5"
+              className="gap-1.5 rounded-full border-forest-900/15 dark:border-white/15 text-forest-900 dark:text-white cursor-pointer"
             >
               Next
               <ChevronRight className="h-4 w-4" />

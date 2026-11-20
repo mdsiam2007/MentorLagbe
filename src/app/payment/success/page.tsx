@@ -50,37 +50,37 @@ function PaymentSuccessContent() {
   }, [sessionId, refreshUser]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4 py-16">
-      <Card className="w-full max-w-lg p-8 sm:p-10 border-2 border-emerald-500/30 shadow-2xl bg-card rounded-3xl text-center space-y-6">
-        <div className="h-16 w-16 rounded-full bg-emerald-500/15 text-emerald-600 mx-auto flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center bg-cream/40 dark:bg-[#081612] px-4 py-16 transition-colors duration-300">
+      <Card className="w-full max-w-lg p-8 sm:p-10 border border-emerald-600/20 shadow-card bg-white dark:bg-[#0F241E] rounded-3xl text-center space-y-6">
+        <div className="h-16 w-16 rounded-full bg-emerald-100 dark:bg-emerald-950/40 text-emerald-600 mx-auto flex items-center justify-center shadow-soft">
           <CheckCircle2 className="h-10 w-10" />
         </div>
 
         <div>
-          <Badge variant="pro" className="mb-2">
+          <Badge variant="pro" className="mb-2 rounded-full">
             Pro Upgrade Successful
           </Badge>
-          <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">
+          <h1 className="font-serif text-2xl sm:text-3xl font-bold text-forest-900 dark:text-[#F5F2EB] tracking-tight">
             Thank You for Your Subscription!
           </h1>
-          <p className="text-xs sm:text-sm text-muted-foreground mt-2">
+          <p className="text-xs sm:text-sm text-forest-800/70 dark:text-white/70 mt-2">
             Your payment via Stripe has been verified and your account is now upgraded to Pro status.
           </p>
         </div>
 
         {paymentData && (
-          <div className="rounded-2xl bg-muted/60 border border-border/80 p-4 text-xs space-y-2 text-left">
+          <div className="rounded-2xl bg-cream/70 dark:bg-[#153028] border border-forest-900/10 dark:border-white/10 p-4 text-xs space-y-2 text-left">
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Plan Activated:</span>
-              <strong className="text-foreground">{paymentData.planName}</strong>
+              <span className="text-forest-800/60 dark:text-white/60">Plan Activated:</span>
+              <strong className="text-forest-900 dark:text-white font-bold">{paymentData.planName}</strong>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Amount Paid:</span>
-              <strong className="text-foreground">${paymentData.amount} {paymentData.currency}</strong>
+              <span className="text-forest-800/60 dark:text-white/60">Amount Paid:</span>
+              <strong className="text-forest-900 dark:text-white font-bold">${paymentData.amount} {paymentData.currency}</strong>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Transaction Ref:</span>
-              <span className="font-mono text-muted-foreground truncate max-w-[200px]">
+              <span className="text-forest-800/60 dark:text-white/60">Transaction Ref:</span>
+              <span className="font-mono text-forest-800/60 dark:text-white/60 truncate max-w-[200px]">
                 {paymentData.transactionId}
               </span>
             </div>
@@ -88,19 +88,19 @@ function PaymentSuccessContent() {
         )}
 
         {error && (
-          <p className="text-xs text-destructive bg-destructive/10 p-3 rounded-xl border border-destructive/20">
+          <p className="text-xs text-destructive bg-destructive/10 p-3 rounded-2xl border border-destructive/20">
             {error}
           </p>
         )}
 
         <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center">
           <Link href="/tuitions">
-            <Button variant="outline" className="w-full sm:w-auto font-semibold">
+            <Button variant="outline" className="w-full sm:w-auto font-semibold rounded-full border-forest-900/15 dark:border-white/15 text-forest-900 dark:text-white hover:bg-forest-900/5 cursor-pointer">
               Browse Tuitions
             </Button>
           </Link>
           <Link href={user?.role === 'tutor' ? '/dashboard/tutor' : '/dashboard/student'}>
-            <Button className="w-full sm:w-auto font-bold gap-2">
+            <Button variant="terracotta" className="w-full sm:w-auto font-bold gap-2 rounded-full shadow-glow cursor-pointer">
               Go to Dashboard
               <ArrowRight className="h-4 w-4" />
             </Button>

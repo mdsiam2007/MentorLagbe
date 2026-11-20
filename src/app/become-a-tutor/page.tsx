@@ -88,62 +88,62 @@ export default function BecomeATutorPage() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex flex-col min-h-screen bg-cream/40 dark:bg-[#081612] transition-colors duration-300">
       {/* 1. HERO SECTION */}
-      <section className="relative overflow-hidden bg-background py-16 sm:py-24 border-b-2 border-border/80">
+      <section className="relative overflow-hidden py-16 sm:py-24 border-b border-forest-900/10 dark:border-white/10 bg-cream/60 dark:bg-[#0B1E19]">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Copy */}
             <div className="lg:col-span-7 space-y-6">
-              <Badge variant="secondary" className="px-3.5 py-1 text-xs font-black">
-                <Sparkles className="h-3.5 w-3.5 mr-1 text-secondary" />
+              <Badge variant="terracotta" className="px-3.5 py-1 text-xs font-bold rounded-full">
+                <Sparkles className="h-3.5 w-3.5 mr-1" />
                 Join Bangladesh&apos;s Fastest Growing Mentorship Community
               </Badge>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-foreground tracking-tight leading-[1.12]">
+              <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-forest-900 dark:text-[#F5F2EB] tracking-tight leading-[1.12]">
                 Teach What You Love, <br />
-                <span className="text-primary underline decoration-primary/40 underline-offset-4">Earn On Your Terms</span>
+                <span className="text-terracotta-500 underline decoration-terracotta-500/40 underline-offset-4">Earn On Your Terms</span>
               </h1>
 
-              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl">
+              <p className="text-base sm:text-lg text-forest-800/75 dark:text-[#F5F2EB]/75 leading-relaxed max-w-2xl">
                 Become a verified mentor on MentorLagbe. Post your tuition batches, set your own rates, and connect directly with verified students and parents across Bangladesh.
               </p>
 
-              <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
                 <Link href="/sign-up">
-                  <Button size="lg" variant="default" className="gap-2">
+                  <Button size="lg" variant="terracotta" className="gap-2 rounded-full font-bold shadow-glow cursor-pointer">
                     Start Teaching Today (Free)
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
                 <Link href="/pricing">
-                  <Button size="lg" variant="outline">
+                  <Button size="lg" variant="outline" className="rounded-full border-forest-900/15 dark:border-white/15 text-forest-900 dark:text-white hover:bg-forest-900/5 cursor-pointer">
                     View Pro Tutor Benefits
                   </Button>
                 </Link>
               </div>
 
-              {/* Flat stats checklist */}
-              <div className="pt-6 grid grid-cols-2 sm:grid-cols-3 gap-3 border-t-2 border-border/40 text-xs text-muted-foreground">
-                <Badge variant="success">
+              {/* Stats checklist */}
+              <div className="pt-6 grid grid-cols-2 sm:grid-cols-3 gap-3 border-t border-forest-900/10 dark:border-white/10 text-xs text-forest-800/70 dark:text-white/70">
+                <Badge variant="success" className="rounded-full">
                   <CheckCircle2 className="h-3.5 w-3.5" />
                   0% Commission Fee
                 </Badge>
-                <Badge variant="default">
+                <Badge variant="default" className="rounded-full">
                   <CheckCircle2 className="h-3.5 w-3.5" />
                   Direct Inquiries
                 </Badge>
-                <Badge variant="secondary">
+                <Badge variant="secondary" className="rounded-full">
                   <CheckCircle2 className="h-3.5 w-3.5" />
                   Online & Offline Freedom
                 </Badge>
               </div>
             </div>
 
-            {/* Right Hero Image with Flat Neo-Card */}
+            {/* Right Hero Image */}
             <div className="lg:col-span-5 relative flex justify-center">
               <div className="relative w-full max-w-md">
-                <div className="overflow-hidden rounded-3xl border-4 border-foreground/15 bg-card shadow-[0_8px_0_0_hsl(var(--border))]">
+                <div className="overflow-hidden rounded-3xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] shadow-card">
                   <img
                     src="/images/become-a-tutor.jpg"
                     alt="Become a Mentor on MentorLagbe"
@@ -152,13 +152,13 @@ export default function BecomeATutorPage() {
                 </div>
 
                 {/* Floating Badge */}
-                <div className="absolute -bottom-5 -left-4 rounded-2xl border-2 border-border bg-card p-4 shadow-[0_4px_0_0_hsl(var(--border))] flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-xl bg-primary/10 border-2 border-primary/20 flex items-center justify-center text-primary">
+                <div className="absolute -bottom-5 -left-4 rounded-2xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] p-4 shadow-card flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-xl bg-terracotta-50 dark:bg-terracotta-500/20 border border-terracotta-500/20 flex items-center justify-center text-terracotta-500">
                     <Zap className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-xs font-black text-foreground">350+ Tutors Joined</p>
-                    <p className="text-[10px] font-semibold text-muted-foreground">Earning up to ৳ 45,000/mo</p>
+                    <p className="text-xs font-extrabold text-forest-900 dark:text-white">350+ Tutors Joined</p>
+                    <p className="text-[10px] font-semibold text-forest-800/60 dark:text-white/60">Earning up to ৳ 45,000/mo</p>
                   </div>
                 </div>
               </div>
@@ -168,14 +168,14 @@ export default function BecomeATutorPage() {
       </section>
 
       {/* 2. WHY TEACH ON MENTORLAGBE (PERKS) */}
-      <section className="py-16 sm:py-24 bg-background">
+      <section className="py-16 sm:py-24">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <Badge variant="outline" className="mb-2">Why Teach With Us?</Badge>
-            <h2 className="text-3xl sm:text-4xl font-black text-foreground tracking-tight">
+            <Badge variant="outline" className="mb-2 rounded-full border-forest-900/15 dark:border-white/15">Why Teach With Us?</Badge>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-forest-900 dark:text-[#F5F2EB] tracking-tight">
               Designed For Educators, Built For Growth
             </h2>
-            <p className="text-sm text-muted-foreground mt-2">
+            <p className="text-sm text-forest-800/75 dark:text-[#F5F2EB]/75 mt-2">
               Say goodbye to middlemen agency fees. Enjoy direct control over your tuition schedule, fees, and students.
             </p>
           </div>
@@ -186,16 +186,16 @@ export default function BecomeATutorPage() {
               return (
                 <motion.div
                   key={idx}
-                  whileHover={{ y: -6 }}
+                  whileHover={{ y: -4 }}
                   transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-                  className="p-6 rounded-3xl border-2 border-border bg-card shadow-[0_4px_0_0_hsl(var(--border))] hover:border-primary transition-colors flex flex-col justify-between"
+                  className="p-6 sm:p-7 rounded-3xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] shadow-card hover:shadow-soft hover:border-terracotta-500/30 transition-all flex flex-col justify-between"
                 >
                   <div>
-                    <div className="h-12 w-12 rounded-2xl bg-primary/10 border-2 border-primary/20 text-primary flex items-center justify-center mb-4">
+                    <div className="h-12 w-12 rounded-2xl bg-cream dark:bg-[#153028] border border-forest-900/10 dark:border-white/10 text-terracotta-500 flex items-center justify-center mb-4">
                       <Icon className="h-6 w-6" />
                     </div>
-                    <h3 className="text-base font-bold text-foreground mb-2">{perk.title}</h3>
-                    <p className="text-xs text-muted-foreground leading-relaxed">{perk.desc}</p>
+                    <h3 className="font-serif text-base font-bold text-forest-900 dark:text-white mb-2">{perk.title}</h3>
+                    <p className="text-xs text-forest-800/70 dark:text-white/70 leading-relaxed">{perk.desc}</p>
                   </div>
                 </motion.div>
               );
@@ -205,11 +205,11 @@ export default function BecomeATutorPage() {
       </section>
 
       {/* 3. HOW IT WORKS (4 STEPS) */}
-      <section className="py-16 sm:py-24 bg-muted/40 border-y-2 border-border/80">
+      <section className="py-16 sm:py-24 bg-cream/70 dark:bg-[#0B1E19] border-y border-forest-900/10 dark:border-white/10">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <Badge variant="default" className="mb-2">Simple Workflow</Badge>
-            <h2 className="text-3xl sm:text-4xl font-black text-foreground tracking-tight">
+            <Badge variant="terracotta" className="mb-2 rounded-full">Simple Workflow</Badge>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-forest-900 dark:text-[#F5F2EB] tracking-tight">
               Start Teaching in 4 Simple Steps
             </h2>
           </div>
@@ -218,14 +218,14 @@ export default function BecomeATutorPage() {
             {steps.map((st) => (
               <motion.div
                 key={st.num}
-                whileHover={{ y: -6 }}
+                whileHover={{ y: -4 }}
                 transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-                className="relative p-6 rounded-3xl border-2 border-border bg-card shadow-[0_4px_0_0_hsl(var(--border))] flex flex-col justify-between"
+                className="relative p-6 sm:p-7 rounded-3xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] shadow-card flex flex-col justify-between"
               >
                 <div>
-                  <span className="text-2xl font-black text-primary/40 block mb-3">{st.num}</span>
-                  <h3 className="text-base font-bold text-foreground mb-2">{st.title}</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{st.desc}</p>
+                  <span className="font-serif text-3xl font-extrabold text-terracotta-500/40 block mb-3">{st.num}</span>
+                  <h3 className="font-serif text-base font-bold text-forest-900 dark:text-white mb-2">{st.title}</h3>
+                  <p className="text-xs text-forest-800/70 dark:text-white/70 leading-relaxed">{st.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -233,7 +233,7 @@ export default function BecomeATutorPage() {
 
           <div className="mt-12 text-center">
             <Link href="/sign-up">
-              <Button size="lg" variant="default" className="gap-2">
+              <Button size="lg" variant="default" className="gap-2 rounded-full font-bold hover:bg-terracotta-500 transition-colors cursor-pointer">
                 Register as Tutor Now
                 <ArrowRight className="h-4 w-4" />
               </Button>
@@ -243,11 +243,11 @@ export default function BecomeATutorPage() {
       </section>
 
       {/* 4. FAQ ACCORDION WITH ANIMATEPRESENCE */}
-      <section className="py-16 sm:py-24 bg-background">
+      <section className="py-16 sm:py-24">
         <div className="container mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-2">Got Questions?</Badge>
-            <h2 className="text-3xl sm:text-4xl font-black text-foreground tracking-tight">
+            <Badge variant="outline" className="mb-2 rounded-full border-forest-900/15 dark:border-white/15">Got Questions?</Badge>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-forest-900 dark:text-[#F5F2EB] tracking-tight">
               Frequently Asked Questions by Tutors
             </h2>
           </div>
@@ -258,17 +258,17 @@ export default function BecomeATutorPage() {
               return (
                 <div
                   key={idx}
-                  className="rounded-2xl border-2 border-border bg-card shadow-[0_3px_0_0_hsl(var(--border))] overflow-hidden transition-all"
+                  className="rounded-2xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] shadow-card overflow-hidden transition-all"
                 >
                   <button
                     onClick={() => setOpenFaq(isOpen ? null : idx)}
-                    className="w-full flex items-center justify-between p-5 text-left text-sm font-bold text-foreground hover:text-primary transition-colors"
+                    className="w-full flex items-center justify-between p-5 text-left text-sm font-bold text-forest-900 dark:text-[#F5F2EB] hover:text-terracotta-500 transition-colors cursor-pointer"
                   >
                     <span>{faq.q}</span>
                     {isOpen ? (
-                      <ChevronUp className="h-4 w-4 shrink-0 text-primary" />
+                      <ChevronUp className="h-4 w-4 shrink-0 text-terracotta-500" />
                     ) : (
-                      <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
+                      <ChevronDown className="h-4 w-4 shrink-0 text-forest-800/40 dark:text-white/40" />
                     )}
                   </button>
 
@@ -281,7 +281,7 @@ export default function BecomeATutorPage() {
                         transition={{ duration: 0.25 }}
                         className="overflow-hidden"
                       >
-                        <div className="px-5 pb-5 text-xs text-muted-foreground leading-relaxed border-t-2 border-border/40 pt-3">
+                        <div className="px-5 pb-5 text-xs text-forest-800/75 dark:text-[#F5F2EB]/75 leading-relaxed border-t border-forest-900/10 dark:border-white/10 pt-3">
                           {faq.a}
                         </div>
                       </motion.div>
@@ -295,17 +295,17 @@ export default function BecomeATutorPage() {
       </section>
 
       {/* 5. BOTTOM CTA BANNER */}
-      <section className="py-16 bg-primary text-primary-foreground border-t-2 border-primary/20">
+      <section className="py-16 bg-forest-900 text-white dark:bg-[#0F241E] border-t border-forest-900/10 dark:border-white/10">
         <div className="container mx-auto max-w-5xl px-4 text-center space-y-6">
-          <h2 className="text-3xl sm:text-4xl font-black tracking-tight">
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight">
             Ready to Inspire the Next Generation of Achievers?
           </h2>
-          <p className="text-sm sm:text-base text-primary-foreground/90 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-cream/90 max-w-2xl mx-auto">
             Join hundreds of tutors from BUET, DMC, DU and leading institutions already growing their mentorship batches on MentorLagbe.
           </p>
           <div className="pt-2">
             <Link href="/sign-up">
-              <Button size="lg" variant="secondary" className="px-8 py-6 text-base font-black">
+              <Button size="lg" variant="terracotta" className="px-8 py-6 text-base font-black rounded-full shadow-glow cursor-pointer">
                 Create Free Tutor Account
               </Button>
             </Link>

@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { AlertTriangle, RefreshCw, ArrowLeft } from 'lucide-react';
 
 export default function ErrorBoundary({
@@ -17,26 +18,28 @@ export default function ErrorBoundary({
   }, [error]);
 
   return (
-    <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-4 py-16">
-      <div className="h-20 w-20 rounded-full bg-destructive/10 text-destructive flex items-center justify-center mb-6">
+    <div className="min-h-[75vh] flex flex-col items-center justify-center text-center px-4 py-16 bg-cream/40 dark:bg-[#081612] transition-colors duration-300">
+      <div className="h-20 w-20 rounded-full bg-destructive/10 text-destructive flex items-center justify-center mb-6 shadow-soft">
         <AlertTriangle className="h-10 w-10" />
       </div>
 
-      <span className="text-sm font-bold uppercase tracking-wider text-destructive">Application Error</span>
-      <h1 className="text-3xl sm:text-4xl font-black text-foreground tracking-tight mt-2">
+      <Badge variant="destructive" className="mb-2 rounded-full font-bold uppercase tracking-wider text-xs">
+        Application Error
+      </Badge>
+      <h1 className="font-serif text-3xl sm:text-4xl font-bold text-forest-900 dark:text-[#F5F2EB] tracking-tight mt-2">
         Something went wrong
       </h1>
-      <p className="text-xs sm:text-sm text-muted-foreground max-w-md mx-auto mt-3 leading-relaxed">
+      <p className="text-xs sm:text-sm text-forest-800/75 dark:text-[#F5F2EB]/75 max-w-md mx-auto mt-3 leading-relaxed">
         An unexpected error occurred while rendering this page. You can try refreshing or navigate back to the home page.
       </p>
 
       <div className="mt-8 flex items-center gap-3">
-        <Button variant="outline" onClick={() => reset()} className="gap-2 font-semibold">
+        <Button variant="outline" onClick={() => reset()} className="gap-2 font-semibold rounded-full border-forest-900/15 dark:border-white/15 text-forest-900 dark:text-white hover:bg-forest-900/5 cursor-pointer">
           <RefreshCw className="h-4 w-4" />
           Try Again
         </Button>
         <Link href="/">
-          <Button className="font-bold gap-2">
+          <Button variant="terracotta" className="font-bold gap-2 rounded-full shadow-glow cursor-pointer">
             <ArrowLeft className="h-4 w-4" />
             Back to Home
           </Button>

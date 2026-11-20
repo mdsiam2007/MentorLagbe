@@ -89,17 +89,17 @@ export default function HowItWorksPage() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex flex-col min-h-screen bg-cream/40 dark:bg-[#081612] transition-colors duration-300">
       {/* 1. Header */}
-      <section className="bg-background py-16 sm:py-20 border-b-2 border-border/80">
+      <section className="py-16 sm:py-20 border-b border-forest-900/10 dark:border-white/10 bg-cream/60 dark:bg-[#0B1E19]">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-          <Badge variant="default" className="mb-3">
+          <Badge variant="terracotta" className="mb-3 font-bold rounded-full text-xs">
             <ShieldCheck className="h-3.5 w-3.5 mr-1" /> Transparent, Safe & Verified
           </Badge>
-          <h1 className="text-3xl sm:text-5xl font-black text-foreground tracking-tight">
-            How MentorLagbe Works & <span className="text-primary underline decoration-primary/40 underline-offset-4">Our Safety Promise</span>
+          <h1 className="font-serif text-3xl sm:text-5xl font-bold text-forest-900 dark:text-[#F5F2EB] tracking-tight">
+            How MentorLagbe Works & <span className="text-terracotta-500 underline decoration-terracotta-500/40 underline-offset-4">Our Safety Promise</span>
           </h1>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto mt-3">
+          <p className="text-sm sm:text-base text-forest-800/75 dark:text-[#F5F2EB]/75 max-w-2xl mx-auto mt-3">
             Learn how MentorLagbe connects dedicated learners with top university mentors, and discover our stringent trust & safety guidelines.
           </p>
         </div>
@@ -111,12 +111,12 @@ export default function HowItWorksPage() {
           {/* For Students */}
           <div>
             <div className="flex items-center gap-3 mb-8">
-              <div className="h-10 w-10 rounded-2xl bg-secondary/15 border-2 border-secondary/30 flex items-center justify-center text-secondary">
+              <div className="h-10 w-10 rounded-2xl bg-terracotta-50 dark:bg-terracotta-500/20 border border-terracotta-500/20 flex items-center justify-center text-terracotta-500">
                 <GraduationCap className="h-6 w-6" />
               </div>
               <div>
-                <h2 className="text-2xl sm:text-3xl font-black text-foreground">For Students & Parents</h2>
-                <p className="text-xs text-muted-foreground font-semibold">Follow these 4 simple steps to find your ideal mentor.</p>
+                <h2 className="font-serif text-2xl sm:text-3xl font-bold text-forest-900 dark:text-[#F5F2EB]">For Students & Parents</h2>
+                <p className="text-xs text-forest-800/60 dark:text-white/60 font-semibold">Follow these 4 simple steps to find your ideal mentor.</p>
               </div>
             </div>
 
@@ -124,13 +124,13 @@ export default function HowItWorksPage() {
               {studentSteps.map((st) => (
                 <motion.div
                   key={st.step}
-                  whileHover={{ y: -6 }}
+                  whileHover={{ y: -4 }}
                   transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-                  className="p-6 rounded-3xl border-2 border-border bg-card shadow-[0_4px_0_0_hsl(var(--border))]"
+                  className="p-6 sm:p-7 rounded-3xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] shadow-card hover:shadow-soft transition-all"
                 >
-                  <span className="text-2xl font-black text-secondary block mb-3">0{st.step}</span>
-                  <h3 className="text-base font-bold text-foreground mb-2">{st.title}</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{st.desc}</p>
+                  <span className="font-serif text-3xl font-extrabold text-terracotta-500 block mb-3">0{st.step}</span>
+                  <h3 className="font-serif text-base font-bold text-forest-900 dark:text-white mb-2">{st.title}</h3>
+                  <p className="text-xs text-forest-800/70 dark:text-white/70 leading-relaxed">{st.desc}</p>
                 </motion.div>
               ))}
             </div>
@@ -139,12 +139,12 @@ export default function HowItWorksPage() {
           {/* For Tutors */}
           <div>
             <div className="flex items-center gap-3 mb-8">
-              <div className="h-10 w-10 rounded-2xl bg-primary/15 border-2 border-primary/30 flex items-center justify-center text-primary">
+              <div className="h-10 w-10 rounded-2xl bg-cream dark:bg-[#153028] border border-forest-900/10 dark:border-white/10 flex items-center justify-center text-forest-900 dark:text-white">
                 <Users className="h-6 w-6" />
               </div>
               <div>
-                <h2 className="text-2xl sm:text-3xl font-black text-foreground">For Teachers & Mentors</h2>
-                <p className="text-xs text-muted-foreground font-semibold">Start reaching genuine students across Bangladesh.</p>
+                <h2 className="font-serif text-2xl sm:text-3xl font-bold text-forest-900 dark:text-[#F5F2EB]">For Teachers & Mentors</h2>
+                <p className="text-xs text-forest-800/60 dark:text-white/60 font-semibold">Start reaching genuine students across Bangladesh.</p>
               </div>
             </div>
 
@@ -152,13 +152,13 @@ export default function HowItWorksPage() {
               {tutorSteps.map((st) => (
                 <motion.div
                   key={st.step}
-                  whileHover={{ y: -6 }}
+                  whileHover={{ y: -4 }}
                   transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-                  className="p-6 rounded-3xl border-2 border-border bg-card shadow-[0_4px_0_0_hsl(var(--border))]"
+                  className="p-6 sm:p-7 rounded-3xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] shadow-card hover:shadow-soft transition-all"
                 >
-                  <span className="text-2xl font-black text-primary block mb-3">0{st.step}</span>
-                  <h3 className="text-base font-bold text-foreground mb-2">{st.title}</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{st.desc}</p>
+                  <span className="font-serif text-3xl font-extrabold text-forest-900 dark:text-emerald-400 block mb-3">0{st.step}</span>
+                  <h3 className="font-serif text-base font-bold text-forest-900 dark:text-white mb-2">{st.title}</h3>
+                  <p className="text-xs text-forest-800/70 dark:text-white/70 leading-relaxed">{st.desc}</p>
                 </motion.div>
               ))}
             </div>
@@ -166,14 +166,14 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      {/* 3. Safety & Trust Section with AI Graphic */}
-      <section className="py-16 sm:py-24 bg-muted/40 border-y-2 border-border/80">
+      {/* 3. Safety & Trust Section */}
+      <section className="py-16 sm:py-24 bg-cream/70 dark:bg-[#0B1E19] border-y border-forest-900/10 dark:border-white/10">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Graphic */}
             <div className="lg:col-span-5 flex justify-center">
               <div className="relative w-full max-w-md">
-                <div className="overflow-hidden rounded-3xl border-4 border-foreground/15 bg-card shadow-[0_8px_0_0_hsl(var(--border))]">
+                <div className="overflow-hidden rounded-3xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] shadow-card">
                   <img
                     src="/images/trust-safety.jpg"
                     alt="Trust and Safety Shield"
@@ -185,11 +185,11 @@ export default function HowItWorksPage() {
 
             {/* Right Safety Pillars */}
             <div className="lg:col-span-7 space-y-6">
-              <Badge variant="outline">Trust & Verification Policy</Badge>
-              <h2 className="text-3xl sm:text-4xl font-black text-foreground tracking-tight">
+              <Badge variant="outline" className="rounded-full border-forest-900/15 dark:border-white/15">Trust & Verification Policy</Badge>
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-forest-900 dark:text-[#F5F2EB] tracking-tight">
                 Safety First: How We Protect Both Parties
               </h2>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <p className="text-sm text-forest-800/75 dark:text-[#F5F2EB]/75 leading-relaxed">
                 Trust is the bedrock of academic mentoring. We enforce rigorous verification and safety protocols to ensure students learn in safe environments and teachers receive respected compensation.
               </p>
 
@@ -199,15 +199,15 @@ export default function HowItWorksPage() {
                   return (
                     <motion.div
                       key={idx}
-                      whileHover={{ y: -4 }}
+                      whileHover={{ y: -3 }}
                       transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-                      className="p-4 rounded-2xl border-2 border-border bg-card shadow-[0_3px_0_0_hsl(var(--border))] space-y-2"
+                      className="p-4 sm:p-5 rounded-2xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] shadow-card space-y-2"
                     >
-                      <div className="flex items-center gap-2 text-primary font-bold text-sm">
+                      <div className="flex items-center gap-2 text-terracotta-500 font-bold text-sm">
                         <Icon className="h-4 w-4" />
                         <span>{item.title}</span>
                       </div>
-                      <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+                      <p className="text-xs text-forest-800/70 dark:text-white/70 leading-relaxed">{item.desc}</p>
                     </motion.div>
                   );
                 })}
@@ -220,16 +220,16 @@ export default function HowItWorksPage() {
       {/* 4. Bottom Action */}
       <section className="py-16 text-center">
         <div className="container mx-auto max-w-3xl px-4 space-y-6">
-          <h2 className="text-2xl sm:text-3xl font-black text-foreground">Have Questions or Need Help?</h2>
-          <p className="text-xs sm:text-sm text-muted-foreground">
+          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-forest-900 dark:text-[#F5F2EB]">Have Questions or Need Help?</h2>
+          <p className="text-xs sm:text-sm text-forest-800/75 dark:text-[#F5F2EB]/75">
             Our support team in Dhaka is here to help you get the best tutor or setup your first tuition batch.
           </p>
           <div className="flex items-center justify-center gap-4">
             <Link href="/tuitions">
-              <Button variant="default">Browse Tuitions</Button>
+              <Button variant="default" className="rounded-full px-6 hover:bg-terracotta-500 transition-colors cursor-pointer">Browse Tuitions</Button>
             </Link>
             <Link href="/contact">
-              <Button variant="outline">Contact Support</Button>
+              <Button variant="outline" className="rounded-full px-6 border-forest-900/15 dark:border-white/15 text-forest-900 dark:text-white hover:bg-forest-900/5 cursor-pointer">Contact Support</Button>
             </Link>
           </div>
         </div>

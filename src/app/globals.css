@@ -5,75 +5,90 @@
 @layer base {
   :root {
     /* ======================================================== */
-    /* GLOBAL BRAND THEME PALETTE - EASILY CUSTOMIZE HERE      */
+    /* MENTORLAGBE WARM EDITORIAL DESIGN SYSTEM TOKENS          */
     /* ======================================================== */
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
+    --bg-primary: #FAF8F5;
+    --bg-surface: #FFFFFF;
+    --bg-muted: #F3EFE9;
+    --text-primary: #0F2922;
+    --text-secondary: rgba(22, 58, 48, 0.78);
+    --border-subtle: rgba(15, 41, 34, 0.1);
 
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    /* HSL Tokens for Tailwind / shadcn UI compatibility */
+    --background: 36 38% 97%;          /* #FAF8F5 Warm Cream */
+    --foreground: 164 46% 11%;         /* #0F2922 Forest 900 */
+
+    --card: 0 0% 100%;                 /* #FFFFFF Warm White */
+    --card-foreground: 164 46% 11%;    /* #0F2922 Forest 900 */
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 164 46% 11%;
 
-    /* Brand Primary Color: Royal Blue (#1E40AF / #2563EB) */
-    --primary: 221 83% 53%;
-    --primary-foreground: 210 40% 98%;
-    --primary-hover: 224 76% 40%;
+    /* Brand Primary: Deep Forest 900 */
+    --primary: 164 46% 11%;            /* #0F2922 */
+    --primary-foreground: 36 38% 97%;  /* #FAF8F5 */
+    --primary-hover: 163 45% 16%;       /* #163A30 */
 
-    /* Brand Secondary Color: Vibrant Teal */
-    --secondary: 175 70% 41%;
-    --secondary-foreground: 210 40% 98%;
+    /* Brand Secondary: Vibrant Terracotta 500 */
+    --secondary: 7 73% 58%;            /* #E05A47 */
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 38 24% 94%;               /* #F3EFE9 */
+    --muted-foreground: 163 35% 32%;
 
-    /* Brand Accent Color: Coral (#F97316) */
-    --accent: 25 95% 53%;
+    /* Accent: Terracotta 500 */
+    --accent: 7 73% 58%;               /* #E05A47 */
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221 83% 53%;
+    --border: 164 25% 88%;
+    --input: 164 25% 88%;
+    --ring: 7 73% 58%;
 
-    --radius: 0.75rem;
+    --radius: 1rem;
   }
 
-  .dark {
-    --background: 224 71% 4%;
-    --foreground: 213 31% 91%;
+  .dark,
+  html.dark {
+    --bg-primary: #081612;
+    --bg-surface: #0F241E;
+    --bg-muted: #153028;
+    --text-primary: #F5F2EB;
+    --text-secondary: rgba(245, 242, 235, 0.75);
+    --border-subtle: rgba(250, 248, 245, 0.12);
 
-    --card: 224 71% 7%;
-    --card-foreground: 213 31% 91%;
+    --background: 163 47% 6%;          /* #081612 Dark Primary */
+    --foreground: 42 33% 94%;          /* #F5F2EB Warm Light Text */
 
-    --popover: 224 71% 7%;
-    --popover-foreground: 213 31% 91%;
+    --card: 163 41% 10%;               /* #0F241E Dark Surface */
+    --card-foreground: 42 33% 94%;
 
-    /* Brand Primary Color: Royal Blue (#2563EB in dark mode) */
-    --primary: 217 91% 60%;
-    --primary-foreground: 224 71% 4%;
-    --primary-hover: 217 91% 68%;
+    --popover: 163 41% 10%;
+    --popover-foreground: 42 33% 94%;
 
-    /* Brand Secondary Color: Vibrant Teal */
-    --secondary: 175 75% 45%;
-    --secondary-foreground: 224 71% 4%;
+    /* Brand Primary in Dark: Warm Light Accent */
+    --primary: 36 38% 97%;             /* #FAF8F5 */
+    --primary-foreground: 163 47% 6%;   /* #081612 */
+    --primary-hover: 36 20% 86%;
 
-    --muted: 223 47% 11%;
-    --muted-foreground: 215 20.2% 65.1%;
+    /* Brand Secondary: Terracotta 500 */
+    --secondary: 7 73% 58%;            /* #E05A47 */
+    --secondary-foreground: 0 0% 100%;
 
-    /* Brand Accent Color: Coral (#F97316 in dark mode) */
-    --accent: 25 95% 60%;
+    --muted: 163 39% 14%;              /* #153028 */
+    --muted-foreground: 42 20% 70%;
+
+    --accent: 7 73% 58%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 217 91% 60%;
+    --border: 163 30% 18%;
+    --input: 163 30% 18%;
+    --ring: 7 73% 58%;
   }
 }
 
@@ -86,10 +101,13 @@
   }
   html,
   body {
-    @apply bg-background text-foreground antialiased;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    @apply antialiased selection:bg-terracotta-500 selection:text-white;
     font-feature-settings: "rlig" 1, "calt" 1;
-    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-x: hidden;
+    transition: background-color 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                color 0.55s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   /* Smooth Theme Switch Transitions for Structural Elements */
@@ -100,36 +118,197 @@
   .bg-card,
   .bg-muted,
   .border-border {
-    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background-color 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
-/* Native View Transitions API Keyframes for 60fps Silk-Smooth Theme Switching */
-::view-transition-old(root) {
-  animation: 0.35s cubic-bezier(0.4, 0, 0.2, 1) both fade-out;
-}
-::view-transition-new(root) {
-  animation: 0.35s cubic-bezier(0.4, 0, 0.2, 1) both fade-in;
+/* Smooth Global Theme Transition Class Applied Briefly During Day/Night Toggle */
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition: background-color 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+              color 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.55s cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
-@keyframes fade-out {
-  from {
-    opacity: 1;
-  }
-  to {
+/* Global Dark Mode Editorial Overrides */
+html.dark .bg-cream { background-color: #081612 !important; }
+html.dark .bg-white { background-color: #0F241E !important; }
+html.dark .bg-white\/60 { background-color: rgba(15, 36, 30, 0.72) !important; }
+html.dark .bg-white\/85 { background-color: rgba(15, 36, 30, 0.88) !important; }
+html.dark .bg-white\/95 { background-color: rgba(15, 36, 30, 0.96) !important; }
+html.dark .text-forest-900 { color: #F5F2EB !important; }
+html.dark .text-forest-900\/75 { color: rgba(245, 242, 235, 0.8) !important; }
+html.dark .text-forest-900\/70 { color: rgba(245, 242, 235, 0.72) !important; }
+html.dark .text-forest-800\/85,
+html.dark .text-forest-800\/80,
+html.dark .text-forest-800\/75,
+html.dark .text-forest-800\/70,
+html.dark .text-forest-800\/65,
+html.dark .text-forest-800\/60,
+html.dark .text-forest-800\/50,
+html.dark .text-forest-800\/45 { color: rgba(245, 242, 235, 0.76) !important; }
+html.dark .border-forest-900\/15,
+html.dark .border-forest-900\/10,
+html.dark .border-forest-900\/5 { border-color: rgba(250, 248, 245, 0.14) !important; }
+html.dark .bg-forest-900\/10 { background-color: rgba(250, 248, 245, 0.12) !important; }
+html.dark .bg-terracotta-50 { background-color: rgba(224, 90, 71, 0.18) !important; }
+html.dark .bg-emerald-50 { background-color: rgba(16, 185, 129, 0.16) !important; }
+html.dark .text-emerald-700 { color: #6EE7B7 !important; }
+html.dark .shadow-card,
+html.dark .shadow-soft { box-shadow: 0 14px 35px -10px rgba(0, 0, 0, 0.6) !important; }
+
+/* Dark Mode Input Placeholders, Selects & Form Text */
+html.dark input,
+html.dark textarea,
+html.dark select {
+  color: #F5F2EB !important;
+}
+html.dark input::placeholder,
+html.dark textarea::placeholder,
+html.dark .placeholder-forest-800\/40::placeholder {
+  color: rgba(245, 242, 235, 0.52) !important;
+  opacity: 1 !important;
+}
+html.dark select option {
+  background-color: #0F241E;
+  color: #F5F2EB;
+}
+
+/* Subtle WhatsApp Doodle Wallpaper Pattern */
+.wa-wallpaper {
+  background-color: #EFEAE2;
+  background-image: 
+    radial-gradient(rgba(15, 41, 34, 0.055) 1px, transparent 1px),
+    radial-gradient(rgba(7, 94, 84, 0.045) 1px, transparent 1px);
+  background-size: 22px 22px;
+  background-position: 0 0, 11px 11px;
+}
+html.dark .wa-wallpaper {
+  background-color: #0B141A;
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    radial-gradient(rgba(37, 211, 102, 0.03) 1px, transparent 1px);
+}
+
+/* Message Pop-In Animation */
+@keyframes waMsgIn {
+  0% {
     opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
+.wa-msg-animate {
+  animation: waMsgIn 0.32s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
 
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+/* WhatsApp Typing Dots */
+@keyframes waBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.45; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+.wa-dot-1 { animation: waBounce 1.2s infinite 0s; }
+.wa-dot-2 { animation: waBounce 1.2s infinite 0.18s; }
+.wa-dot-3 { animation: waBounce 1.2s infinite 0.36s; }
+
+/* Custom subtle scrollbar inside chat */
+.wa-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.wa-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.wa-scroll::-webkit-scrollbar-thumb {
+  background: rgba(15, 41, 34, 0.18);
+  border-radius: 9999px;
+}
+
+/* Split-line mask helper for Hero Headline */
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.line-inner {
+  display: block;
+  will-change: transform, opacity;
+}
+
+/* Interactive Physics Canvas Styling */
+#gravityOrbsCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: grab;
+}
+#gravityOrbsCanvas:active {
+  cursor: grabbing;
+}
+.physics-dot-bg {
+  background-color: #0F2922;
+  background-image: radial-gradient(rgba(250, 248, 245, 0.14) 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
+}
+
+/* Seamless Infinite Kinetic Marquee Ribbon */
+@keyframes marqueeGlider {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+.marquee-track-seamless {
+  display: flex;
+  width: max-content;
+  animation: marqueeGlider 30s linear infinite;
+  will-change: transform;
+}
+#kineticRibbonSection:hover .marquee-track-seamless {
+  animation-play-state: paused;
+}
+
+/* Giant Footer Watermark with Theme Terracotta Red Hover Fill */
+.footer-watermark-text {
+  font-size: clamp(4.2rem, 15.5vw, 15rem);
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(250, 248, 245, 0.16);
+  background-image: linear-gradient(180deg, #FF7461 0%, #E05A47 55%, #C94836 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 0%;
+  background-position: bottom;
+  -webkit-background-clip: text;
+  background-clip: text;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: background-size 0.8s cubic-bezier(0.22, 1, 0.36, 1), -webkit-text-stroke-color 0.45s ease, transform 0.6s ease;
+}
+.footer-watermark-text:hover {
+  background-size: 100% 100%;
+  -webkit-text-stroke-color: rgba(224, 90, 71, 0.55);
+  transform: translateY(-6px) scale(1.015);
+}
+
+/* Smooth FAQ Accordion & Solid Step Card Layering */
+.faq-answer-wrapper {
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+}
+.journey-step {
+  background-color: #FFFFFF !important;
+  position: relative;
+  z-index: 20 !important;
+  isolation: isolate;
+}
+html.dark .journey-step {
+  background-color: #132B24 !important;
 }
 
 /* Custom Smooth Transitions */

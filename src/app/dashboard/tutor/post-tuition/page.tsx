@@ -112,32 +112,32 @@ export default function PostTuitionPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl mx-auto space-y-6 font-sans">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <Badge variant="secondary" className="mb-1">
+          <Badge variant="secondary" className="mb-1 rounded-full px-3 text-xs font-bold">
             New Listing
           </Badge>
-          <h1 className="text-2xl font-black text-foreground tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-serif font-black text-foreground tracking-tight">
             Post a New Tuition Batch
           </h1>
-          <p className="text-xs text-muted-foreground mt-1">
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
             Share your expertise. Fill in subject, schedule, location, and fees to attract learners.
           </p>
         </div>
 
         {user?.plan === 'free' && (
-          <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-3.5 py-1.5 text-xs text-amber-800 dark:text-amber-300">
+          <div className="rounded-2xl border border-amberwarm-500/40 bg-amberwarm-500/10 px-4 py-2 text-xs font-bold text-amberwarm-500 shadow-sm">
             Free Plan: <strong>Max 2 tuitions</strong>
           </div>
         )}
       </div>
 
-      <Card className="p-6 sm:p-8 border border-border/80 shadow-sm bg-card rounded-3xl">
+      <Card className="p-6 sm:p-8 border border-forest-900/10 dark:border-white/10 shadow-card bg-card rounded-3xl">
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Tuition Title */}
           <div>
-            <label className="block text-xs font-semibold text-foreground mb-1.5">
+            <label className="block text-xs font-bold text-foreground mb-1.5 font-sans">
               Tuition Title *
             </label>
             <Input
@@ -146,19 +146,20 @@ export default function PostTuitionPage() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
+              className="rounded-xl border-forest-900/15 dark:border-white/15"
             />
           </div>
 
           {/* Subject & Class Level */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
-              <label className="block text-xs font-semibold text-foreground mb-1.5">
+              <label className="block text-xs font-bold text-foreground mb-1.5 font-sans">
                 Subject Category *
               </label>
               <select
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                className="w-full h-11 rounded-xl border border-forest-900/15 dark:border-white/15 bg-background px-3.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-terracotta-500"
               >
                 <option value="Mathematics">Mathematics</option>
                 <option value="Physics">Physics</option>
@@ -174,13 +175,13 @@ export default function PostTuitionPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-foreground mb-1.5">
+              <label className="block text-xs font-bold text-foreground mb-1.5 font-sans">
                 Target Class Level *
               </label>
               <select
                 value={classLevel}
                 onChange={(e) => setClassLevel(e.target.value)}
-                className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                className="w-full h-11 rounded-xl border border-forest-900/15 dark:border-white/15 bg-background px-3.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-terracotta-500"
               >
                 <option value="Class 11-12 (HSC)">Class 11-12 (HSC)</option>
                 <option value="Class 9-10 (SSC)">Class 9-10 (SSC)</option>
@@ -194,12 +195,12 @@ export default function PostTuitionPage() {
           </div>
 
           {/* Mode & Location */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
-              <label className="block text-xs font-semibold text-foreground mb-1.5">
+              <label className="block text-xs font-bold text-foreground mb-1.5 font-sans">
                 Teaching Mode *
               </label>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-2.5">
                 <button
                   type="button"
                   onClick={() => {
@@ -208,8 +209,8 @@ export default function PostTuitionPage() {
                   }}
                   className={`h-11 rounded-xl text-xs font-bold transition-all border ${
                     mode === 'Online'
-                      ? 'bg-primary text-primary-foreground border-primary shadow-sm'
-                      : 'border-border text-muted-foreground hover:bg-muted'
+                      ? 'bg-forest-900 text-white dark:bg-white dark:text-forest-900 border-transparent shadow-sm'
+                      : 'border-forest-900/15 dark:border-white/15 text-muted-foreground hover:bg-forest-900/5'
                   }`}
                 >
                   Online
@@ -222,8 +223,8 @@ export default function PostTuitionPage() {
                   }}
                   className={`h-11 rounded-xl text-xs font-bold transition-all border ${
                     mode === 'Offline'
-                      ? 'bg-primary text-primary-foreground border-primary shadow-sm'
-                      : 'border-border text-muted-foreground hover:bg-muted'
+                      ? 'bg-forest-900 text-white dark:bg-white dark:text-forest-900 border-transparent shadow-sm'
+                      : 'border-forest-900/15 dark:border-white/15 text-muted-foreground hover:bg-forest-900/5'
                   }`}
                 >
                   Offline (In-Person)
@@ -232,7 +233,7 @@ export default function PostTuitionPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-foreground mb-1.5">
+              <label className="block text-xs font-bold text-foreground mb-1.5 font-sans">
                 Location Details *
               </label>
               <Input
@@ -241,14 +242,15 @@ export default function PostTuitionPage() {
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 required
+                className="rounded-xl border-forest-900/15 dark:border-white/15"
               />
             </div>
           </div>
 
           {/* Monthly Fee & Days/Week */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
-              <label className="block text-xs font-semibold text-foreground mb-1.5">
+              <label className="block text-xs font-bold text-foreground mb-1.5 font-sans">
                 Monthly Fee (BDT) *
               </label>
               <Input
@@ -259,17 +261,18 @@ export default function PostTuitionPage() {
                 value={monthlyFee}
                 onChange={(e) => setMonthlyFee(e.target.value)}
                 required
+                className="rounded-xl border-forest-900/15 dark:border-white/15"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-foreground mb-1.5">
+              <label className="block text-xs font-bold text-foreground mb-1.5 font-sans">
                 Days per Week *
               </label>
               <select
                 value={daysPerWeek}
                 onChange={(e) => setDaysPerWeek(e.target.value)}
-                className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                className="w-full h-11 rounded-xl border border-forest-900/15 dark:border-white/15 bg-background px-3.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-terracotta-500"
               >
                 <option value="1">1 Day / Week</option>
                 <option value="2">2 Days / Week</option>
@@ -280,16 +283,16 @@ export default function PostTuitionPage() {
             </div>
           </div>
 
-          {/* Challenge 3: ImgBB Banner Upload */}
-          <div className="space-y-3 pt-2 border-t border-border/60">
-            <label className="block text-xs font-semibold text-foreground">
+          {/* ImgBB Banner Upload */}
+          <div className="space-y-3 pt-3 border-t border-forest-900/10 dark:border-white/10">
+            <label className="block text-xs font-bold text-foreground font-sans">
               Banner Image (Upload via ImgBB or Paste URL)
             </label>
 
             <div className="flex flex-col sm:flex-row items-center gap-4">
-              <label className="cursor-pointer inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-border bg-muted/60 text-xs font-bold text-foreground hover:bg-muted transition-colors">
-                <Upload className="h-4 w-4 text-primary" />
-                {uploadingImage ? 'Uploading to ImgBB...' : 'Upload Image File'}
+              <label className="cursor-pointer inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-forest-900/15 dark:border-white/15 bg-cream dark:bg-white/5 text-xs font-bold text-foreground hover:bg-forest-900/5 transition-colors shadow-sm shrink-0">
+                <Upload className="h-4 w-4 text-terracotta-500" />
+                <span>{uploadingImage ? 'Uploading to ImgBB...' : 'Upload Image File'}</span>
                 <input
                   type="file"
                   accept="image/*"
@@ -306,12 +309,12 @@ export default function PostTuitionPage() {
                 placeholder="https://images.unsplash.com/..."
                 value={bannerImage}
                 onChange={(e) => setBannerImage(e.target.value)}
-                className="flex-1"
+                className="flex-1 rounded-xl border-forest-900/15 dark:border-white/15"
               />
             </div>
 
             {bannerImage && (
-              <div className="relative h-40 w-full max-w-sm rounded-2xl overflow-hidden border border-border bg-muted mt-2">
+              <div className="relative h-44 w-full max-w-sm rounded-3xl overflow-hidden border border-forest-900/15 dark:border-white/15 bg-muted mt-2 shadow-soft">
                 <img
                   src={bannerImage}
                   alt="Banner preview"
@@ -323,7 +326,7 @@ export default function PostTuitionPage() {
 
           {/* Description */}
           <div>
-            <label className="block text-xs font-semibold text-foreground mb-1.5">
+            <label className="block text-xs font-bold text-foreground mb-1.5 font-sans">
               Tuition Description & Course Plan *
             </label>
             <Textarea
@@ -332,19 +335,26 @@ export default function PostTuitionPage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
+              className="rounded-2xl border-forest-900/15 dark:border-white/15"
             />
           </div>
 
-          <div className="pt-4 flex items-center justify-end gap-3 border-t border-border">
+          <div className="pt-4 flex items-center justify-end gap-3 border-t border-forest-900/10 dark:border-white/10">
             <Button
               type="button"
               variant="outline"
               onClick={() => router.push('/dashboard/tutor/my-tuitions')}
+              className="rounded-full px-5 font-bold"
             >
               Cancel
             </Button>
 
-            <Button type="submit" disabled={submitting || uploadingImage} className="font-bold gap-2">
+            <Button
+              type="submit"
+              disabled={submitting || uploadingImage}
+              variant="terracotta"
+              className="font-bold gap-2 rounded-full px-6 shadow-glow"
+            >
               <BookOpen className="h-4 w-4" />
               {submitting ? 'Submitting...' : 'Publish Tuition Post'}
             </Button>

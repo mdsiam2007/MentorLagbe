@@ -1,108 +1,118 @@
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, useScroll } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Search, ShieldCheck, Compass, GraduationCap, ArrowRight } from 'lucide-react';
+import { ArrowRight, Search, ShieldCheck, Compass, GraduationCap } from 'lucide-react';
 
-interface RoadmapStep {
-  step: string;
-  title: string;
-  desc: string;
-  icon: React.ComponentType<{ className?: string }>;
-}
-
-const steps: RoadmapStep[] = [
+const journeySteps = [
   {
-    step: '01',
+    step: 'Step 01',
     title: 'Search & Match',
-    desc: 'Filter verified batches by subject, class level, budget, and online or offline home mode.',
+    desc: 'Filter verified batches by subject, class level, budget, and online or Dhaka home mode.',
     icon: Search,
+    badgeBg: 'bg-forest-900 text-white',
   },
   {
-    step: '02',
+    step: 'Step 02',
     title: 'Review Credentials',
-    desc: 'Inspect tutor educational backgrounds from BUET, DU, DMC, reviews, and syllabus outlines.',
+    desc: 'Inspect tutor backgrounds from BUET, DU, DMC, student reviews, and detailed syllabus outlines.',
     icon: ShieldCheck,
+    badgeBg: 'bg-forest-900 text-white',
   },
   {
-    step: '03',
-    title: 'Submit Application',
-    desc: 'Apply in 1-click with preferred study schedule with zero upfront booking charge.',
+    step: 'Step 03',
+    title: 'Apply in 1-Click',
+    desc: 'Submit your preferred schedule directly to the mentor with zero upfront booking fees.',
     icon: Compass,
+    badgeBg: 'bg-forest-900 text-white',
   },
   {
-    step: '04',
-    title: 'Accelerate Learning',
-    desc: 'Get accepted by the tutor, finalize your schedule, and begin your academic journey.',
+    step: 'Step 04',
+    title: 'Connect & Grow',
+    desc: 'Coordinate directly via WhatsApp, finalize your routine, and begin your mentorship journey.',
     icon: GraduationCap,
+    badgeBg: 'bg-terracotta-500 text-white',
   },
 ];
 
 export const HowItWorksRoadmap: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start 85%', 'end 50%'],
+  });
+
   return (
-    <section className="py-16 sm:py-24 bg-muted/30 border-y-2 border-border/80">
-      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-        <Badge variant="outline" className="mb-2">
-          Simple 4-Step Process
-        </Badge>
-        <h2 className="text-3xl sm:text-4xl font-black text-foreground tracking-tight">
-          How MentorLagbe Works
-        </h2>
-        <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto mt-2">
-          Connect, apply, and start learning with top university tutors in a few intuitive steps.
-        </p>
+    <section id="how-it-works" className="py-20 bg-white dark:bg-[#081612] border-t border-forest-900/10 dark:border-white/10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <span className="text-terracotta-500 font-bold text-xs uppercase tracking-widest">
+            Simple &amp; Transparent
+          </span>
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-forest-900 dark:text-[#F5F2EB] mt-2">
+            How Your Learning Journey Begins
+          </h2>
+          <p className="text-sm text-forest-800/70 dark:text-[#F5F2EB]/70 mt-2">
+            Scroll down to follow your step-by-step path from discovery to direct WhatsApp mentorship.
+          </p>
+        </div>
 
-        {/* Connected Visual Roadmap Container */}
-        <div className="relative mt-14">
-          {/* Horizontal Desktop Connecting Line */}
-          <div
-            className="hidden lg:block absolute top-1/2 left-[12%] right-[12%] h-1 -translate-y-6 bg-gradient-to-r from-primary/30 via-primary to-primary/30 rounded-full z-0"
-            aria-hidden="true"
-          />
+        <div ref={containerRef} className="relative">
+          {/* Desktop Horizontal Progress Line */}
+          <div className="hidden md:block absolute top-11 left-[12%] right-[12%] h-1.5 bg-forest-900/10 dark:bg-white/10 rounded-full overflow-hidden z-0 pointer-events-none">
+            <motion.div
+              style={{ scaleX: scrollYProgress }}
+              className="h-full w-full bg-gradient-to-r from-forest-900 via-terracotta-500 to-emerald-500 origin-left rounded-full"
+            />
+          </div>
 
-          {/* Steps Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
-            {steps.map((s, index) => {
+          {/* Mobile Vertical Progress Line */}
+          <div className="md:hidden absolute top-6 bottom-6 left-6 w-1.5 bg-forest-900/10 dark:bg-white/10 rounded-full overflow-hidden z-0 pointer-events-none">
+            <motion.div
+              style={{ scaleY: scrollYProgress }}
+              className="w-full h-full bg-gradient-to-b from-forest-900 via-terracotta-500 to-emerald-500 origin-top rounded-full"
+            />
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-8 relative z-20 pl-10 md:pl-0">
+            {journeySteps.map((s, index) => {
               const Icon = s.icon;
               return (
                 <motion.div
                   key={s.step}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.5, delay: index * 0.12 }}
                   whileHover={{ y: -6 }}
-                  transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-                  className="relative p-6 rounded-3xl border-2 border-border bg-card shadow-[0_4px_0_0_hsl(var(--border))] hover:border-primary transition-colors flex flex-col items-center text-center group"
+                  className="group relative z-20 bg-white dark:bg-[#0F241E] p-7 rounded-3xl border border-forest-900/15 dark:border-white/10 shadow-card hover:border-terracotta-500 hover:shadow-soft transition-all duration-300"
                 >
-                  {/* Step Sequence Badge */}
-                  <div className="flex items-center justify-between w-full mb-4">
-                    <span className="text-xs font-black px-2.5 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">
-                      Step {s.step}
+                  <div className="flex items-center justify-between mb-4">
+                    <span className={`inline-block px-3.5 py-1.5 rounded-full ${s.badgeBg} text-xs font-bold shadow-xs transition-transform duration-300 group-hover:scale-105`}>
+                      {s.step}
                     </span>
-                    <span className="text-[11px] font-bold text-muted-foreground/60">
-                      0{index + 1} of 04
+                    <span className="text-[11px] font-semibold text-forest-800/40 dark:text-white/40">
+                      0{index + 1}/04
                     </span>
                   </div>
-
-                  {/* Icon Circle */}
-                  <div className="h-14 w-14 rounded-2xl bg-primary/10 border-2 border-primary/20 text-primary flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground transition-all">
-                    <Icon className="h-7 w-7" />
+                  <div className="w-12 h-12 rounded-2xl bg-cream dark:bg-[#153028] text-forest-900 dark:text-[#F5F2EB] flex items-center justify-center mb-4 group-hover:bg-terracotta-50 dark:group-hover:bg-terracotta-900/30 group-hover:text-terracotta-500 transition-colors">
+                    <Icon className="w-6 h-6" />
                   </div>
-
-                  <h3 className="text-base font-bold text-foreground mb-2">{s.title}</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{s.desc}</p>
+                  <h3 className="font-bold text-lg text-forest-900 dark:text-[#F5F2EB] mb-2">{s.title}</h3>
+                  <p className="text-sm text-forest-800/75 dark:text-[#F5F2EB]/75 leading-relaxed">{s.desc}</p>
                 </motion.div>
               );
             })}
           </div>
         </div>
 
-        {/* Action Link to Full Guide */}
-        <div className="mt-12">
+        <div className="mt-14 text-center">
           <Link href="/how-it-works">
-            <Button variant="outline" className="gap-2 font-bold text-xs">
-              Read Full Safety & Workflow Guide
-              <ArrowRight className="h-4 w-4" />
+            <Button variant="outline" className="rounded-full px-6 py-2.5 font-bold text-xs gap-2 border-forest-900/15 dark:border-white/15 hover:bg-forest-900 hover:text-white dark:hover:bg-white dark:hover:text-forest-900 cursor-pointer">
+              <span>Read Full Safety &amp; Workflow Guide</span>
+              <ArrowRight className="w-4 h-4" />
             </Button>
           </Link>
         </div>

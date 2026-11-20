@@ -168,14 +168,14 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
   if (!tuition) {
     return (
       <div className="container mx-auto max-w-3xl px-4 py-24 text-center space-y-5">
-        <AlertCircle className="mx-auto h-16 w-16 text-destructive animate-bounce" />
-        <h2 className="text-3xl font-black text-foreground">Tuition Not Found</h2>
-        <p className="text-sm text-muted-foreground max-w-md mx-auto">
+        <AlertCircle className="mx-auto h-16 w-16 text-terracotta-500 animate-bounce" />
+        <h2 className="font-serif text-3xl font-bold text-forest-900 dark:text-[#F5F2EB]">Tuition Not Found</h2>
+        <p className="text-sm text-forest-800/75 dark:text-[#F5F2EB]/75 max-w-md mx-auto">
           The tuition posting you are looking for may have been removed, filled, or is temporarily private.
         </p>
         <div className="pt-2">
           <Link href="/tuitions">
-            <Button variant="default" className="gap-2">
+            <Button variant="default" className="gap-2 rounded-full font-bold">
               <ArrowLeft className="h-4 w-4" />
               Back to Browse Tuitions
             </Button>
@@ -195,29 +195,29 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
     : `/tutors?search=${encodeURIComponent(tuition.tutorName || '')}`;
 
   return (
-    <div className="min-h-screen bg-background py-10">
+    <div className="min-h-screen bg-cream/40 dark:bg-[#081612] py-10 lg:py-14 transition-colors duration-300">
       <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 space-y-8">
         {/* BREADCRUMB & TOP CONTROLS */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex flex-wrap items-center justify-between gap-4 text-xs font-semibold text-muted-foreground"
+          className="flex flex-wrap items-center justify-between gap-4 text-xs font-semibold text-forest-800/70 dark:text-white/70"
         >
           <div className="flex items-center gap-2">
             <Link
               href="/tuitions"
-              className="inline-flex items-center gap-1.5 hover:text-foreground transition-colors group"
+              className="inline-flex items-center gap-1.5 hover:text-forest-900 dark:hover:text-white transition-colors group"
             >
               <ArrowLeft className="h-3.5 w-3.5 group-hover:-translate-x-1 transition-transform" />
               <span>All Tuitions</span>
             </Link>
-            <ChevronRight className="h-3.5 w-3.5 text-muted-foreground/60" />
-            <span className="text-foreground">{tuition.subject}</span>
-            <ChevronRight className="h-3.5 w-3.5 text-muted-foreground/60" />
+            <ChevronRight className="h-3.5 w-3.5 text-forest-800/40 dark:text-white/40" />
+            <span className="text-forest-900 dark:text-white font-bold">{tuition.subject}</span>
+            <ChevronRight className="h-3.5 w-3.5 text-forest-800/40 dark:text-white/40" />
             {/* Tutor Name in Breadcrumb */}
             <Link
               href={tutorProfileHref}
-              className="text-primary hover:underline flex items-center gap-1"
+              className="text-terracotta-500 hover:underline flex items-center gap-1 font-bold"
               title={`View ${tuition.tutorName}'s Profile`}
             >
               {tuition.tutorName}
@@ -225,7 +225,7 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
           </div>
 
           <div className="flex items-center gap-2">
-            <Badge variant="outline" className="bg-card text-[11px] font-bold">
+            <Badge variant="outline" className="bg-white/80 dark:bg-[#0F241E] text-[11px] font-bold border-forest-900/10 dark:border-white/10">
               ID: {tuitionId.slice(-6).toUpperCase()}
             </Badge>
             <Badge variant="success" className="text-[11px]">
@@ -237,12 +237,12 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
 
         {/* 3D HERO BANNER */}
         <Tilt3DCard
-          tiltMaxAngle={6}
+          tiltMaxAngle={4}
           scaleOnHover={1.01}
-          glareOpacity={0.15}
+          glareOpacity={0.1}
           className="rounded-3xl"
         >
-          <div className="relative h-72 sm:h-96 w-full overflow-hidden rounded-3xl border-2 border-border/80 bg-muted shadow-lg">
+          <div className="relative h-72 sm:h-96 w-full overflow-hidden rounded-3xl border border-forest-900/10 dark:border-white/10 bg-forest-900/10 shadow-card">
             <img
               src={
                 tuition.bannerImage ||
@@ -252,29 +252,24 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
               className="h-full w-full object-cover object-center"
             />
             {/* Ambient Dark Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent pointer-events-none" />
 
             {/* Top Badges */}
             <div className="absolute top-5 left-5 flex flex-wrap gap-2.5 [transform:translateZ(30px)]">
-              <Badge
-                variant={tuition.mode === 'Online' ? 'default' : 'secondary'}
-                className="text-xs font-black uppercase tracking-wider px-3.5 py-1.5 shadow-xl backdrop-blur-md"
+              <span
+                className={`text-xs font-black uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-md text-white backdrop-blur-md ${
+                  tuition.mode === 'Online' ? 'bg-forest-900 dark:bg-emerald-700' : 'bg-terracotta-500'
+                }`}
               >
                 {tuition.mode} Mode
-              </Badge>
-              <Badge
-                variant="outline"
-                className="bg-black/60 text-white border-white/20 text-xs font-bold backdrop-blur-md px-3 py-1 shadow-md"
-              >
+              </span>
+              <span className="bg-black/60 text-white border border-white/20 text-xs font-bold backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-md">
                 {tuition.subject}
-              </Badge>
-              <Badge
-                variant="pro"
-                className="text-xs font-bold shadow-lg backdrop-blur-md"
-              >
+              </span>
+              <span className="bg-amberwarm-500/90 text-white text-xs font-extrabold shadow-md backdrop-blur-md px-3.5 py-1.5 rounded-full inline-flex items-center">
                 <Sparkles className="h-3.5 w-3.5 mr-1" />
                 Featured Batch
-              </Badge>
+              </span>
             </div>
 
             {/* Top Right Floating Bookmark Button */}
@@ -282,10 +277,10 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
               type="button"
               onClick={handleToggleBookmark}
               disabled={bookmarkLoading}
-              className={`absolute top-5 right-5 z-20 flex items-center gap-2 px-3.5 py-2 rounded-2xl backdrop-blur-md transition-all duration-200 shadow-xl border [transform:translateZ(30px)] ${
+              className={`absolute top-5 right-5 z-20 flex items-center gap-2 px-4 py-2 rounded-full backdrop-blur-md transition-all duration-200 shadow-lg border [transform:translateZ(30px)] cursor-pointer ${
                 bookmarked
-                  ? 'bg-primary text-primary-foreground border-primary scale-105'
-                  : 'bg-black/60 hover:bg-black/80 text-white border-white/20 hover:scale-105'
+                  ? 'bg-terracotta-500 text-white border-terracotta-500 scale-105 shadow-glow'
+                  : 'bg-white/90 dark:bg-black/60 hover:bg-white text-forest-900 dark:text-white border-white/20 hover:scale-105'
               }`}
               title={bookmarked ? 'Remove from Saved' : 'Save Tuition'}
             >
@@ -295,10 +290,10 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
 
             {/* Bottom Floating Title Strip */}
             <div className="absolute bottom-6 left-6 right-6 text-white space-y-2 [transform:translateZ(25px)]">
-              <span className="text-xs font-black uppercase tracking-widest text-primary-foreground/90 bg-primary/80 px-2.5 py-1 rounded-md">
+              <span className="text-xs font-extrabold uppercase tracking-widest text-terracotta-100 bg-terracotta-500/90 px-3 py-1 rounded-full">
                 {tuition.classLevel}
               </span>
-              <h1 className="text-2xl sm:text-4xl font-black tracking-tight drop-shadow-md max-w-3xl leading-snug">
+              <h1 className="font-serif text-2xl sm:text-4xl font-bold tracking-tight drop-shadow-md max-w-3xl leading-snug">
                 {tuition.title}
               </h1>
             </div>
@@ -316,42 +311,42 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
               transition={{ delay: 0.1 }}
               className="grid grid-cols-2 sm:grid-cols-4 gap-3.5"
             >
-              <div className="rounded-2xl border-2 border-border/80 bg-card p-4 text-center space-y-1 shadow-sm">
-                <MapPin className="h-5 w-5 mx-auto text-primary" />
-                <span className="text-[10px] text-muted-foreground uppercase font-bold block">
+              <div className="rounded-2xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] p-4 text-center space-y-1 shadow-card">
+                <MapPin className="h-5 w-5 mx-auto text-terracotta-500" />
+                <span className="text-[10px] text-forest-800/60 dark:text-white/60 uppercase font-bold block">
                   Location
                 </span>
-                <p className="text-xs sm:text-sm font-black text-foreground truncate">
+                <p className="text-xs sm:text-sm font-bold text-forest-900 dark:text-white truncate">
                   {tuition.location}
                 </p>
               </div>
 
-              <div className="rounded-2xl border-2 border-border/80 bg-card p-4 text-center space-y-1 shadow-sm">
-                <Calendar className="h-5 w-5 mx-auto text-secondary" />
-                <span className="text-[10px] text-muted-foreground uppercase font-bold block">
+              <div className="rounded-2xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] p-4 text-center space-y-1 shadow-card">
+                <Calendar className="h-5 w-5 mx-auto text-forest-900 dark:text-emerald-400" />
+                <span className="text-[10px] text-forest-800/60 dark:text-white/60 uppercase font-bold block">
                   Frequency
                 </span>
-                <p className="text-xs sm:text-sm font-black text-foreground">
+                <p className="text-xs sm:text-sm font-bold text-forest-900 dark:text-white">
                   {tuition.daysPerWeek} Days / Week
                 </p>
               </div>
 
-              <div className="rounded-2xl border-2 border-border/80 bg-card p-4 text-center space-y-1 shadow-sm">
-                <DollarSign className="h-5 w-5 mx-auto text-emerald-500" />
-                <span className="text-[10px] text-muted-foreground uppercase font-bold block">
+              <div className="rounded-2xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] p-4 text-center space-y-1 shadow-card">
+                <DollarSign className="h-5 w-5 mx-auto text-emerald-600 dark:text-emerald-400" />
+                <span className="text-[10px] text-forest-800/60 dark:text-white/60 uppercase font-bold block">
                   Tuition Fee
                 </span>
-                <p className="text-xs sm:text-sm font-black text-foreground">
+                <p className="font-serif text-xs sm:text-sm font-bold text-forest-900 dark:text-white">
                   {formatCurrency(tuition.monthlyFee)}
                 </p>
               </div>
 
-              <div className="rounded-2xl border-2 border-border/80 bg-card p-4 text-center space-y-1 shadow-sm">
+              <div className="rounded-2xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] p-4 text-center space-y-1 shadow-card">
                 <GraduationCap className="h-5 w-5 mx-auto text-indigo-500" />
-                <span className="text-[10px] text-muted-foreground uppercase font-bold block">
+                <span className="text-[10px] text-forest-800/60 dark:text-white/60 uppercase font-bold block">
                   Grade / Target
                 </span>
-                <p className="text-xs sm:text-sm font-black text-foreground truncate">
+                <p className="text-xs sm:text-sm font-bold text-forest-900 dark:text-white truncate">
                   {tuition.classLevel}
                 </p>
               </div>
@@ -362,56 +357,56 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 }}
-              className="rounded-3xl border-2 border-border/80 bg-card p-6 sm:p-8 shadow-sm space-y-4"
+              className="rounded-3xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] p-6 sm:p-8 shadow-card space-y-5"
             >
-              <div className="flex items-center gap-2.5 border-b-2 border-border/60 pb-3">
-                <BookOpen className="h-5 w-5 text-primary" />
-                <h2 className="text-lg sm:text-xl font-black text-foreground">
+              <div className="flex items-center gap-2.5 border-b border-forest-900/10 dark:border-white/10 pb-4">
+                <BookOpen className="h-5 w-5 text-terracotta-500" />
+                <h2 className="font-serif text-xl sm:text-2xl font-bold text-forest-900 dark:text-[#F5F2EB]">
                   Tuition Overview & Curriculum
                 </h2>
               </div>
 
-              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed whitespace-pre-line">
+              <p className="text-sm sm:text-base text-forest-800/75 dark:text-[#F5F2EB]/75 leading-relaxed whitespace-pre-line">
                 {tuition.description}
               </p>
 
               {/* What You'll Learn Highlights */}
-              <div className="mt-6 pt-6 border-t-2 border-border/50 grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                <div className="flex items-start gap-3 rounded-2xl bg-muted/40 p-3.5 border border-border/60">
-                  <CheckCircle2 className="h-5 w-5 text-emerald-500 shrink-0 mt-0.5" />
+              <div className="mt-6 pt-6 border-t border-forest-900/10 dark:border-white/10 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="flex items-start gap-3 rounded-2xl bg-cream dark:bg-[#153028] p-4 border border-forest-900/5 dark:border-white/5">
+                  <CheckCircle2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="text-xs font-bold text-foreground">Deep Concept Clarification</h4>
-                    <p className="text-[11px] text-muted-foreground">
+                    <h4 className="text-xs font-bold text-forest-900 dark:text-white">Deep Concept Clarification</h4>
+                    <p className="text-[11px] text-forest-800/65 dark:text-white/65 mt-0.5 leading-relaxed">
                       Structured step-by-step lectures designed for board exams & admission tests.
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 rounded-2xl bg-muted/40 p-3.5 border border-border/60">
-                  <CheckCircle2 className="h-5 w-5 text-emerald-500 shrink-0 mt-0.5" />
+                <div className="flex items-start gap-3 rounded-2xl bg-cream dark:bg-[#153028] p-4 border border-forest-900/5 dark:border-white/5">
+                  <CheckCircle2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="text-xs font-bold text-foreground">Weekly Practice & Mock Tests</h4>
-                    <p className="text-[11px] text-muted-foreground">
+                    <h4 className="text-xs font-bold text-forest-900 dark:text-white">Weekly Practice & Mock Tests</h4>
+                    <p className="text-[11px] text-forest-800/65 dark:text-white/65 mt-0.5 leading-relaxed">
                       Regular assessments with individual feedback and progress tracking.
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 rounded-2xl bg-muted/40 p-3.5 border border-border/60">
-                  <CheckCircle2 className="h-5 w-5 text-emerald-500 shrink-0 mt-0.5" />
+                <div className="flex items-start gap-3 rounded-2xl bg-cream dark:bg-[#153028] p-4 border border-forest-900/5 dark:border-white/5">
+                  <CheckCircle2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="text-xs font-bold text-foreground">Doubt-Clearing Support</h4>
-                    <p className="text-[11px] text-muted-foreground">
+                    <h4 className="text-xs font-bold text-forest-900 dark:text-white">Doubt-Clearing Support</h4>
+                    <p className="text-[11px] text-forest-800/65 dark:text-white/65 mt-0.5 leading-relaxed">
                       Dedicated Q&A support after classes to address student problem sets.
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 rounded-2xl bg-muted/40 p-3.5 border border-border/60">
-                  <CheckCircle2 className="h-5 w-5 text-emerald-500 shrink-0 mt-0.5" />
+                <div className="flex items-start gap-3 rounded-2xl bg-cream dark:bg-[#153028] p-4 border border-forest-900/5 dark:border-white/5">
+                  <CheckCircle2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="text-xs font-bold text-foreground">Curated Lecture Notes</h4>
-                    <p className="text-[11px] text-muted-foreground">
+                    <h4 className="text-xs font-bold text-forest-900 dark:text-white">Curated Lecture Notes</h4>
+                    <p className="text-[11px] text-forest-800/65 dark:text-white/65 mt-0.5 leading-relaxed">
                       Comprehensive chapter summaries and problem-solving formula sheets.
                     </p>
                   </div>
@@ -419,31 +414,30 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
               </div>
             </motion.div>
 
-            {/* 3D TUTOR SPOTLIGHT CARD (HIGHLIGHTED WITH DIRECT PROFILE LINK) */}
+            {/* 3D TUTOR SPOTLIGHT CARD */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
               <Tilt3DCard
-                tiltMaxAngle={6}
-                scaleOnHover={1.015}
-                glareOpacity={0.12}
+                tiltMaxAngle={4}
+                scaleOnHover={1.01}
+                glareOpacity={0.08}
                 className="rounded-3xl"
               >
-                <div className="rounded-3xl border-2 border-primary/40 bg-card p-6 sm:p-8 shadow-md relative overflow-hidden group">
-                  {/* Subtle Accent Glow */}
-                  <div className="absolute top-0 right-0 -mt-10 -mr-10 h-36 w-36 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
-
-                  <div className="flex items-center justify-between border-b-2 border-border/60 pb-4 mb-5">
+                <div className="rounded-3xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] p-6 sm:p-8 shadow-card relative overflow-hidden group">
+                  <div className="flex items-center justify-between border-b border-forest-900/10 dark:border-white/10 pb-4 mb-5">
                     <div className="flex items-center gap-2">
-                      <Award className="h-5 w-5 text-primary" />
-                      <h3 className="text-lg font-black text-foreground">About the Lead Mentor</h3>
+                      <Award className="h-5 w-5 text-terracotta-500" />
+                      <h3 className="font-serif text-lg sm:text-xl font-bold text-forest-900 dark:text-white">
+                        About the Lead Mentor
+                      </h3>
                     </div>
 
                     <Link
                       href={tutorProfileHref}
-                      className="text-xs font-bold text-primary hover:underline inline-flex items-center gap-1 group/btn"
+                      className="text-xs font-bold text-terracotta-500 hover:underline inline-flex items-center gap-1 group/btn"
                     >
                       <span>View Full Profile</span>
                       <ExternalLink className="h-3.5 w-3.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
@@ -462,9 +456,9 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
                           'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80'
                         }
                         alt={tuition.tutorName}
-                        className="h-20 w-20 rounded-2xl object-cover border-2 border-primary/40 group-hover/avatar:border-primary group-hover/avatar:scale-105 transition-all shadow-md"
+                        className="h-20 w-20 rounded-2xl object-cover border-2 border-forest-900/10 dark:border-white/10 group-hover/avatar:border-terracotta-500 group-hover/avatar:scale-105 transition-all shadow-md"
                       />
-                      <div className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md">
+                      <div className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-forest-900 dark:bg-emerald-600 text-white flex items-center justify-center shadow-md">
                         <CheckCircle2 className="h-3.5 w-3.5" />
                       </div>
                     </Link>
@@ -475,7 +469,7 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
                         {/* Clickable Tutor Name Linking to Profile */}
                         <Link
                           href={tutorProfileHref}
-                          className="text-lg sm:text-xl font-black text-foreground hover:text-primary transition-colors hover:underline underline-offset-4"
+                          className="font-serif text-lg sm:text-xl font-bold text-forest-900 dark:text-white hover:text-terracotta-500 transition-colors hover:underline underline-offset-4"
                         >
                           {tuition.tutorName}
                         </Link>
@@ -487,25 +481,25 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
                         )}
                       </div>
 
-                      <p className="text-xs text-muted-foreground flex items-center gap-1.5">
-                        <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
+                      <p className="text-xs text-forest-800/70 dark:text-white/70 flex items-center gap-1.5 flex-wrap">
+                        <ShieldCheck className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
                         <span>{tuition.tutorEmail}</span>
                         <span>•</span>
-                        <span className="flex items-center text-amber-500 font-bold">
-                          <Star className="h-3.5 w-3.5 fill-amber-500 mr-0.5" />
+                        <span className="flex items-center text-amberwarm-500 font-bold">
+                          <Star className="h-3.5 w-3.5 fill-amberwarm-500 mr-0.5" />
                           4.9 / 5.0 Rating
                         </span>
                       </p>
 
-                      <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed pt-1">
+                      <p className="text-xs sm:text-sm text-forest-800/70 dark:text-white/70 leading-relaxed pt-1">
                         {tuition.tutor?.bio ||
                           'Passionate educator committed to simplifying complex concepts, building intuition, and mentoring students to achieve top academic results.'}
                       </p>
 
                       <div className="pt-2 flex flex-wrap items-center gap-2">
                         <Link href={tutorProfileHref}>
-                          <Button size="sm" variant="outline" className="text-xs font-bold gap-1.5 h-8">
-                            <UserCheck className="h-3.5 w-3.5 text-primary" />
+                          <Button size="sm" variant="outline" className="text-xs font-bold gap-1.5 h-9 rounded-full border-forest-900/15 dark:border-white/15 text-forest-900 dark:text-white hover:bg-forest-900/5 cursor-pointer">
+                            <UserCheck className="h-3.5 w-3.5 text-terracotta-500" />
                             Explore Tutor&apos;s Batches & Credentials
                           </Button>
                         </Link>
@@ -521,29 +515,29 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.25 }}
-              className="rounded-3xl border-2 border-border/80 bg-card p-6 sm:p-8 shadow-sm space-y-6"
+              className="rounded-3xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] p-6 sm:p-8 shadow-card space-y-6"
             >
               {/* Section Header */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-2 border-border/60 pb-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-forest-900/10 dark:border-white/10 pb-5">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-amber-500/10 border-2 border-amber-500/20 flex items-center justify-center text-amber-500 shadow-sm">
-                    <Star className="h-5 w-5 fill-amber-500" />
+                  <div className="w-10 h-10 rounded-2xl bg-amberwarm-100 dark:bg-amberwarm-500/20 flex items-center justify-center text-amberwarm-600 dark:text-amberwarm-300 shadow-sm">
+                    <Star className="h-5 w-5 fill-amberwarm-500" />
                   </div>
                   <div>
-                    <h3 className="text-lg sm:text-xl font-black text-foreground">
+                    <h3 className="font-serif text-lg sm:text-xl font-bold text-forest-900 dark:text-[#F5F2EB]">
                       Student Reviews & Academic Feedback
                     </h3>
-                    <p className="text-xs text-muted-foreground mt-0.5">
+                    <p className="text-xs text-forest-800/60 dark:text-white/60 mt-0.5">
                       Verified feedback and ratings from enrolled students.
                     </p>
                   </div>
                 </div>
 
                 {tuition.averageRating || (tuition.reviews && tuition.reviews.length > 0) ? (
-                  <div className="flex items-center gap-2.5 bg-muted/60 border border-border/80 px-4 py-2 rounded-2xl">
-                    <div className="flex items-center text-amber-500">
-                      <Star className="h-4 w-4 fill-amber-500 mr-1" />
-                      <span className="text-lg font-black text-foreground">
+                  <div className="flex items-center gap-2.5 bg-cream dark:bg-[#153028] border border-forest-900/10 dark:border-white/10 px-4 py-2 rounded-2xl">
+                    <div className="flex items-center text-amberwarm-500">
+                      <Star className="h-4 w-4 fill-amberwarm-500 mr-1" />
+                      <span className="font-serif text-lg font-bold text-forest-900 dark:text-white">
                         {tuition.averageRating
                           ? Number(tuition.averageRating).toFixed(1)
                           : (
@@ -553,16 +547,16 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
                               ) / tuition.reviews.length
                             ).toFixed(1)}
                       </span>
-                      <span className="text-xs text-muted-foreground font-semibold ml-0.5">/ 5.0</span>
+                      <span className="text-xs text-forest-800/60 dark:text-white/60 font-semibold ml-0.5">/ 5.0</span>
                     </div>
-                    <span className="text-muted-foreground">•</span>
-                    <span className="text-xs font-bold text-muted-foreground">
+                    <span className="text-forest-800/40 dark:text-white/40">•</span>
+                    <span className="text-xs font-bold text-forest-800/70 dark:text-white/70">
                       {tuition.totalReviews || tuition.reviews?.length || 0}{' '}
                       {(tuition.totalReviews || tuition.reviews?.length) === 1 ? 'Review' : 'Reviews'}
                     </span>
                   </div>
                 ) : (
-                  <Badge variant="outline" className="text-xs text-muted-foreground font-bold">
+                  <Badge variant="outline" className="text-xs text-forest-800/60 dark:text-white/60 font-bold rounded-full">
                     No Ratings Yet
                   </Badge>
                 )}
@@ -592,7 +586,7 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
                     return (
                       <div
                         key={rev._id || idx}
-                        className="rounded-2xl border border-border/80 bg-muted/20 p-5 space-y-3 hover:border-primary/40 transition-colors"
+                        className="rounded-2xl border border-forest-900/10 dark:border-white/10 bg-cream/30 dark:bg-[#153028]/60 p-5 space-y-3 hover:border-terracotta-500/30 transition-colors"
                       >
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex items-center gap-3">
@@ -600,43 +594,43 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
                               <img
                                 src={rev.studentImage}
                                 alt={reviewerName}
-                                className="h-10 w-10 rounded-full object-cover border border-border"
+                                className="h-10 w-10 rounded-full object-cover border border-forest-900/10 dark:border-white/10"
                               />
                             ) : (
-                              <div className="h-10 w-10 rounded-full bg-primary/10 text-primary border-2 border-primary/20 flex items-center justify-center font-bold text-xs shrink-0">
+                              <div className="h-10 w-10 rounded-full bg-forest-900 text-white dark:bg-cream dark:text-forest-900 flex items-center justify-center font-bold text-xs shrink-0">
                                 {initials}
                               </div>
                             )}
                             <div>
                               <div className="flex items-center gap-2">
-                                <span className="text-sm font-bold text-foreground">
+                                <span className="text-sm font-bold text-forest-900 dark:text-white">
                                   {reviewerName}
                                 </span>
-                                <Badge variant="success" className="text-[10px] px-1.5 py-0">
+                                <Badge variant="success" className="text-[10px] px-2 py-0.5">
                                   <ShieldCheck className="h-3 w-3 mr-0.5" />
                                   Verified Student
                                 </Badge>
                               </div>
-                              <span className="text-[11px] text-muted-foreground">{reviewDate}</span>
+                              <span className="text-[11px] text-forest-800/60 dark:text-white/60">{reviewDate}</span>
                             </div>
                           </div>
 
                           {/* Stars */}
-                          <div className="flex items-center gap-0.5 text-amber-500">
+                          <div className="flex items-center gap-0.5 text-amberwarm-500">
                             {[1, 2, 3, 4, 5].map((s) => (
                               <Star
                                 key={s}
                                 className={`h-3.5 w-3.5 ${
                                   (rev.rating || 5) >= s
-                                    ? 'fill-amber-400 text-amber-400'
-                                    : 'text-muted-foreground/30'
+                                    ? 'fill-amberwarm-500 text-amberwarm-500'
+                                    : 'text-forest-900/20 dark:text-white/20'
                                 }`}
                               />
                             ))}
                           </div>
                         </div>
 
-                        <p className="text-xs sm:text-sm text-foreground/90 leading-relaxed pl-13">
+                        <p className="text-xs sm:text-sm text-forest-800/80 dark:text-white/80 leading-relaxed pl-13">
                           &ldquo;{rev.comment}&rdquo;
                         </p>
                       </div>
@@ -644,10 +638,10 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
                   })}
                 </div>
               ) : (
-                <div className="rounded-2xl border border-dashed border-border/80 bg-muted/20 p-8 text-center space-y-2">
-                  <Star className="h-8 w-8 text-muted-foreground/40 mx-auto" />
-                  <h4 className="text-sm font-bold text-foreground">No reviews yet</h4>
-                  <p className="text-xs text-muted-foreground max-w-md mx-auto">
+                <div className="rounded-2xl border border-dashed border-forest-900/15 dark:border-white/15 bg-cream/30 dark:bg-[#153028]/40 p-8 text-center space-y-2">
+                  <Star className="h-8 w-8 text-forest-900/30 dark:text-white/30 mx-auto" />
+                  <h4 className="font-serif text-sm font-bold text-forest-900 dark:text-white">No reviews yet</h4>
+                  <p className="text-xs text-forest-800/65 dark:text-white/65 max-w-md mx-auto">
                     No reviews yet. Be the first enrolled student to share feedback once your tuition begins!
                   </p>
                 </div>
@@ -655,18 +649,18 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
             </motion.div>
 
             {/* Safety & Trust Assurance Card */}
-            <div className="rounded-3xl border-2 border-border/80 bg-muted/30 p-6 space-y-3">
-              <h4 className="text-xs font-black uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                <ShieldCheck className="h-4 w-4 text-emerald-500" />
+            <div className="rounded-3xl border border-forest-900/10 dark:border-white/10 bg-cream/60 dark:bg-[#153028] p-6 space-y-3">
+              <h4 className="text-xs font-black uppercase tracking-wider text-forest-900 dark:text-white flex items-center gap-2">
+                <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                 MentorLagbe Student Protection Guarantee
               </h4>
-              <p className="text-xs text-muted-foreground leading-relaxed">
+              <p className="text-xs text-forest-800/75 dark:text-[#F5F2EB]/75 leading-relaxed">
                 MentorLagbe does not charge any upfront agency or broker fees to students. You apply directly to your chosen verified tutor, discuss course schedules freely, and settle payment upon mutual satisfaction.
               </p>
             </div>
           </div>
 
-          {/* RIGHT COLUMN: 3D STICKY BOOKING / APPLICATION CARD (4 COLS) */}
+          {/* RIGHT COLUMN: STICKY BOOKING / APPLICATION CARD (4 COLS) */}
           <div className="lg:col-span-4 space-y-6">
             <motion.div
               initial={{ opacity: 0, scale: 0.96 }}
@@ -675,18 +669,18 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
               className="sticky top-24"
             >
               <Tilt3DCard
-                tiltMaxAngle={6}
-                scaleOnHover={1.02}
-                glareOpacity={0.15}
+                tiltMaxAngle={4}
+                scaleOnHover={1.01}
+                glareOpacity={0.08}
                 className="rounded-3xl"
               >
-                <Card className="p-6 sm:p-7 border-2 border-primary/50 shadow-2xl bg-card space-y-6 rounded-3xl relative overflow-hidden">
+                <Card className="p-6 sm:p-7 border border-forest-900/15 dark:border-white/15 shadow-card bg-white dark:bg-[#0F241E] space-y-6 rounded-3xl relative overflow-hidden">
                   {/* Popular Batch Tag */}
                   <div className="flex items-center justify-between [transform:translateZ(15px)]">
-                    <span className="text-[11px] text-muted-foreground font-black uppercase tracking-wider">
+                    <span className="text-[11px] text-forest-800/60 dark:text-white/60 font-bold uppercase tracking-wider">
                       Tuition Honorarium
                     </span>
-                    <Badge variant="default" className="text-[10px] font-black uppercase tracking-wider">
+                    <Badge variant="terracotta" className="text-[10px] font-bold uppercase tracking-wider">
                       <Flame className="h-3 w-3 mr-1" />
                       Open for Admission
                     </Badge>
@@ -695,14 +689,14 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
                   {/* Price Block */}
                   <div className="space-y-1 [transform:translateZ(20px)]">
                     <div className="flex items-baseline gap-1">
-                      <p className="text-4xl font-black text-foreground tracking-tight">
+                      <p className="font-serif text-3xl sm:text-4xl font-black text-forest-900 dark:text-white tracking-tight">
                         {formatCurrency(tuition.monthlyFee)}
                       </p>
-                      <span className="text-xs font-semibold text-muted-foreground">/ month</span>
+                      <span className="text-xs font-semibold text-forest-800/60 dark:text-white/60">/ month</span>
                     </div>
-                    <p className="text-[11px] text-muted-foreground">
+                    <p className="text-[11px] text-forest-800/65 dark:text-white/65">
                       Calculates to approx.{' '}
-                      <strong className="text-foreground">
+                      <strong className="text-forest-900 dark:text-white">
                         {formatCurrency(Math.round(tuition.monthlyFee / ((tuition.daysPerWeek || 3) * 4)))}
                       </strong>{' '}
                       per class session.
@@ -710,34 +704,34 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
                   </div>
 
                   {/* Specifications Summary */}
-                  <div className="space-y-3 text-xs text-muted-foreground border-y-2 border-border/60 py-4 [transform:translateZ(12px)]">
+                  <div className="space-y-3 text-xs text-forest-800/70 dark:text-white/70 border-y border-forest-900/10 dark:border-white/10 py-4 [transform:translateZ(12px)]">
                     <div className="flex justify-between items-center">
                       <span>Delivery Mode:</span>
-                      <strong className="text-foreground bg-muted/80 px-2 py-0.5 rounded-lg border border-border">
+                      <strong className="text-forest-900 dark:text-white bg-cream dark:bg-[#153028] px-2.5 py-0.5 rounded-lg border border-forest-900/10 dark:border-white/10">
                         {tuition.mode}
                       </strong>
                     </div>
 
                     <div className="flex justify-between items-center">
                       <span>Class Schedule:</span>
-                      <strong className="text-foreground">
+                      <strong className="text-forest-900 dark:text-white">
                         {tuition.daysPerWeek} Days / Week
                       </strong>
                     </div>
 
                     <div className="flex justify-between items-center">
                       <span>Target Level:</span>
-                      <strong className="text-foreground">{tuition.classLevel}</strong>
+                      <strong className="text-forest-900 dark:text-white">{tuition.classLevel}</strong>
                     </div>
 
                     <div className="flex justify-between items-center">
                       <span>Subject:</span>
-                      <strong className="text-foreground">{tuition.subject}</strong>
+                      <strong className="text-forest-900 dark:text-white">{tuition.subject}</strong>
                     </div>
 
                     <div className="flex justify-between items-center">
                       <span>Location:</span>
-                      <strong className="text-foreground truncate max-w-[150px]">
+                      <strong className="text-forest-900 dark:text-white truncate max-w-[150px]">
                         {tuition.location}
                       </strong>
                     </div>
@@ -748,7 +742,7 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
                     {!user ? (
                       <div className="space-y-2.5">
                         <Link href="/sign-in" className="w-full block">
-                          <Button className="w-full font-bold h-12 shadow-lg shadow-primary/20">
+                          <Button className="w-full font-bold h-12 rounded-full bg-forest-900 hover:bg-forest-800 text-white shadow-soft cursor-pointer">
                             Sign In to Apply
                           </Button>
                         </Link>
@@ -757,14 +751,14 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
                           variant="outline"
                           onClick={handleToggleBookmark}
                           disabled={bookmarkLoading}
-                          className="w-full font-bold h-11 text-xs gap-2 border-2 hover:bg-muted"
+                          className="w-full font-bold h-11 text-xs gap-2 rounded-full border border-forest-900/15 dark:border-white/15 text-forest-900 dark:text-white hover:bg-forest-900/5 cursor-pointer"
                         >
                           <Bookmark className="h-4 w-4" />
                           Save Tuition to Bookmarks
                         </Button>
-                        <p className="text-[11px] text-center text-muted-foreground">
+                        <p className="text-[11px] text-center text-forest-800/60 dark:text-white/60">
                           Don&apos;t have an account?{' '}
-                          <Link href="/sign-up" className="text-primary font-bold hover:underline">
+                          <Link href="/sign-up" className="text-terracotta-500 font-bold hover:underline">
                             Register as Student
                           </Link>
                         </p>
@@ -773,7 +767,8 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
                       <div className="space-y-2.5">
                         <Button
                           onClick={() => setModalOpen(true)}
-                          className="w-full font-black h-12 shadow-xl shadow-primary/30 text-sm gap-2"
+                          variant="terracotta"
+                          className="w-full font-black h-12 rounded-full text-sm gap-2 shadow-glow cursor-pointer"
                         >
                           <Send className="h-4 w-4" />
                           Apply for this Batch
@@ -783,32 +778,32 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
                           variant="outline"
                           onClick={handleToggleBookmark}
                           disabled={bookmarkLoading}
-                          className={`w-full font-bold h-11 text-xs gap-2 border-2 transition-all ${
+                          className={`w-full font-bold h-11 text-xs gap-2 rounded-full border transition-all cursor-pointer ${
                             bookmarked
-                              ? 'border-primary text-primary bg-primary/10 hover:bg-primary/20'
-                              : 'hover:bg-muted'
+                              ? 'border-terracotta-500 text-terracotta-500 bg-terracotta-50 dark:bg-terracotta-500/20'
+                              : 'border-forest-900/15 dark:border-white/15 text-forest-900 dark:text-white hover:bg-forest-900/5'
                           }`}
                         >
                           <Bookmark className={`h-4 w-4 ${bookmarked ? 'fill-current' : ''}`} />
                           {bookmarked ? 'Saved in Your Bookmarks' : 'Save Tuition to Bookmarks'}
                         </Button>
-                        <p className="text-[11px] text-center text-muted-foreground mt-2.5 flex items-center justify-center gap-1">
-                          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
+                        <p className="text-[11px] text-center text-forest-800/70 dark:text-white/70 mt-2.5 flex items-center justify-center gap-1">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
                           100% Free Application • No Middleman Cut
                         </p>
                       </div>
                     ) : isTutorOrAdmin ? (
-                      <div className="rounded-2xl bg-muted/60 p-4 text-center border-2 border-border/80 space-y-2">
-                        <p className="text-xs font-bold text-foreground">
+                      <div className="rounded-2xl bg-cream dark:bg-[#153028] p-4 text-center border border-forest-900/10 dark:border-white/10 space-y-2">
+                        <p className="text-xs font-bold text-forest-900 dark:text-white">
                           Student Role Required
                         </p>
-                        <p className="text-[11px] text-muted-foreground leading-relaxed">
+                        <p className="text-[11px] text-forest-800/70 dark:text-white/70 leading-relaxed">
                           You are currently signed in as an{' '}
-                          <span className="capitalize font-bold text-foreground">{user.role}</span>. Student applications are restricted to student accounts.
+                          <span className="capitalize font-bold text-forest-900 dark:text-white">{user.role}</span>. Student applications are restricted to student accounts.
                         </p>
                         <Button
                           disabled
-                          className="w-full opacity-60 cursor-not-allowed text-xs font-bold"
+                          className="w-full opacity-60 cursor-not-allowed text-xs font-bold rounded-full h-10 bg-forest-900/20 text-forest-900 dark:text-white"
                         >
                           Application Restricted
                         </Button>
@@ -817,10 +812,10 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
                   </div>
 
                   {/* Direct Tutor Profile Link at bottom of card */}
-                  <div className="pt-2 text-center border-t-2 border-border/40 [transform:translateZ(10px)]">
+                  <div className="pt-2 text-center border-t border-forest-900/10 dark:border-white/10 [transform:translateZ(10px)]">
                     <Link
                       href={tutorProfileHref}
-                      className="text-xs font-bold text-muted-foreground hover:text-primary transition-colors inline-flex items-center gap-1"
+                      className="text-xs font-bold text-forest-800/70 dark:text-white/70 hover:text-terracotta-500 transition-colors inline-flex items-center gap-1"
                     >
                       <span>Questions? Visit {tuition.tutorName}&apos;s Profile</span>
                       <ChevronRight className="h-3 w-3" />
@@ -843,7 +838,7 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setModalOpen(false)}
-              className="absolute inset-0 bg-black/70 backdrop-blur-md"
+              className="absolute inset-0 bg-forest-950/70 backdrop-blur-md"
             />
 
             {/* Modal Dialog */}
@@ -852,39 +847,39 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-              className="relative w-full max-w-lg rounded-3xl border-2 border-border bg-card p-6 sm:p-8 shadow-2xl space-y-5 z-10 overflow-hidden"
+              className="relative w-full max-w-lg rounded-3xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] p-6 sm:p-8 shadow-card space-y-5 z-10 overflow-hidden"
             >
               {/* Close Button */}
               <button
                 onClick={() => setModalOpen(false)}
-                className="absolute top-5 right-5 h-8 w-8 rounded-full border border-border/60 bg-muted/50 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                className="absolute top-5 right-5 h-8 w-8 rounded-full border border-forest-900/10 dark:border-white/10 bg-cream/60 dark:bg-[#153028] flex items-center justify-center text-forest-800/60 dark:text-white/60 hover:text-forest-900 dark:hover:text-white transition-colors cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>
 
               <div>
-                <Badge variant="secondary" className="mb-1.5 text-[11px] font-bold">
+                <Badge variant="terracotta" className="mb-2 text-[11px] font-bold rounded-full">
                   Direct Student Application
                 </Badge>
-                <h3 className="text-xl sm:text-2xl font-black text-foreground">
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-forest-900 dark:text-[#F5F2EB]">
                   Apply for {tuition.subject} Batch
                 </h3>
-                <p className="text-xs text-muted-foreground mt-1">
+                <p className="text-xs text-forest-800/70 dark:text-white/70 mt-1">
                   Mentor:{' '}
                   <Link
                     href={tutorProfileHref}
-                    className="text-primary font-bold hover:underline"
+                    className="text-terracotta-500 font-bold hover:underline"
                     target="_blank"
                   >
                     {tuition.tutorName}
                   </Link>{' '}
-                  • Fee: <strong className="text-foreground">{formatCurrency(tuition.monthlyFee)}/mo</strong>
+                  • Fee: <strong className="text-forest-900 dark:text-white font-serif">{formatCurrency(tuition.monthlyFee)}/mo</strong>
                 </p>
               </div>
 
               <form onSubmit={handleApplySubmit} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-bold text-foreground mb-1.5">
+                  <label className="block text-xs font-bold text-forest-900 dark:text-white mb-1.5">
                     Your Contact Phone Number *
                   </label>
                   <Input
@@ -893,15 +888,15 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
                     value={studentPhone}
                     onChange={(e) => setStudentPhone(e.target.value)}
                     required
-                    className="h-11 rounded-xl text-xs sm:text-sm"
+                    className="h-11 rounded-2xl text-xs sm:text-sm bg-cream/40 dark:bg-[#153028] border-forest-900/15 dark:border-white/15 focus:ring-terracotta-500/40"
                   />
-                  <p className="text-[10px] text-muted-foreground mt-1">
+                  <p className="text-[10px] text-forest-800/60 dark:text-white/60 mt-1">
                     The mentor will contact you on this phone number after reviewing your request.
                   </p>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-foreground mb-1.5">
+                  <label className="block text-xs font-bold text-forest-900 dark:text-white mb-1.5">
                     Preferred Class Schedule / Timing *
                   </label>
                   <Input
@@ -910,12 +905,12 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
                     value={preferredSchedule}
                     onChange={(e) => setPreferredSchedule(e.target.value)}
                     required
-                    className="h-11 rounded-xl text-xs sm:text-sm"
+                    className="h-11 rounded-2xl text-xs sm:text-sm bg-cream/40 dark:bg-[#153028] border-forest-900/15 dark:border-white/15 focus:ring-terracotta-500/40"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-foreground mb-1.5">
+                  <label className="block text-xs font-bold text-forest-900 dark:text-white mb-1.5">
                     Learning Goals or Specific Chapters (Optional)
                   </label>
                   <Textarea
@@ -923,7 +918,7 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
                     value={studentNote}
                     onChange={(e) => setStudentNote(e.target.value)}
                     rows={3}
-                    className="rounded-xl text-xs sm:text-sm"
+                    className="rounded-2xl text-xs sm:text-sm bg-cream/40 dark:bg-[#153028] border-forest-900/15 dark:border-white/15 focus:ring-terracotta-500/40"
                   />
                 </div>
 
@@ -933,14 +928,15 @@ export default function TuitionDetailsPage({ params }: { params: Promise<{ id: s
                     variant="outline"
                     onClick={() => setModalOpen(false)}
                     disabled={applying}
-                    className="text-xs font-bold h-11"
+                    className="text-xs font-bold h-11 rounded-full border-forest-900/15 dark:border-white/15 text-forest-900 dark:text-white hover:bg-forest-900/5 cursor-pointer"
                   >
                     Cancel
                   </Button>
                   <Button
                     type="submit"
+                    variant="terracotta"
                     disabled={applying}
-                    className="font-black gap-2 text-xs h-11 px-5 shadow-lg shadow-primary/25"
+                    className="font-black gap-2 text-xs h-11 px-6 rounded-full shadow-glow cursor-pointer"
                   >
                     {applying ? 'Submitting...' : 'Confirm & Send Application'}
                     <Send className="h-3.5 w-3.5" />

@@ -56,23 +56,25 @@ export default function SavedTuitionsPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/70 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-forest-900/10 dark:border-white/10 pb-5">
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-black text-foreground tracking-tight">Saved Tuitions</h1>
-            <Badge variant="outline" className="font-bold text-xs bg-muted/60">
+          <div className="flex items-center gap-2.5 flex-wrap">
+            <h1 className="text-2xl sm:text-3xl font-serif font-black text-foreground tracking-tight">
+              Saved Tuitions
+            </h1>
+            <Badge variant="outline" className="font-bold text-xs bg-forest-900/5 dark:bg-white/5 rounded-full px-3">
               {tuitions.length} Saved
             </Badge>
           </div>
-          <p className="text-xs text-muted-foreground mt-1">
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
             Your bookmarked tuition listings for quick access and priority booking.
           </p>
         </div>
 
-        <Link href="/tuitions">
-          <Button size="sm" className="font-bold gap-1.5 shadow-sm">
+        <Link href="/tuitions" className="shrink-0">
+          <Button size="sm" variant="terracotta" className="font-bold gap-1.5 rounded-full shadow-glow">
             <Search className="h-4 w-4" />
             Explore More Tuitions
           </Button>
@@ -100,14 +102,14 @@ export default function SavedTuitionsPage() {
                 </div>
 
                 {/* Quick Removal Bar */}
-                <div className="mt-2 flex items-center justify-between px-2 text-xs text-muted-foreground">
+                <div className="mt-2.5 flex items-center justify-between px-2 text-xs text-muted-foreground">
                   <span className="text-[11px] font-medium text-muted-foreground truncate">
                     Saved for quick enrollment
                   </span>
                   <button
                     onClick={() => handleRemoveBookmark(tuition._id, tuition.title)}
                     disabled={removingId === tuition._id}
-                    className="inline-flex items-center gap-1 text-[11px] font-bold text-destructive hover:text-destructive/80 transition-colors p-1 rounded-md hover:bg-destructive/10"
+                    className="inline-flex items-center gap-1 text-[11px] font-bold text-destructive hover:text-destructive/80 transition-colors p-1 rounded-lg hover:bg-destructive/10"
                     title="Remove from bookmarks"
                   >
                     <Trash2 className="h-3 w-3" />
@@ -120,20 +122,20 @@ export default function SavedTuitionsPage() {
         </div>
       ) : (
         /* Empty State */
-        <Card className="border-2 border-dashed border-border/80 bg-card/60 p-12 text-center rounded-3xl shadow-sm">
+        <Card className="border-2 border-dashed border-forest-900/15 dark:border-white/15 bg-card/60 p-12 sm:p-16 text-center rounded-3xl shadow-card">
           <div className="max-w-md mx-auto space-y-4">
-            <div className="w-16 h-16 rounded-3xl bg-primary/10 border-2 border-primary/20 flex items-center justify-center text-primary mx-auto shadow-sm">
-              <Bookmark className="h-8 w-8 text-primary" />
+            <div className="w-16 h-16 rounded-3xl bg-forest-900/10 dark:bg-white/10 border-2 border-forest-900/20 dark:border-white/20 flex items-center justify-center text-forest-900 dark:text-cream mx-auto shadow-sm">
+              <Bookmark className="h-8 w-8 text-forest-900 dark:text-cream" />
             </div>
             <div className="space-y-1.5">
-              <h3 className="text-xl font-black text-foreground">No saved tuitions yet</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">
+              <h3 className="text-xl sm:text-2xl font-serif font-black text-foreground">No saved tuitions yet</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                 You haven&apos;t bookmarked any tuition batches. When browsing available tuition listings, click the bookmark icon to save them here for quick review and priority booking.
               </p>
             </div>
             <div className="pt-2">
               <Link href="/tuitions">
-                <Button className="font-black gap-2 text-xs h-11 px-6 shadow-md shadow-primary/20">
+                <Button variant="terracotta" className="font-black gap-2 text-xs h-11 px-6 rounded-full shadow-glow">
                   <Search className="h-4 w-4" />
                   Explore Tuitions
                 </Button>

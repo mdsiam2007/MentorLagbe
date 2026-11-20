@@ -6,8 +6,6 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
 import Logo from './Logo';
-import ThemeToggle from './ThemeToggle';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
   Menu,
@@ -20,7 +18,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 
-export const Navbar = () => {
+export const Navbar: React.FC = () => {
   const pathname = usePathname();
   const { user, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -39,10 +37,9 @@ export const Navbar = () => {
   }, [mobileMenuOpen]);
 
   const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'Browse Tuitions', href: '/tuitions' },
-    { name: 'Find Tutors', href: '/tutors' },
-    { name: 'Become a Tutor', href: '/become-a-tutor' },
+    { name: 'Browse Batches', href: '/tuitions' },
+    { name: 'Why MentorLagbe', href: '/#bonding' },
+    { name: 'Subjects', href: '/#subjects' },
     { name: 'How It Works', href: '/how-it-works' },
     { name: 'Pricing', href: '/pricing' },
   ];
@@ -55,160 +52,172 @@ export const Navbar = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border/80 bg-background/80 backdrop-blur-md transition-all">
-      <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Brand Logo */}
+    <header className="sticky top-4 z-50 px-4 sm:px-6 lg:px-8 select-none">
+      <nav className="max-w-7xl mx-auto bg-white/85 dark:bg-[#0F241E]/85 backdrop-blur-md border border-forest-900/10 dark:border-white/10 rounded-full px-5 sm:px-6 py-3 shadow-soft flex items-center justify-between transition-all">
+        {/* Brand */}
         <Logo size="md" />
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-7">
+        <div className="hidden md:flex items-center gap-7 lg:gap-8 text-sm font-semibold text-forest-800/80 dark:text-[#F5F2EB]/80">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
               <Link
                 key={link.name}
                 href={link.href}
-                className={`text-sm font-semibold transition-colors duration-200 hover:text-primary ${
-                  isActive ? 'text-primary' : 'text-muted-foreground'
+                className={`transition-colors duration-200 hover:text-terracotta-500 ${
+                  isActive ? 'text-terracotta-500 font-bold' : ''
                 }`}
               >
                 {link.name}
               </Link>
             );
           })}
-        </nav>
+        </div>
 
-        {/* User Auth Actions (Desktop) */}
+        {/* Desktop User Actions */}
         <div className="hidden md:flex items-center gap-3">
-          {/* Dark / Light Theme Switcher */}
-          <ThemeToggle />
-
           {user ? (
             <div className="relative">
               <button
                 onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-                className="flex items-center gap-2.5 rounded-full border-2 border-border bg-card p-1 pr-3 text-sm font-medium hover:border-primary transition-all focus:outline-none"
+                className="flex items-center gap-2.5 rounded-full border border-forest-900/10 dark:border-white/10 bg-cream/70 dark:bg-forest-900/40 p-1.5 pr-3.5 text-sm font-medium hover:border-terracotta-500/50 transition-all focus:outline-none"
               >
                 <img
-                  src={user.image || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80'}
+                  src={
+                    user.image ||
+                    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80'
+                  }
                   alt={user.name}
-                  className="w-7 h-7 rounded-full object-cover border border-border"
+                  className="w-7 h-7 rounded-full object-cover border border-forest-900/10 dark:border-white/10"
                 />
                 <div className="flex flex-col text-left">
                   <div className="flex items-center gap-1.5">
-                    <span className="font-bold text-foreground text-xs leading-none">
+                    <span className="font-bold text-forest-900 dark:text-[#F5F2EB] text-xs leading-none">
                       {user.name.split(' ')[0]}
                     </span>
                     {user.plan === 'pro' && (
-                      <Badge variant="pro" className="px-1.5 py-0 h-4 text-[9px] font-black uppercase">
+                      <Badge variant="pro" className="px-1.5 py-0 h-4 text-[9px]">
                         PRO
                       </Badge>
                     )}
                   </div>
-                  <span className="text-[10px] text-muted-foreground capitalize font-semibold leading-tight">
+                  <span className="text-[10px] text-forest-800/60 dark:text-[#F5F2EB]/60 capitalize font-medium leading-tight">
                     {user.role}
                   </span>
                 </div>
-                <ChevronDown className="h-3.5 w-3.5 text-muted-foreground ml-1" />
+                <ChevronDown className="h-3.5 w-3.5 text-forest-800/60 dark:text-[#F5F2EB]/60 ml-0.5" />
               </button>
 
               {/* Profile Dropdown */}
-              {profileDropdownOpen && (
-                <div
-                  className="absolute right-0 mt-2 w-56 rounded-2xl border-2 border-border bg-card p-2 shadow-[0_4px_0_0_hsl(var(--border))] animate-in fade-in zoom-in-95 duration-150 z-50"
-                  onMouseLeave={() => setProfileDropdownOpen(false)}
-                >
-                  <div className="px-3 py-2 border-b-2 border-border/60">
-                    <p className="text-xs font-bold text-foreground truncate">{user.name}</p>
-                    <p className="text-[11px] text-muted-foreground truncate">{user.email}</p>
-                    <div className="mt-1 flex items-center gap-1.5">
-                      <Badge variant="secondary" className="capitalize text-[10px] h-5">
-                        {user.role}
-                      </Badge>
-                      {user.plan === 'pro' && (
-                        <Badge variant="pro" className="text-[10px] h-5">
-                          Pro Member
+              <AnimatePresence>
+                {profileDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute right-0 mt-2 w-56 rounded-3xl border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] p-2 shadow-soft z-50"
+                    onMouseLeave={() => setProfileDropdownOpen(false)}
+                  >
+                    <div className="px-3.5 py-2.5 border-b border-forest-900/10 dark:border-white/10">
+                      <p className="text-xs font-bold text-forest-900 dark:text-[#F5F2EB] truncate">
+                        {user.name}
+                      </p>
+                      <p className="text-[11px] text-forest-800/60 dark:text-[#F5F2EB]/60 truncate">
+                        {user.email}
+                      </p>
+                      <div className="mt-1.5 flex items-center gap-1.5">
+                        <Badge variant="secondary" className="capitalize text-[10px] h-5">
+                          {user.role}
                         </Badge>
+                        {user.plan === 'pro' && (
+                          <Badge variant="pro" className="text-[10px] h-5">
+                            Pro Member
+                          </Badge>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="py-1">
+                      <Link
+                        href={getDashboardLink()}
+                        onClick={() => setProfileDropdownOpen(false)}
+                        className="flex items-center gap-2.5 rounded-2xl px-3.5 py-2 text-xs font-semibold text-forest-900 dark:text-[#F5F2EB] hover:bg-forest-900/5 dark:hover:bg-white/5 transition-colors"
+                      >
+                        <LayoutDashboard className="h-4 w-4 text-forest-900 dark:text-white" />
+                        Dashboard
+                      </Link>
+
+                      <Link
+                        href="/dashboard/profile"
+                        onClick={() => setProfileDropdownOpen(false)}
+                        className="flex items-center gap-2.5 rounded-2xl px-3.5 py-2 text-xs font-semibold text-forest-900 dark:text-[#F5F2EB] hover:bg-forest-900/5 dark:hover:bg-white/5 transition-colors"
+                      >
+                        <UserIcon className="h-4 w-4 text-terracotta-500" />
+                        Update Profile
+                      </Link>
+
+                      {user.plan !== 'pro' && (
+                        <Link
+                          href="/pricing"
+                          onClick={() => setProfileDropdownOpen(false)}
+                          className="flex items-center gap-2.5 rounded-2xl px-3.5 py-2 text-xs font-semibold text-amberwarm-500 hover:bg-amberwarm-500/10 transition-colors"
+                        >
+                          <Sparkles className="h-4 w-4" />
+                          Upgrade to Pro
+                        </Link>
                       )}
                     </div>
-                  </div>
 
-                  <div className="py-1">
-                    <Link
-                      href={getDashboardLink()}
-                      onClick={() => setProfileDropdownOpen(false)}
-                      className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-medium text-foreground hover:bg-muted transition-colors"
-                    >
-                      <LayoutDashboard className="h-4 w-4 text-primary" />
-                      Dashboard
-                    </Link>
-
-                    <Link
-                      href="/dashboard/profile"
-                      onClick={() => setProfileDropdownOpen(false)}
-                      className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-medium text-foreground hover:bg-muted transition-colors"
-                    >
-                      <UserIcon className="h-4 w-4 text-secondary" />
-                      Update Profile
-                    </Link>
-
-                    {user.plan !== 'pro' && (
-                      <Link
-                        href="/pricing"
-                        onClick={() => setProfileDropdownOpen(false)}
-                        className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-medium text-amber-600 dark:text-amber-400 hover:bg-amber-500/10 transition-colors"
+                    <div className="pt-1 border-t border-forest-900/10 dark:border-white/10">
+                      <button
+                        onClick={() => {
+                          setProfileDropdownOpen(false);
+                          logout();
+                        }}
+                        className="flex w-full items-center gap-2.5 rounded-2xl px-3.5 py-2 text-xs font-semibold text-destructive hover:bg-destructive/10 transition-colors"
                       >
-                        <Sparkles className="h-4 w-4" />
-                        Upgrade to Pro
-                      </Link>
-                    )}
-                  </div>
-
-                  <div className="pt-1 border-t border-border/60">
-                    <button
-                      onClick={() => {
-                        setProfileDropdownOpen(false);
-                        logout();
-                      }}
-                      className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-medium text-destructive hover:bg-destructive/10 transition-colors"
-                    >
-                      <LogOut className="h-4 w-4" />
-                      Sign Out
-                    </button>
-                  </div>
-                </div>
-              )}
+                        <LogOut className="h-4 w-4" />
+                        Sign Out
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           ) : (
-            <>
-              <Link href="/sign-in">
-                <Button variant="outline" size="sm">
-                  Sign In
-                </Button>
+            <div className="flex items-center gap-2.5">
+              <Link
+                href="/sign-in"
+                className="text-sm font-bold text-forest-900 dark:text-white px-4 py-2 rounded-full hover:bg-forest-900/5 dark:hover:bg-white/5 transition-colors"
+              >
+                Sign In
               </Link>
-              <Link href="/sign-up">
-                <Button variant="default" size="sm">
-                  Sign Up
-                </Button>
+              <Link
+                href="/sign-up"
+                className="text-sm font-bold bg-forest-900 dark:bg-white text-white dark:text-forest-900 px-5 py-2.5 rounded-full hover:bg-terracotta-500 dark:hover:bg-terracotta-500 dark:hover:text-white transition-all shadow-sm flex items-center gap-1.5"
+              >
+                <span>Join Free</span>
+                <ArrowRight className="w-4 h-4" />
               </Link>
-            </>
+            </div>
           )}
         </div>
 
-        {/* Mobile Hamburger Toggle & Theme */}
+        {/* Mobile Hamburger Toggle */}
         <div className="flex md:hidden items-center gap-2">
-          <ThemeToggle />
           <button
             onClick={() => setMobileMenuOpen(true)}
-            className="p-2 text-foreground focus:outline-none rounded-xl border border-border/80 bg-card hover:bg-muted transition-colors"
+            className="p-2 text-forest-900 dark:text-white focus:outline-none rounded-full border border-forest-900/10 dark:border-white/10 bg-cream/70 dark:bg-forest-900/50 hover:bg-forest-900/10 transition-colors"
             aria-label="Open Navigation Menu"
           >
-            <Menu className="h-6 w-6" />
+            <Menu className="h-5 w-5" />
           </button>
         </div>
-      </div>
+      </nav>
 
-      {/* Enhanced Animated Slide-in Sheet Drawer (Mobile) */}
+      {/* Mobile Drawer Sheet */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <div className="fixed inset-0 z-50 md:hidden">
@@ -228,26 +237,23 @@ export const Navbar = () => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 300 }}
-              className="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-card border-l-2 border-border shadow-2xl flex flex-col justify-between z-50 overflow-y-auto"
+              className="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-white dark:bg-[#0F241E] border-l border-forest-900/10 dark:border-white/10 shadow-2xl flex flex-col justify-between z-50 overflow-y-auto"
             >
               <div>
                 {/* Drawer Header */}
-                <div className="flex items-center justify-between p-4 border-b border-border">
+                <div className="flex items-center justify-between p-5 border-b border-forest-900/10 dark:border-white/10">
                   <Logo size="sm" />
-                  <div className="flex items-center gap-2">
-                    <ThemeToggle />
-                    <button
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="p-2 text-foreground rounded-xl border border-border hover:bg-muted transition-colors"
-                      aria-label="Close Navigation Menu"
-                    >
-                      <X className="h-5 w-5" />
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="p-2 text-forest-900 dark:text-white rounded-full border border-forest-900/10 dark:border-white/10 hover:bg-forest-900/5 transition-colors"
+                    aria-label="Close Navigation Menu"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
                 </div>
 
                 {/* Nav Links */}
-                <nav className="p-4 space-y-1">
+                <nav className="p-5 space-y-1.5">
                   {navLinks.map((link) => {
                     const isActive = pathname === link.href;
                     return (
@@ -255,10 +261,10 @@ export const Navbar = () => {
                         key={link.name}
                         href={link.href}
                         onClick={() => setMobileMenuOpen(false)}
-                        className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-bold transition-all ${
+                        className={`flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-bold transition-all ${
                           isActive
-                            ? 'bg-primary text-primary-foreground shadow-sm'
-                            : 'text-foreground hover:bg-muted'
+                            ? 'bg-forest-900 text-white dark:bg-white dark:text-forest-900 shadow-sm'
+                            : 'text-forest-900 dark:text-[#F5F2EB] hover:bg-forest-900/5 dark:hover:bg-white/5'
                         }`}
                       >
                         <span>{link.name}</span>
@@ -266,53 +272,74 @@ export const Navbar = () => {
                       </Link>
                     );
                   })}
+                  <div className="pt-2 border-t border-forest-900/10 dark:border-white/10 mt-3 space-y-1.5">
+                    <Link
+                      href="/tutors"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center justify-between px-4 py-2.5 rounded-2xl text-sm font-semibold text-forest-800/80 dark:text-[#F5F2EB]/80 hover:bg-forest-900/5"
+                    >
+                      <span>Find Tutors</span>
+                    </Link>
+                    <Link
+                      href="/become-a-tutor"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center justify-between px-4 py-2.5 rounded-2xl text-sm font-semibold text-forest-800/80 dark:text-[#F5F2EB]/80 hover:bg-forest-900/5"
+                    >
+                      <span>Become a Tutor</span>
+                    </Link>
+                  </div>
                 </nav>
               </div>
 
               {/* Drawer User Actions / Footer */}
-              <div className="p-4 border-t border-border bg-muted/20">
+              <div className="p-5 border-t border-forest-900/10 dark:border-white/10 bg-cream/40 dark:bg-forest-900/30">
                 {user ? (
                   <div className="space-y-4">
-                    {/* User Profile Card */}
-                    <div className="flex items-center gap-3 p-3 rounded-2xl bg-card border-2 border-border">
+                    <div className="flex items-center gap-3 p-3.5 rounded-3xl bg-white dark:bg-[#0F241E] border border-forest-900/10 dark:border-white/10">
                       <img
-                        src={user.image || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80'}
+                        src={
+                          user.image ||
+                          'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80'
+                        }
                         alt={user.name}
-                        className="h-10 w-10 rounded-full object-cover border border-border"
+                        className="h-10 w-10 rounded-full object-cover border border-forest-900/10 dark:border-white/10"
                       />
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-1.5">
-                          <p className="text-sm font-bold text-foreground truncate">{user.name}</p>
+                          <p className="text-sm font-bold text-forest-900 dark:text-[#F5F2EB] truncate">
+                            {user.name}
+                          </p>
                           {user.plan === 'pro' && (
-                            <Badge variant="pro" className="px-1.5 py-0 h-4 text-[9px] font-black uppercase">
+                            <Badge variant="pro" className="px-1.5 py-0 h-4 text-[9px]">
                               PRO
                             </Badge>
                           )}
                         </div>
-                        <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                        <p className="text-xs text-forest-800/60 dark:text-[#F5F2EB]/60 truncate">
+                          {user.email}
+                        </p>
                         <Badge variant="secondary" className="capitalize text-[10px] h-4 mt-1">
                           {user.role}
                         </Badge>
                       </div>
                     </div>
 
-                    {/* Navigation Actions */}
-                    <div className="space-y-1.5">
+                    <div className="space-y-2">
                       <Link
                         href={getDashboardLink()}
                         onClick={() => setMobileMenuOpen(false)}
-                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-foreground bg-card border border-border hover:border-primary transition-colors"
+                        className="flex items-center gap-2.5 px-4 py-2.5 rounded-2xl text-xs font-bold text-forest-900 dark:text-[#F5F2EB] bg-white dark:bg-[#0F241E] border border-forest-900/10 dark:border-white/10 hover:border-forest-900"
                       >
-                        <LayoutDashboard className="h-4 w-4 text-primary" />
+                        <LayoutDashboard className="h-4 w-4 text-forest-900 dark:text-white" />
                         Go to Dashboard
                       </Link>
 
                       <Link
                         href="/dashboard/profile"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-foreground bg-card border border-border hover:border-secondary transition-colors"
+                        className="flex items-center gap-2.5 px-4 py-2.5 rounded-2xl text-xs font-bold text-forest-900 dark:text-[#F5F2EB] bg-white dark:bg-[#0F241E] border border-forest-900/10 dark:border-white/10 hover:border-terracotta-500"
                       >
-                        <UserIcon className="h-4 w-4 text-secondary" />
+                        <UserIcon className="h-4 w-4 text-terracotta-500" />
                         Profile Settings
                       </Link>
 
@@ -320,7 +347,7 @@ export const Navbar = () => {
                         <Link
                           href="/pricing"
                           onClick={() => setMobileMenuOpen(false)}
-                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-amber-600 dark:text-amber-400 bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 transition-colors"
+                          className="flex items-center gap-2.5 px-4 py-2.5 rounded-2xl text-xs font-bold text-amberwarm-500 bg-amberwarm-100/30 border border-amberwarm-500/30"
                         >
                           <Sparkles className="h-4 w-4" />
                           Upgrade to Pro
@@ -332,7 +359,7 @@ export const Navbar = () => {
                           setMobileMenuOpen(false);
                           logout();
                         }}
-                        className="flex w-full items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-destructive bg-destructive/10 border border-destructive/20 hover:bg-destructive/20 transition-colors"
+                        className="flex w-full items-center gap-2.5 px-4 py-2.5 rounded-2xl text-xs font-bold text-destructive bg-destructive/10 border border-destructive/20 hover:bg-destructive/20 transition-colors"
                       >
                         <LogOut className="h-4 w-4" />
                         Sign Out
@@ -340,24 +367,20 @@ export const Navbar = () => {
                     </div>
                   </div>
                 ) : (
-                  <div className="space-y-2">
+                  <div className="space-y-2.5">
                     <Link
                       href="/sign-in"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="block w-full"
+                      className="block w-full py-3 text-center text-sm font-bold text-forest-900 dark:text-white rounded-full border border-forest-900/10 dark:border-white/10 bg-white dark:bg-[#0F241E] hover:bg-forest-900/5 transition-colors"
                     >
-                      <Button variant="outline" size="sm" className="w-full justify-center">
-                        Sign In
-                      </Button>
+                      Sign In
                     </Link>
                     <Link
                       href="/sign-up"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="block w-full"
+                      className="block w-full py-3 text-center text-sm font-bold bg-forest-900 dark:bg-white text-white dark:text-forest-900 rounded-full hover:bg-terracotta-500 transition-colors shadow-sm"
                     >
-                      <Button variant="default" size="sm" className="w-full justify-center">
-                        Sign Up Free
-                      </Button>
+                      Join Free
                     </Link>
                   </div>
                 )}

@@ -11,7 +11,38 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-plus-jakarta)', 'sans-serif'],
+        serif: ['var(--font-fraunces)', 'serif'],
+      },
       colors: {
+        cream: '#FAF8F5',
+        warmwhite: '#FFFFFF',
+        forest: {
+          900: '#0F2922',
+          800: '#163A30',
+          700: '#1E4E41',
+          600: '#276655',
+          500: '#33806B',
+        },
+        terracotta: {
+          500: '#E05A47',
+          600: '#C94836',
+          100: '#FCECE9',
+          50: '#FDF5F3',
+        },
+        amberwarm: {
+          500: '#F59E0B',
+          100: '#FEF3C7',
+        },
+        wa: {
+          header: '#075E54',
+          dark: '#054C44',
+          bg: '#EFEAE2',
+          outgoing: '#DCF8C6',
+          blue: '#53BDEB',
+          green: '#25D366',
+        },
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -46,6 +77,12 @@ const config: Config = {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
+      },
+      boxShadow: {
+        soft: '0 10px 40px -10px rgba(15, 41, 34, 0.08)',
+        card: '0 4px 20px -2px rgba(15, 41, 34, 0.05)',
+        glow: '0 12px 30px -6px rgba(224, 90, 71, 0.35)',
+        wa: '0 24px 60px -12px rgba(15, 41, 34, 0.22)',
       },
       borderRadius: {
         '3xl': '1.5rem',
@@ -112,9 +149,6 @@ const config: Config = {
             fontWeight: '700',
           },
         ],
-      },
-      fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
       },
     },
   },

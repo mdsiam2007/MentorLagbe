@@ -1,174 +1,225 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import Link from 'next/link';
-import Logo from './Logo';
-import { Mail, Phone, MapPin, Github, Linkedin, Facebook } from 'lucide-react';
+import {
+  Mail,
+  PhoneCall,
+  MapPin,
+  HeartHandshake,
+  Globe,
+  MessageCircle,
+  GraduationCap,
+  CheckCircle2,
+} from 'lucide-react';
 
-export const Footer = () => {
+export const Footer: React.FC = () => {
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setSubscribed(true);
+    setEmail('');
+    setTimeout(() => {
+      setSubscribed(false);
+    }, 3500);
+  };
+
   return (
-    <footer className="border-t border-border bg-card/50 text-foreground transition-colors">
-      <div className="container mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 lg:gap-12">
-          {/* Brand & Tagline */}
-          <div className="space-y-4 md:col-span-1">
-            <Logo size="md" />
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              MentorLagbe is Bangladesh&apos;s most trusted tuition finder and personalized academic
-              mentorship platform connecting students with top-rated tutors.
+    <footer id="mainFooter" className="bg-forest-900 text-white pt-20 pb-10 border-t border-white/10 relative overflow-hidden select-none">
+      {/* Giant Background Display Watermark (Hover directly on MentorLagbe text to fill) */}
+      <div className="footer-watermark-wrap pointer-events-none select-none absolute inset-x-0 bottom-0 translate-y-[14%] flex items-end justify-center z-0 overflow-hidden">
+        <span className="footer-watermark-text font-serif font-bold leading-[0.88] tracking-tight">
+          MentorLagbe
+        </span>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pointer-events-none">
+        {/* Top Newsletter & Live Mentorship Alerts Row */}
+        <div className="pointer-events-auto pb-14 border-b border-white/10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+          <div className="max-w-xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-emerald-300 text-[11px] font-bold uppercase tracking-wider mb-3">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              Dhaka &amp; Online Mentorship Network
+            </div>
+            <h3 className="font-serif text-3xl sm:text-4xl font-bold text-white leading-tight">
+              Never Miss a New Batch from{' '}
+              <span className="italic text-terracotta-500">BUET, DMC &amp; DU</span> Mentors.
+            </h3>
+          </div>
+
+          <form onSubmit={handleSubscribe} className="w-full lg:w-auto flex flex-col sm:flex-row gap-3">
+            <div className="flex items-center gap-2.5 bg-white/10 border border-white/15 rounded-2xl px-4 py-3.5 min-w-[280px] focus-within:border-terracotta-500 transition-colors">
+              <Mail className="w-4 h-4 text-white/60 shrink-0" />
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter student or parent email..."
+                className="bg-transparent text-sm text-white placeholder-white/50 focus:outline-none w-full"
+              />
+            </div>
+            <button
+              type="submit"
+              className={`px-6 py-3.5 rounded-2xl text-white font-bold text-sm transition-all shadow-glow shrink-0 flex items-center justify-center gap-2 ${
+                subscribed
+                  ? 'bg-emerald-600 hover:bg-emerald-700'
+                  : 'bg-terracotta-500 hover:bg-terracotta-600'
+              }`}
+            >
+              {subscribed ? (
+                <>
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>Subscribed ✓</span>
+                </>
+              ) : (
+                <span>Get Batch Alerts</span>
+              )}
+            </button>
+          </form>
+        </div>
+
+        {/* Middle 4-Column Architectural Grid */}
+        <div className="pointer-events-auto grid sm:grid-cols-2 lg:grid-cols-12 gap-10 py-14 border-b border-white/10">
+          {/* Brand & Mission Column */}
+          <div className="lg:col-span-4 space-y-4">
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="w-10 h-10 rounded-full bg-terracotta-500 text-white flex items-center justify-center transition-transform group-hover:scale-105">
+                <HeartHandshake className="w-5 h-5" />
+              </div>
+              <span className="font-serif font-bold text-2xl text-white">
+                Mentor<span className="text-terracotta-500">Lagbe</span>
+              </span>
+            </Link>
+            <p className="text-sm text-white/70 leading-relaxed max-w-sm">
+              Bangladesh&apos;s trusted teacher-student bonding center. Direct 1-on-1 guidance and
+              curated small batches with zero middleman fees.
             </p>
-            {/* Social Links with new X logo */}
             <div className="flex items-center gap-3 pt-2">
-              {/* New X (Twitter) Logo */}
               <a
-                href="https://x.com"
+                href="/tuitions"
+                aria-label="Tuitions Network"
+                className="w-9 h-9 rounded-full bg-white/10 hover:bg-terracotta-500 flex items-center justify-center transition-colors text-white"
+              >
+                <Globe className="w-4 h-4" />
+              </a>
+              <a
+                href="https://wa.me/8801700000000"
                 target="_blank"
                 rel="noreferrer"
-                className="h-9 w-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary transition-colors"
-                aria-label="X (formerly Twitter)"
+                aria-label="WhatsApp Support"
+                className="w-9 h-9 rounded-full bg-white/10 hover:bg-emerald-600 flex items-center justify-center transition-colors text-white"
               >
-                <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                </svg>
+                <MessageCircle className="w-4 h-4" />
               </a>
-
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noreferrer"
-                className="h-9 w-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary transition-colors"
-                aria-label="LinkedIn"
+              <Link
+                href="/become-a-tutor"
+                aria-label="Tutor Community"
+                className="w-9 h-9 rounded-full bg-white/10 hover:bg-amberwarm-500 flex items-center justify-center transition-colors text-white"
               >
-                <Linkedin className="h-4 w-4" />
-              </a>
-
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noreferrer"
-                className="h-9 w-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary transition-colors"
-                aria-label="GitHub"
-              >
-                <Github className="h-4 w-4" />
-              </a>
-
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noreferrer"
-                className="h-9 w-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary transition-colors"
-                aria-label="Facebook"
-              >
-                <Facebook className="h-4 w-4" />
-              </a>
+                <GraduationCap className="w-4 h-4" />
+              </Link>
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div className="space-y-3">
-            <h4 className="text-sm font-bold uppercase tracking-wider text-foreground">
-              Explore
+          {/* Platform Links */}
+          <div className="lg:col-span-2">
+            <h4 className="font-bold text-xs uppercase tracking-widest text-amberwarm-500 mb-4">
+              Platform
             </h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <ul className="space-y-3 text-sm text-white/75">
               <li>
-                <Link href="/tuitions" className="hover:text-primary transition-colors">
-                  Find Tuition Batches
+                <Link href="/tuitions" className="hover:text-white transition-colors">
+                  Tuition Batches
                 </Link>
               </li>
               <li>
-                <Link href="/tutors" className="hover:text-primary transition-colors">
-                  Browse Tutors Directory
+                <Link href="/#bonding" className="hover:text-white transition-colors">
+                  Why MentorLagbe
                 </Link>
               </li>
               <li>
-                <Link href="/become-a-tutor" className="hover:text-primary transition-colors">
-                  Become a Tutor
+                <Link href="/how-it-works" className="hover:text-white transition-colors">
+                  Learning Journey
                 </Link>
               </li>
               <li>
-                <Link href="/how-it-works" className="hover:text-primary transition-colors">
-                  How It Works & Safety
-                </Link>
-              </li>
-              <li>
-                <Link href="/pricing" className="hover:text-primary transition-colors">
-                  Pricing & Pro Upgrade
+                <Link href="/pricing" className="hover:text-white transition-colors">
+                  Pro Upgrades
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Subjects */}
-          <div className="space-y-3">
-            <h4 className="text-sm font-bold uppercase tracking-wider text-foreground">
-              Top Subjects
+          {/* Popular Disciplines */}
+          <div className="lg:col-span-3">
+            <h4 className="font-bold text-xs uppercase tracking-widest text-amberwarm-500 mb-4">
+              Popular Disciplines
             </h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <ul className="space-y-3 text-sm text-white/75">
               <li>
-                <Link href="/tuitions?subject=Mathematics" className="hover:text-primary transition-colors">
-                  Higher Mathematics
+                <Link href="/tuitions?subject=Mathematics" className="hover:text-white transition-colors">
+                  HSC Higher Mathematics
                 </Link>
               </li>
               <li>
-                <Link href="/tuitions?subject=Physics" className="hover:text-primary transition-colors">
-                  HSC & Admission Physics
+                <Link href="/tuitions?subject=Physics" className="hover:text-white transition-colors">
+                  HSC &amp; Engineering Physics
                 </Link>
               </li>
               <li>
-                <Link href="/tuitions?subject=Programming" className="hover:text-primary transition-colors">
-                  Web & Python Programming
+                <Link href="/tuitions?subject=Biology" className="hover:text-white transition-colors">
+                  Medical Admission Biology
                 </Link>
               </li>
               <li>
-                <Link href="/tuitions?subject=English" className="hover:text-primary transition-colors">
-                  IELTS & Spoken English
+                <Link href="/tuitions?subject=Programming" className="hover:text-white transition-colors">
+                  Full-Stack Web &amp; Coding
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Contact Information */}
-          <div className="space-y-3">
-            <h4 className="text-sm font-bold uppercase tracking-wider text-foreground">
-              Contact & Support
+          {/* Mentorship Hubs & Helpline */}
+          <div className="lg:col-span-3">
+            <h4 className="font-bold text-xs uppercase tracking-widest text-amberwarm-500 mb-4">
+              Mentorship Hubs
             </h4>
-            <ul className="space-y-2.5 text-sm text-muted-foreground">
-              <li className="flex items-center gap-2.5">
-                <Mail className="h-4 w-4 text-primary shrink-0" />
-                <Link href="/contact" className="hover:text-primary transition-colors">
-                  support@mentorlagbe.com
-                </Link>
+            <ul className="space-y-3 text-sm text-white/75">
+              <li className="flex items-start gap-2.5">
+                <MapPin className="w-4 h-4 text-terracotta-500 shrink-0 mt-1" />
+                <span>Dhanmondi, Uttara Sec 7 &amp; Mirpur, Dhaka</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Phone className="h-4 w-4 text-primary shrink-0" />
-                <span>+880 1700 000000 (Helpline)</span>
+                <PhoneCall className="w-4 h-4 text-terracotta-500 shrink-0" />
+                <span>+880 1700 000000 (10 AM – 10 PM)</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <MapPin className="h-4 w-4 text-primary shrink-0" />
-                <span>Dhanmondi & Mirpur, Dhaka</span>
-              </li>
-              <li className="pt-1">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center text-xs font-semibold text-primary hover:underline"
-                >
-                  Visit Support Center →
-                </Link>
+                <Mail className="w-4 h-4 text-terracotta-500 shrink-0" />
+                <span>support@mentorlagbe.com</span>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-12 border-t border-border/60 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} MentorLagbe Inc. All rights reserved.</p>
-          <div className="flex items-center gap-6">
-            <Link href="/" className="hover:text-primary transition-colors">
-              Privacy Policy
+        {/* Spacer so giant background watermark breathes cleanly below links */}
+        <div className="h-28 sm:h-40 pointer-events-none" />
+
+        {/* Bottom Legal & Copyright Bar */}
+        <div className="pt-4 pointer-events-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/60">
+          <p>© {new Date().getFullYear()} MentorLagbe Inc. Crafted with care for Bangladeshi Students &amp; Mentors.</p>
+          <div className="flex flex-wrap items-center gap-6">
+            <Link href="/#trustSafetySection" className="hover:text-white transition-colors">
+              Verification Policy
             </Link>
-            <Link href="/" className="hover:text-primary transition-colors">
-              Terms of Service
+            <Link href="/#faqSection" className="hover:text-white transition-colors">
+              Safety Guidelines
             </Link>
-            <Link href="/" className="hover:text-primary transition-colors">
-              Security
+            <Link href="/pricing" className="hover:text-white transition-colors">
+              Terms &amp; Privacy
             </Link>
           </div>
         </div>

@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 export function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn('daisy-skeleton animate-pulse rounded-xl bg-muted/80', className)}
+      className={cn('animate-pulse rounded-2xl bg-forest-900/10 dark:bg-white/10', className)}
       {...props}
     />
   );
@@ -12,9 +12,9 @@ export function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivEl
 
 export function TuitionCardSkeleton() {
   return (
-    <div className="flex flex-col h-full rounded-2xl border border-border/70 bg-card p-5 shadow-sm space-y-4">
+    <div className="flex flex-col h-full rounded-3xl border border-forest-900/10 dark:border-white/10 bg-card p-6 shadow-card space-y-4">
       {/* Banner Skeleton */}
-      <Skeleton className="h-44 w-full rounded-xl" />
+      <Skeleton className="h-44 w-full rounded-2xl" />
       
       {/* Badges Skeleton */}
       <div className="flex items-center gap-2">
@@ -24,20 +24,20 @@ export function TuitionCardSkeleton() {
 
       {/* Title & Subject */}
       <div className="space-y-2 flex-1">
-        <Skeleton className="h-5 w-4/5" />
-        <Skeleton className="h-4 w-3/5" />
+        <Skeleton className="h-5 w-4/5 rounded-lg" />
+        <Skeleton className="h-4 w-3/5 rounded-lg" />
       </div>
 
       {/* Info Rows */}
-      <div className="space-y-2 pt-2 border-t border-border/50">
-        <Skeleton className="h-4 w-1/2" />
-        <Skeleton className="h-4 w-2/3" />
+      <div className="space-y-2 pt-2 border-t border-forest-900/10 dark:border-white/10">
+        <Skeleton className="h-4 w-1/2 rounded-lg" />
+        <Skeleton className="h-4 w-2/3 rounded-lg" />
       </div>
 
       {/* Footer Price & Button */}
       <div className="flex items-center justify-between pt-2">
-        <Skeleton className="h-6 w-24" />
-        <Skeleton className="h-9 w-28 rounded-lg" />
+        <Skeleton className="h-6 w-24 rounded-lg" />
+        <Skeleton className="h-9 w-28 rounded-full" />
       </div>
     </div>
   );
@@ -45,23 +45,23 @@ export function TuitionCardSkeleton() {
 
 export function StatsCardSkeleton() {
   return (
-    <div className="rounded-2xl border border-border/70 bg-card p-6 shadow-sm space-y-3">
+    <div className="rounded-3xl border border-forest-900/10 dark:border-white/10 bg-card p-6 shadow-card space-y-3">
       <div className="flex items-center justify-between">
-        <Skeleton className="h-4 w-24" />
-        <Skeleton className="h-8 w-8 rounded-lg" />
+        <Skeleton className="h-4 w-24 rounded-lg" />
+        <Skeleton className="h-8 w-8 rounded-full" />
       </div>
-      <Skeleton className="h-8 w-16" />
-      <Skeleton className="h-3 w-32" />
+      <Skeleton className="h-8 w-16 rounded-lg" />
+      <Skeleton className="h-3 w-32 rounded-lg" />
     </div>
   );
 }
 
 export function TableRowSkeleton({ columns = 5 }: { columns?: number }) {
   return (
-    <tr className="border-b border-border/50 animate-pulse">
+    <tr className="border-b border-forest-900/10 dark:border-white/10 animate-pulse">
       {Array.from({ length: columns }).map((_, i) => (
         <td key={i} className="py-4 px-4">
-          <Skeleton className="h-4 w-full max-w-[120px]" />
+          <Skeleton className="h-4 w-full max-w-[120px] rounded-lg" />
         </td>
       ))}
     </tr>

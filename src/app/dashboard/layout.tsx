@@ -6,7 +6,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import ThemeToggle from '@/components/common/ThemeToggle';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import {
   LayoutDashboard,
   BookOpen,
@@ -22,6 +21,8 @@ import {
   Sparkles,
   ChevronRight,
   Bookmark,
+  Shield,
+  GraduationCap,
 } from 'lucide-react';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -68,10 +69,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="min-h-screen flex items-center justify-center bg-cream dark:bg-[#081612]">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          <p className="text-xs text-muted-foreground font-medium">Loading Dashboard...</p>
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-forest-900 dark:border-white border-t-transparent" />
+          <p className="text-xs text-muted-foreground font-medium font-sans">Loading Dashboard...</p>
         </div>
       </div>
     );
@@ -91,10 +92,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   if (isUnauthorized) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="min-h-screen flex items-center justify-center bg-cream dark:bg-[#081612]">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          <p className="text-xs text-muted-foreground font-medium">Redirecting to your dashboard...</p>
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-forest-900 dark:border-white border-t-transparent" />
+          <p className="text-xs text-muted-foreground font-medium font-sans">Redirecting to your dashboard...</p>
         </div>
       </div>
     );
@@ -125,56 +126,56 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     user.role === 'admin' ? adminNav : user.role === 'tutor' ? tutorNav : studentNav;
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-background">
+    <div className="min-h-screen flex flex-col md:flex-row bg-cream dark:bg-[#081612] text-foreground font-sans">
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
+          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden transition-opacity"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
-      {/* Sidebar Navigation */}
+      {/* Deep Forest Sidebar Navigation (#0F2922) */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 transform border-r border-border bg-card p-5 transition-transform duration-200 ease-in-out md:static md:translate-x-0 ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed inset-y-0 left-0 z-50 w-72 transform border-r border-[#163A30] dark:border-white/10 bg-[#0F2922] text-[#FAF8F5] p-5 sm:p-6 transition-transform duration-300 ease-in-out md:static md:translate-x-0 ${
+          sidebarOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'
         } flex flex-col justify-between`}
       >
-        <div>
-          {/* Header & User Badge */}
-          <div className="flex items-center justify-between pb-6 border-b border-border/70">
+        <div className="space-y-6">
+          {/* Header & Role Portal Title */}
+          <div className="flex items-center justify-between pb-5 border-b border-white/10">
             <div>
-              <span className="text-[10px] uppercase font-bold tracking-wider text-muted-foreground">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-[#FAF8F5]/60 block font-sans">
                 Dashboard
               </span>
-              <h2 className="text-lg font-black text-foreground capitalize">{user.role} Portal</h2>
+              <h2 className="text-xl font-serif font-black text-white capitalize tracking-tight mt-0.5">
+                {user.role} Portal
+              </h2>
             </div>
             <button
               onClick={() => setSidebarOpen(false)}
-              className="md:hidden p-1 text-muted-foreground hover:text-foreground"
+              className="md:hidden p-1.5 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+              aria-label="Close Sidebar"
             >
               <X className="h-5 w-5" />
             </button>
           </div>
 
-          {/* User Preview */}
-          <div className="mt-5 p-3 rounded-2xl bg-muted/50 border border-border/60 flex items-center gap-3">
+          {/* User Preview Card */}
+          <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-3 shadow-inner">
             <img
               src={user.image || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80'}
               alt={user.name}
-              className="h-10 w-10 rounded-xl object-cover border border-border"
+              className="h-10 w-10 rounded-xl object-cover border border-white/20 shrink-0"
             />
-            <div className="truncate flex-1">
-              <p className="text-xs font-bold text-foreground truncate">{user.name}</p>
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <Badge
-                  variant={user.role === 'admin' ? 'destructive' : user.role === 'tutor' ? 'secondary' : 'outline'}
-                  className="text-[9px] px-1.5 py-0 capitalize"
-                >
+            <div className="truncate flex-1 min-w-0">
+              <p className="text-xs font-bold text-white truncate font-sans">{user.name}</p>
+              <div className="flex items-center gap-1.5 mt-1">
+                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider bg-white/15 text-white border border-white/20">
                   {user.role}
-                </Badge>
+                </span>
                 {user.plan === 'pro' && (
-                  <Badge variant="pro" className="text-[9px] px-1.5 py-0">
+                  <Badge variant="pro" className="text-[9px] px-2 py-0">
                     PRO
                   </Badge>
                 )}
@@ -183,8 +184,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
 
           {/* Nav Links */}
-          <nav className="mt-6 space-y-1.5">
-            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider px-3">
+          <nav className="space-y-1.5 pt-1">
+            <span className="text-[10px] font-bold text-[#FAF8F5]/50 uppercase tracking-widest px-3 block mb-2 font-sans">
               Main Menu
             </span>
             {currentNav.map((item) => {
@@ -195,48 +196,58 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   key={item.href}
                   href={item.href}
                   onClick={() => setSidebarOpen(false)}
-                  className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all ${
+                  className={`flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold transition-all duration-200 group ${
                     isActive
-                      ? 'bg-primary text-primary-foreground shadow-sm'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                      ? 'bg-terracotta-500 text-white shadow-glow'
+                      : 'text-[#FAF8F5]/75 hover:text-white hover:bg-white/10'
                   }`}
                 >
-                  <Icon className="h-4 w-4 shrink-0" />
-                  <span>{item.name}</span>
+                  <Icon
+                    className={`h-4 w-4 shrink-0 transition-transform duration-200 ${
+                      isActive ? 'text-white scale-110' : 'text-[#FAF8F5]/70 group-hover:text-white'
+                    }`}
+                  />
+                  <span className="truncate">{item.name}</span>
                 </Link>
               );
             })}
 
-            <div className="pt-4 mt-4 border-t border-border/60">
-              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider px-3">
+            <div className="pt-4 mt-4 border-t border-white/10">
+              <span className="text-[10px] font-bold text-[#FAF8F5]/50 uppercase tracking-widest px-3 block mb-2 font-sans">
                 Account
               </span>
               <Link
                 href="/dashboard/profile"
                 onClick={() => setSidebarOpen(false)}
-                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold mt-1 transition-all ${
+                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold transition-all duration-200 group ${
                   pathname === '/dashboard/profile'
-                    ? 'bg-primary text-primary-foreground shadow-sm'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                    ? 'bg-terracotta-500 text-white shadow-glow'
+                    : 'text-[#FAF8F5]/75 hover:text-white hover:bg-white/10'
                 }`}
               >
-                <User className="h-4 w-4 shrink-0" />
+                <User
+                  className={`h-4 w-4 shrink-0 transition-transform duration-200 ${
+                    pathname === '/dashboard/profile'
+                      ? 'text-white scale-110'
+                      : 'text-[#FAF8F5]/70 group-hover:text-white'
+                  }`}
+                />
                 <span>My Profile</span>
               </Link>
             </div>
           </nav>
         </div>
 
-        {/* Upgrade or Sign Out */}
-        <div className="space-y-3 pt-4 border-t border-border/70">
+        {/* Upgrade Card or Sign Out */}
+        <div className="space-y-3 pt-5 border-t border-white/10 mt-6">
           {user.plan !== 'pro' && user.role !== 'admin' && (
-            <Link href="/pricing" className="block">
-              <div className="p-3 rounded-2xl bg-gradient-to-r from-amber-500/15 to-primary/15 border border-amber-500/30 text-left hover:border-amber-500/60 transition-all">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-amber-600 dark:text-amber-400">
-                  <Sparkles className="h-3.5 w-3.5" />
+            <Link href="/pricing" className="block group">
+              <div className="p-3.5 rounded-2xl bg-gradient-to-br from-amberwarm-500/20 via-terracotta-500/15 to-transparent border border-amberwarm-500/35 group-hover:border-amberwarm-500/70 transition-all shadow-soft text-left">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-amber-400">
+                  <Sparkles className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
                   Upgrade to Pro
                 </div>
-                <p className="text-[10px] text-muted-foreground mt-0.5">
+                <p className="text-[10px] text-[#FAF8F5]/70 mt-1 leading-relaxed">
                   Unlock unlimited posts and priority matching.
                 </p>
               </div>
@@ -245,9 +256,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
           <button
             onClick={logout}
-            className="flex w-full items-center gap-2.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-destructive hover:bg-destructive/10 transition-colors"
+            className="flex w-full items-center gap-2.5 px-3.5 py-2.5 rounded-2xl text-xs font-bold text-rose-300 hover:text-white hover:bg-rose-500/20 transition-all duration-200"
           >
-            <LogOut className="h-4 w-4" />
+            <LogOut className="h-4 w-4 shrink-0" />
             <span>Sign Out</span>
           </button>
         </div>
@@ -256,44 +267,52 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Dashboard Topbar */}
-        <div className="h-16 border-b border-border bg-card/60 backdrop-blur-md px-4 sm:px-8 flex items-center justify-between">
+        <header className="h-16 border-b border-forest-900/10 dark:border-white/10 bg-card/80 backdrop-blur-md px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30 transition-colors">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="md:hidden p-2 text-foreground rounded-lg border border-border"
+              className="md:hidden p-2 text-foreground rounded-xl border border-forest-900/15 dark:border-white/15 hover:bg-forest-900/5 dark:hover:bg-white/5 transition-colors"
               aria-label="Open Sidebar"
             >
               <Menu className="h-5 w-5" />
             </button>
-            <div className="hidden sm:block">
-              <span className="text-xs text-muted-foreground">Portal Navigation / </span>
-              <span className="text-xs font-bold text-foreground capitalize">
+            <div className="hidden sm:flex items-center gap-1.5 text-xs">
+              <span className="text-muted-foreground font-sans">Portal Navigation / </span>
+              <span className="font-serif font-bold text-foreground capitalize tracking-tight">
                 {pathname.split('/').pop()?.replace(/-/g, ' ')}
               </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 sm:gap-4">
             <ThemeToggle />
-            <Link href="/tuitions" className="text-xs font-semibold text-primary hover:underline hidden sm:block">
+            <Link
+              href="/tuitions"
+              className="text-xs font-bold text-terracotta-500 hover:text-terracotta-600 transition-colors hidden sm:block"
+            >
               Browse Tuitions
             </Link>
-            <div className="h-4 w-px bg-border hidden sm:block" />
-            <Link href="/dashboard/profile" className="flex items-center gap-2">
+            <div className="h-4 w-px bg-forest-900/15 dark:bg-white/15 hidden sm:block" />
+            <Link
+              href="/dashboard/profile"
+              className="flex items-center gap-2.5 p-1 rounded-full hover:bg-forest-900/5 dark:hover:bg-white/5 transition-colors"
+            >
               <img
                 src={user.image || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80'}
                 alt={user.name}
-                className="h-8 w-8 rounded-full object-cover border border-border"
+                className="h-8 w-8 rounded-full object-cover border border-forest-900/20 dark:border-white/20"
               />
               <span className="text-xs font-bold text-foreground hidden sm:block">
                 {user.name.split(' ')[0]}
               </span>
             </Link>
           </div>
-        </div>
+        </header>
 
-        {/* Sub-page Render */}
-        <div className="p-4 sm:p-8 flex-1">{children}</div>
+        {/* Sub-page Content */}
+        <main className="p-4 sm:p-8 flex-1 bg-cream dark:bg-[#081612] transition-colors">
+          {children}
+        </main>
       </div>
     </div>
   );

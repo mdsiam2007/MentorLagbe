@@ -1,131 +1,228 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { CheckCircle2, Sparkles } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { GraduationCap, BookOpenCheck, CheckCircle2, MinusCircle, Sparkles, ArrowRight } from 'lucide-react';
+
+const pricingData = {
+  tutor: {
+    free: {
+      audienceBadge: 'Tutor Starter',
+      statusBadge: 'Always Free',
+      price: '$0',
+      period: '/ forever free',
+      desc: 'Everything you need to get verified, list your first tuition batches, and connect directly with students.',
+      benefits: [
+        { ok: true, text: 'Post up to 2 active tuition batches' },
+        { ok: true, text: 'Official BUET / DMC / DU ID verification' },
+        { ok: true, text: 'Keep 100% of tuition fees (0% commission)' },
+        { ok: true, text: 'Direct WhatsApp student coordination' },
+        { ok: false, text: 'Standard search ranking' },
+      ],
+      cta: 'Start Free as Tutor',
+      href: '/become-a-tutor',
+    },
+    pro: {
+      audienceBadge: 'Pro Tutor Plan',
+      statusBadge: 'Lifetime Access',
+      price: '$15',
+      period: '/ one-time upgrade',
+      desc: 'Built for dedicated university mentors looking to scale multiple batches and stand out at the top.',
+      benefits: [
+        { highlight: 'Unlimited', text: ' tuition batch postings' },
+        { text: 'Gold-accented Verified Pro Tutor Badge' },
+        { text: 'Priority #1 top placement in search results' },
+        { text: 'Instant SMS & WhatsApp student inquiry alerts' },
+        { text: 'Featured Mentor spotlight on homepage' },
+      ],
+      cta: 'Upgrade Tutor Account ($15)',
+      href: '/pricing',
+    },
+  },
+  student: {
+    free: {
+      audienceBadge: 'Student Explorer',
+      statusBadge: 'Always Free',
+      price: '$0',
+      period: '/ forever free',
+      desc: 'Browse verified mentors across Bangladesh and apply directly to any batch with zero booking fees.',
+      benefits: [
+        { ok: true, text: 'Apply to up to 3 active batches per month' },
+        { ok: true, text: '100% ID-verified BUET, DMC & DU mentors' },
+        { ok: true, text: 'Zero booking or middleman agency fees' },
+        { ok: true, text: 'Direct WhatsApp routine setup' },
+        { ok: false, text: 'Standard application queue' },
+      ],
+      cta: 'Start Free as Student',
+      href: '/sign-up',
+    },
+    pro: {
+      audienceBadge: 'Pro Student Pass',
+      statusBadge: 'Lifetime Access',
+      price: '$10',
+      period: '/ one-time upgrade',
+      desc: 'Ideal for HSC & Admission candidates seeking fast-tracked seats and priority review with top mentors.',
+      benefits: [
+        { highlight: 'Priority #1', text: ' application review by top mentors' },
+        { text: 'Verified Pro Student Profile Badge' },
+        { text: 'Unlimited tuition batch applications' },
+        { text: 'Dedicated academic doubt support' },
+        { text: 'Early access to newly opened BUET/DMC batches' },
+      ],
+      cta: 'Upgrade Student Account ($10)',
+      href: '/pricing',
+    },
+  },
+};
 
 export const PricingComparison: React.FC = () => {
+  const [role, setRole] = useState<'tutor' | 'student'>('tutor');
+  const current = pricingData[role];
+
   return (
-    <section className="py-16 sm:py-24 bg-muted/40 border-y-2 border-border/80">
-      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <Badge variant="pro" className="mb-2">
-            <Sparkles className="h-3 w-3 mr-1" />
+    <section id="pricing" className="py-20 lg:py-28 bg-white dark:bg-[#081612] border-t border-forest-900/10 dark:border-white/10 relative overflow-hidden">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <span className="text-terracotta-500 font-bold text-xs uppercase tracking-widest">
             Transparent Pricing
-          </Badge>
-          <h2 className="text-3xl sm:text-4xl font-black text-foreground tracking-tight">
-            Free vs Pro Subscription
+          </span>
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-forest-900 dark:text-[#F5F2EB] mt-2">
+            Start Free. Upgrade Once When Ready.
           </h2>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto mt-2">
-            Start completely free, or unlock unlimited tuition postings and priority booking with our
-            secure Stripe checkout.
+          <p className="text-forest-800/75 dark:text-[#F5F2EB]/75 mt-2">
+            Compare Free vs. Lifetime Pro benefits for both Tutors and Students—zero recurring fees and 0% tuition commission.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-8 items-stretch">
-          {/* Tutor Pro Tier */}
-          <motion.div
-            whileHover={{ y: -6 }}
-            transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-            className="flex flex-col justify-between border-2 border-primary rounded-3xl relative overflow-hidden bg-card p-8 shadow-[0_6px_0_0_hsl(var(--primary)/0.4)]"
-          >
-            <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-[10px] font-black px-3 py-1 rounded-bl-xl uppercase tracking-wider">
-              For Tutors
-            </div>
-            <div>
-              <span className="text-xs font-black uppercase text-primary tracking-wider">
-                Pro Tutor Plan
-              </span>
-              <div className="mt-3 flex items-baseline gap-1">
-                <span className="text-4xl font-black text-foreground">$15</span>
-                <span className="text-sm font-bold text-muted-foreground">/ one-time upgrade</span>
-              </div>
-              <p className="text-xs text-muted-foreground mt-2">
-                Best for university tutors and professional mentors looking to scale tuition batches.
-              </p>
-
-              <ul className="mt-6 space-y-3 text-xs text-foreground">
-                <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
-                  <span className="font-bold">Unlimited tuition batch postings</span> (Free max 2)
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
-                  <span>Verified Pro Tutor Profile Badge</span>
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
-                  <span>Priority top listing in search results</span>
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
-                  <span>Direct student inquiry notifications</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="pt-8">
-              <Link href="/pricing" className="block w-full">
-                <Button variant="default" className="w-full font-bold">
-                  Subscribe with Stripe ($15)
-                </Button>
-              </Link>
-            </div>
-          </motion.div>
-
-          {/* Student Pro Tier */}
-          <motion.div
-            whileHover={{ y: -6 }}
-            transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-            className="flex flex-col justify-between border-2 border-secondary rounded-3xl relative overflow-hidden bg-card p-8 shadow-[0_6px_0_0_hsl(var(--secondary)/0.4)]"
-          >
-            <div className="absolute top-0 right-0 bg-secondary text-secondary-foreground text-[10px] font-black px-3 py-1 rounded-bl-xl uppercase tracking-wider">
-              For Students
-            </div>
-            <div>
-              <span className="text-xs font-black uppercase text-secondary tracking-wider">
-                Pro Student Plan
-              </span>
-              <div className="mt-3 flex items-baseline gap-1">
-                <span className="text-4xl font-black text-foreground">$10</span>
-                <span className="text-sm font-bold text-muted-foreground">/ one-time upgrade</span>
-              </div>
-              <p className="text-xs text-muted-foreground mt-2">
-                Designed for dedicated learners seeking top mentor acceptance and priority review.
-              </p>
-
-              <ul className="mt-6 space-y-3 text-xs text-foreground">
-                <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
-                  <span className="font-bold">Priority application status for batches</span>
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
-                  <span>Verified Pro Student Badge</span>
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
-                  <span>Faster application review from tutors</span>
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
-                  <span>Dedicated academic doubt support</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="pt-8">
-              <Link href="/pricing" className="block w-full">
-                <Button variant="secondary" className="w-full font-bold">
-                  Upgrade Student Account ($10)
-                </Button>
-              </Link>
-            </div>
-          </motion.div>
+        {/* Role Switcher Pill */}
+        <div className="flex justify-center mb-12">
+          <div className="inline-flex items-center p-1.5 rounded-full bg-cream dark:bg-[#153028] border border-forest-900/10 dark:border-white/10 shadow-card">
+            <button
+              type="button"
+              onClick={() => setRole('tutor')}
+              className={`px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                role === 'tutor'
+                  ? 'bg-forest-900 text-white shadow-xs dark:bg-emerald-600'
+                  : 'text-forest-900/75 dark:text-[#F5F2EB]/75 hover:text-forest-900 dark:hover:text-white'
+              }`}
+            >
+              <GraduationCap className="w-4 h-4 text-terracotta-500" />
+              <span>For Tutors &amp; Mentors</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setRole('student')}
+              className={`px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                role === 'student'
+                  ? 'bg-forest-900 text-white shadow-xs dark:bg-emerald-600'
+                  : 'text-forest-900/75 dark:text-[#F5F2EB]/75 hover:text-forest-900 dark:hover:text-white'
+              }`}
+            >
+              <BookOpenCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <span>For Students &amp; Parents</span>
+            </button>
+          </div>
         </div>
+
+        {/* Cards Grid */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={role}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.25 }}
+            className="grid md:grid-cols-2 gap-8 items-stretch max-w-5xl mx-auto"
+          >
+            {/* Free Plan */}
+            <div className="group p-8 sm:p-10 rounded-[2.25rem] bg-cream dark:bg-[#0F241E] border border-forest-900/10 dark:border-white/10 hover:border-forest-900/30 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:shadow-soft relative overflow-hidden">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="px-3.5 py-1 rounded-full bg-forest-900/10 dark:bg-white/10 text-forest-900 dark:text-white text-xs font-bold uppercase tracking-wide">
+                    {current.free.audienceBadge}
+                  </span>
+                  <span className="text-xs font-bold text-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 dark:text-emerald-400 px-3 py-1 rounded-full">
+                    {current.free.statusBadge}
+                  </span>
+                </div>
+                <div className="flex items-baseline gap-2 my-3">
+                  <span className="font-serif text-5xl font-bold text-forest-900 dark:text-[#F5F2EB]">{current.free.price}</span>
+                  <span className="text-sm font-semibold text-forest-800/60 dark:text-[#F5F2EB]/60">{current.free.period}</span>
+                </div>
+                <p className="text-sm text-forest-800/75 dark:text-[#F5F2EB]/75 mb-7 leading-relaxed">
+                  {current.free.desc}
+                </p>
+
+                <ul className="space-y-3.5 text-sm font-medium text-forest-900 dark:text-[#F5F2EB] mb-8">
+                  {current.free.benefits.map((b, i) => (
+                    <li key={i} className={`flex items-center gap-3 ${b.ok ? '' : 'text-forest-800/45 dark:text-white/40'}`}>
+                      {b.ok ? (
+                        <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                      ) : (
+                        <MinusCircle className="w-5 h-5 shrink-0" />
+                      )}
+                      <span>{b.text}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <Link href={current.free.href} className="w-full">
+                <button
+                  type="button"
+                  className="w-full py-4 rounded-2xl bg-white dark:bg-[#153028] hover:bg-forest-900 hover:text-white dark:hover:bg-white dark:hover:text-forest-900 text-forest-900 dark:text-white border border-forest-900/15 dark:border-white/15 font-bold text-sm transition-all shadow-xs cursor-pointer"
+                >
+                  {current.free.cta}
+                </button>
+              </Link>
+            </div>
+
+            {/* Pro Lifetime Plan */}
+            <div className="group p-8 sm:p-10 rounded-[2.25rem] bg-forest-900 dark:bg-[#0F241E] text-white border-2 border-terracotta-500/80 flex flex-col justify-between shadow-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-glow relative overflow-hidden">
+              <div className="pointer-events-none absolute -top-24 -right-24 w-64 h-64 rounded-full bg-terracotta-500/20 blur-3xl group-hover:scale-125 transition-transform duration-700" />
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="px-3.5 py-1 rounded-full bg-terracotta-500 text-white text-xs font-bold uppercase tracking-wide">
+                    {current.pro.audienceBadge}
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-xs font-bold text-amberwarm-500 bg-white/10 px-3 py-1 rounded-full">
+                    <Sparkles className="w-3.5 h-3.5" /> {current.pro.statusBadge}
+                  </span>
+                </div>
+                <div className="flex items-baseline gap-2 my-3">
+                  <span className="font-serif text-5xl font-bold text-white">{current.pro.price}</span>
+                  <span className="text-sm font-semibold text-white/65">{current.pro.period}</span>
+                </div>
+                <p className="text-sm text-white/80 mb-7 leading-relaxed">
+                  {current.pro.desc}
+                </p>
+
+                <ul className="space-y-3.5 text-sm font-medium text-white/95 mb-8">
+                  {current.pro.benefits.map((b, i) => (
+                    <li key={i} className="flex items-center gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-terracotta-500 shrink-0" />
+                      <span>
+                        {b.highlight && <strong>{b.highlight}</strong>}
+                        {b.text}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <Link href={current.pro.href} className="relative z-10 w-full">
+                <button
+                  type="button"
+                  className="w-full py-4 rounded-2xl bg-terracotta-500 hover:bg-terracotta-600 text-white font-bold text-sm transition-all shadow-glow flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span>{current.pro.cta}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </Link>
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   );

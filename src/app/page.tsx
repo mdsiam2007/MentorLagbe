@@ -1,49 +1,65 @@
 import React from 'react';
 import {
   HeroSection,
+  KineticRibbon,
+  TrustPillars,
   FeaturedTuitions,
-  BenefitsTabs,
-  SubjectsStats,
+  ComparisonSection,
+  WhyChooseSection,
+  SubjectsPhysicsSection,
   HowItWorksRoadmap,
   TrustShield,
   PricingComparison,
   Testimonials,
   FaqAccordion,
   DualCtaBanner,
+  BatchApplyModal,
 } from '@/components/home';
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* 1. Hero with headline reveal, search widget, floating badge & trust strip */}
+    <main className="flex flex-col min-h-screen bg-cream dark:bg-[#081612] text-forest-900 dark:text-[#F5F2EB] selection:bg-terracotta-500 selection:text-white">
+      {/* 1. Split Hero & 30-Message Live WhatsApp Preview */}
       <HeroSection />
 
-      {/* 2. Dynamic featured tuitions with skeletons, bookmark & rating pill */}
+      {/* 2. Kinetic Marquee Ribbon */}
+      <KineticRibbon />
+
+      {/* 3. Trust & Bonding Pillars Strip */}
+      <TrustPillars />
+
+      {/* 4. Featured Batches with Category Filters & Direct Apply Modal */}
       <FeaturedTuitions />
 
-      {/* 3. Dual benefits tabs with spring transitions */}
-      <BenefitsTabs />
+      {/* 5. The Old Way vs. The MentorLagbe Bond */}
+      <ComparisonSection />
 
-      {/* 4. Top academic subjects & animated numeric counters */}
-      <SubjectsStats />
+      {/* 6. Why MentorLagbe Feels Different */}
+      <WhyChooseSection />
 
-      {/* 5. 4-step connected visual workflow roadmap */}
+      {/* 7. Top Subjects & Interactive 2D Physics Playground */}
+      <SubjectsPhysicsSection />
+
+      {/* 8. How Your Learning Journey Begins (4 Steps + Progress Track) */}
       <HowItWorksRoadmap />
 
-      {/* 6. Trust, safety & credential verification guarantee */}
+      {/* 9. Trust & Safety Guarantee Split */}
       <TrustShield />
 
-      {/* 7. Free vs Pro subscription comparison cards */}
+      {/* 10. Start Free, Upgrade Once (Tutor vs Student Pricing) */}
       <PricingComparison />
 
-      {/* 8. Authentic student and mentor feedback testimonials */}
+      {/* 11. Stories from Students, Parents & Mentors */}
       <Testimonials />
 
-      {/* 9. Animated collapsible FAQ accordion */}
+      {/* 12. Frequently Asked Questions Accordion */}
       <FaqAccordion />
 
-      {/* 10. Dual split call-to-action banner */}
+      {/* 13. Dual Call-to-Action Banner */}
       <DualCtaBanner />
-    </div>
+
+      {/* Global Batch Application Modal */}
+      <BatchApplyModal />
+    </main>
   );
 }

@@ -123,66 +123,68 @@ export default function StudentApplicationsPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-7xl mx-auto">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black text-foreground tracking-tight">My Applications</h1>
-          <p className="text-xs text-muted-foreground mt-1">
+          <h1 className="text-2xl sm:text-3xl font-serif font-black text-foreground tracking-tight">
+            My Applications
+          </h1>
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
             Track and manage your tuition booking applications.
           </p>
         </div>
-        <Link href="/tuitions">
-          <Button size="sm" className="font-semibold gap-1.5">
+        <Link href="/tuitions" className="shrink-0">
+          <Button size="sm" variant="terracotta" className="font-bold gap-1.5 rounded-full shadow-glow">
             <Search className="h-4 w-4" />
             Apply for More
           </Button>
         </Link>
       </div>
 
-      <Card className="border border-border/80 shadow-sm bg-card overflow-hidden rounded-2xl">
+      <Card className="border border-forest-900/10 dark:border-white/10 shadow-card bg-card overflow-hidden rounded-3xl">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-muted/60 text-muted-foreground uppercase text-[11px] font-bold border-b border-border/60">
+          <table className="w-full text-left text-xs font-sans">
+            <thead className="bg-forest-900/5 dark:bg-white/5 text-muted-foreground uppercase text-[11px] font-bold border-b border-forest-900/10 dark:border-white/10">
               <tr>
-                <th className="py-3.5 px-4">Tuition Title & Subject</th>
-                <th className="py-3.5 px-4">Tutor Details</th>
-                <th className="py-3.5 px-4">Monthly Fee</th>
-                <th className="py-3.5 px-4">Applied Date</th>
-                <th className="py-3.5 px-4">Status</th>
-                <th className="py-3.5 px-4 text-right">Actions</th>
+                <th className="py-4 px-5">Tuition Title & Subject</th>
+                <th className="py-4 px-5">Tutor Details</th>
+                <th className="py-4 px-5">Monthly Fee</th>
+                <th className="py-4 px-5">Applied Date</th>
+                <th className="py-4 px-5">Status</th>
+                <th className="py-4 px-5 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border/60">
+            <tbody className="divide-y divide-forest-900/10 dark:divide-white/10">
               {loading ? (
                 Array.from({ length: 4 }).map((_, i) => <TableRowSkeleton key={i} columns={6} />)
               ) : applications.length > 0 ? (
                 applications.map((app) => (
-                  <tr key={app._id} className="hover:bg-muted/30 transition-colors">
-                    <td className="py-4 px-4 font-semibold text-foreground max-w-xs">
-                      <div className="truncate">{app.tuitionTitle}</div>
-                      <span className="text-[10px] text-primary font-bold uppercase">
+                  <tr key={app._id} className="hover:bg-forest-900/5 dark:hover:bg-white/5 transition-colors">
+                    <td className="py-4 px-5 font-semibold text-foreground max-w-xs">
+                      <div className="truncate font-serif text-sm font-bold text-foreground">{app.tuitionTitle}</div>
+                      <span className="text-[10px] text-terracotta-500 font-extrabold uppercase tracking-wide">
                         {app.subject}
                       </span>
                     </td>
-                    <td className="py-4 px-4 text-muted-foreground">
-                      <div className="font-medium text-foreground">{app.tutorEmail}</div>
-                      <span className="text-[10px]">{app.preferredSchedule}</span>
+                    <td className="py-4 px-5 text-muted-foreground">
+                      <div className="font-bold text-foreground">{app.tutorEmail}</div>
+                      <span className="text-[10px] text-muted-foreground">{app.preferredSchedule}</span>
                     </td>
-                    <td className="py-4 px-4 font-bold text-foreground">
+                    <td className="py-4 px-5 font-serif font-black text-sm text-foreground">
                       {formatCurrency(app.monthlyFee)}
                     </td>
-                    <td className="py-4 px-4 text-muted-foreground">
+                    <td className="py-4 px-5 text-muted-foreground">
                       {formatDate(app.appliedAt)}
                     </td>
-                    <td className="py-4 px-4">{getStatusBadge(app.status)}</td>
-                    <td className="py-4 px-4 text-right">
+                    <td className="py-4 px-5">{getStatusBadge(app.status)}</td>
+                    <td className="py-4 px-5 text-right">
                       {app.status === 'pending' ? (
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => handleCancel(app._id, app.tuitionTitle)}
                           disabled={cancellingId === app._id}
-                          className="text-destructive hover:bg-destructive/10 font-semibold gap-1"
+                          className="text-destructive hover:bg-destructive/10 font-bold gap-1 rounded-full"
                         >
                           <Trash2 className="h-3.5 w-3.5" />
                           {cancellingId === app._id ? 'Cancelling...' : 'Cancel'}
@@ -193,7 +195,7 @@ export default function StudentApplicationsPage() {
                             variant="default"
                             size="sm"
                             onClick={() => openReviewModal(app)}
-                            className="bg-amber-500 hover:bg-amber-600 text-white font-bold gap-1 text-xs shadow-sm"
+                            className="bg-amberwarm-500 hover:bg-amber-600 text-white font-bold gap-1.5 text-xs rounded-full shadow-sm"
                           >
                             <Star className="h-3.5 w-3.5 fill-current" />
                             Rate & Review
@@ -209,14 +211,14 @@ export default function StudentApplicationsPage() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={6} className="py-12 text-center text-muted-foreground">
+                  <td colSpan={6} className="py-14 text-center text-muted-foreground">
                     <AlertCircle className="mx-auto h-8 w-8 text-muted-foreground/60 mb-2" />
-                    <p className="font-semibold text-foreground">No applications found</p>
+                    <p className="font-serif font-bold text-foreground text-base">No applications found</p>
                     <p className="text-xs text-muted-foreground mt-0.5">
                       You haven&apos;t applied for any tuition batches yet.
                     </p>
-                    <Link href="/tuitions" className="inline-block mt-3">
-                      <Button size="sm" variant="outline">
+                    <Link href="/tuitions" className="inline-block mt-4">
+                      <Button size="sm" variant="outline" className="rounded-full font-bold">
                         Browse Available Tuitions
                       </Button>
                     </Link>
@@ -247,12 +249,13 @@ export default function StudentApplicationsPage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.92, y: 20 }}
               transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-              className="relative w-full max-w-lg rounded-3xl border-2 border-border bg-card p-6 sm:p-8 shadow-2xl space-y-5 z-10 overflow-hidden"
+              className="relative w-full max-w-lg rounded-3xl border border-forest-900/15 dark:border-white/15 bg-card p-6 sm:p-8 shadow-2xl space-y-5 z-10 overflow-hidden"
             >
               {/* Close Button */}
               <button
                 onClick={() => setReviewModalOpen(false)}
-                className="absolute top-5 right-5 h-8 w-8 rounded-full border border-border/60 bg-muted/50 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                className="absolute top-5 right-5 h-8 w-8 rounded-full border border-forest-900/10 dark:border-white/10 bg-cream/60 dark:bg-white/5 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-forest-900/10 transition-colors"
+                aria-label="Close review modal"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -261,18 +264,18 @@ export default function StudentApplicationsPage() {
                 <Badge variant="warning" className="mb-2 text-[11px] font-bold">
                   Verified Student Feedback
                 </Badge>
-                <h3 className="text-xl sm:text-2xl font-black text-foreground">
+                <h3 className="text-xl sm:text-2xl font-serif font-black text-foreground">
                   Rate Your Mentorship with {selectedApp.tuitionTitle}
                 </h3>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Mentor: <strong className="text-foreground">{selectedApp.tutorEmail}</strong> • Subject: <strong className="text-primary">{selectedApp.subject}</strong>
+                  Mentor: <strong className="text-foreground">{selectedApp.tutorEmail}</strong> • Subject: <strong className="text-terracotta-500">{selectedApp.subject}</strong>
                 </p>
               </div>
 
               <form onSubmit={handleReviewSubmit} className="space-y-5">
                 {/* 5-Star Interactive Selector */}
                 <div>
-                  <label className="block text-xs font-bold text-foreground mb-2">
+                  <label className="block text-xs font-bold text-foreground mb-2 font-sans">
                     Overall Mentorship Rating (1 - 5 Stars) *
                   </label>
                   <div className="flex items-center gap-1.5 py-1">
@@ -297,7 +300,7 @@ export default function StudentApplicationsPage() {
                         </button>
                       );
                     })}
-                    <span className="ml-3 text-xs font-bold text-amber-500">
+                    <span className="ml-3 text-xs font-bold text-amberwarm-500">
                       {rating === 5 && '5.0 - Excellent'}
                       {rating === 4 && '4.0 - Very Good'}
                       {rating === 3 && '3.0 - Good'}
@@ -309,7 +312,7 @@ export default function StudentApplicationsPage() {
 
                 {/* Review Comment Textarea */}
                 <div>
-                  <label className="block text-xs font-bold text-foreground mb-1.5">
+                  <label className="block text-xs font-bold text-foreground mb-1.5 font-sans">
                     Your Review & Experience *
                   </label>
                   <Textarea
@@ -318,7 +321,7 @@ export default function StudentApplicationsPage() {
                     onChange={(e) => setComment(e.target.value)}
                     rows={4}
                     required
-                    className="rounded-xl text-xs sm:text-sm"
+                    className="rounded-2xl text-xs sm:text-sm border-forest-900/15 dark:border-white/15"
                   />
                   <p className="text-[10px] text-muted-foreground mt-1">
                     Your review will appear publicly on the tuition listing page to guide other prospective students.
@@ -332,14 +335,15 @@ export default function StudentApplicationsPage() {
                     variant="outline"
                     onClick={() => setReviewModalOpen(false)}
                     disabled={submittingReview}
-                    className="text-xs font-bold h-11"
+                    className="text-xs font-bold h-11 rounded-full px-5"
                   >
                     Cancel
                   </Button>
                   <Button
                     type="submit"
                     disabled={submittingReview}
-                    className="font-black gap-2 text-xs h-11 px-5 shadow-lg shadow-amber-500/20 bg-amber-500 hover:bg-amber-600 text-white"
+                    variant="terracotta"
+                    className="font-black gap-2 text-xs h-11 px-6 rounded-full shadow-glow"
                   >
                     {submittingReview ? 'Submitting...' : 'Submit Review'}
                     <Send className="h-3.5 w-3.5" />

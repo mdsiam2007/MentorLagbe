@@ -40,13 +40,13 @@ export default function TutorOverviewPage() {
   const isAtFreeLimit = isFreePlan && postCount >= 2;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 max-w-7xl mx-auto font-sans">
       {/* Welcome Banner */}
-      <div className="rounded-3xl bg-gradient-to-r from-secondary/15 via-indigo-500/10 to-primary/15 border border-secondary/20 p-6 sm:p-8">
+      <div className="rounded-3xl bg-gradient-to-r from-forest-900/10 via-amberwarm-500/10 to-terracotta-500/10 border border-forest-900/15 dark:border-white/10 p-6 sm:p-8 shadow-card">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <h1 className="text-2xl sm:text-3xl font-black text-foreground">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <h1 className="text-2xl sm:text-3xl font-serif font-black text-foreground tracking-tight">
                 Mentor Dashboard: {user?.name.split(' ')[0]} 🎓
               </h1>
               {user?.plan === 'pro' ? (
@@ -54,18 +54,18 @@ export default function TutorOverviewPage() {
                   VERIFIED PRO TUTOR
                 </Badge>
               ) : (
-                <Badge variant="outline" className="text-[10px]">
+                <Badge variant="outline" className="text-[10px] rounded-full">
                   FREE PLAN TUTOR
                 </Badge>
               )}
             </div>
-            <p className="text-xs sm:text-sm text-muted-foreground">
+            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
               Manage your academic tuition batches, track student applications, and publish new offerings.
             </p>
           </div>
 
-          <Link href="/dashboard/tutor/post-tuition">
-            <Button className="font-bold gap-2 shrink-0">
+          <Link href="/dashboard/tutor/post-tuition" className="shrink-0">
+            <Button variant="terracotta" className="font-bold gap-2 rounded-full shadow-glow">
               <PlusCircle className="h-4 w-4" />
               Post New Tuition
             </Button>
@@ -75,20 +75,22 @@ export default function TutorOverviewPage() {
 
       {/* Free Plan Limit Notice */}
       {isAtFreeLimit && (
-        <div className="rounded-2xl border border-amber-500/40 bg-amber-500/10 p-4 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0" />
+        <div className="rounded-3xl border border-amberwarm-500/40 bg-amberwarm-500/10 p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-soft">
+          <div className="flex items-center gap-3.5">
+            <div className="h-10 w-10 rounded-2xl bg-amberwarm-500/20 text-amberwarm-500 flex items-center justify-center shrink-0">
+              <AlertTriangle className="h-5 w-5" />
+            </div>
             <div>
               <p className="text-xs font-bold text-amber-900 dark:text-amber-200">
                 You have reached your Free Plan limit (2/2 tuitions posted)
               </p>
-              <p className="text-[11px] text-amber-700 dark:text-amber-300">
+              <p className="text-[11px] text-amber-700 dark:text-amber-300 mt-0.5">
                 Upgrade to the Pro Tutor Plan ($15) to publish unlimited tuitions and get verified.
               </p>
             </div>
           </div>
           <Link href="/pricing" className="shrink-0">
-            <Button size="sm" className="font-bold shadow-sm">
+            <Button size="sm" variant="terracotta" className="font-bold shadow-glow rounded-full">
               Upgrade to Pro
             </Button>
           </Link>
@@ -105,15 +107,15 @@ export default function TutorOverviewPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {/* Total Tuitions */}
-          <Card className="p-6 border border-border shadow-sm flex flex-col justify-between">
+          <Card className="p-6 border border-forest-900/10 dark:border-white/10 shadow-card flex flex-col justify-between rounded-3xl bg-card hover:shadow-soft transition-all">
             <div className="flex items-center justify-between text-muted-foreground">
-              <span className="text-xs font-semibold">Total Tuitions Posted</span>
-              <div className="h-8 w-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+              <span className="text-xs font-bold text-foreground">Total Tuitions Posted</span>
+              <div className="h-9 w-9 rounded-2xl bg-forest-900/10 dark:bg-white/10 text-forest-900 dark:text-cream flex items-center justify-center">
                 <BookOpen className="h-4 w-4" />
               </div>
             </div>
-            <div className="mt-4">
-              <p className="text-3xl font-black text-foreground">{postCount}</p>
+            <div className="mt-5">
+              <p className="text-3xl sm:text-4xl font-serif font-black text-foreground">{postCount}</p>
               <p className="text-[11px] text-muted-foreground mt-1">
                 {isFreePlan ? `${postCount} of 2 free slots used` : 'Unlimited postings active'}
               </p>
@@ -121,53 +123,57 @@ export default function TutorOverviewPage() {
           </Card>
 
           {/* Active / Approved */}
-          <Card className="p-6 border border-border shadow-sm flex flex-col justify-between">
+          <Card className="p-6 border border-forest-900/10 dark:border-white/10 shadow-card flex flex-col justify-between rounded-3xl bg-card hover:shadow-soft transition-all">
             <div className="flex items-center justify-between text-muted-foreground">
-              <span className="text-xs font-semibold">Live on Marketplace</span>
-              <div className="h-8 w-8 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
+              <span className="text-xs font-bold text-foreground">Live on Marketplace</span>
+              <div className="h-9 w-9 rounded-2xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
                 <CheckCircle className="h-4 w-4" />
               </div>
             </div>
-            <div className="mt-4">
-              <p className="text-3xl font-black text-emerald-600">{stats?.activeApproved || 0}</p>
+            <div className="mt-5">
+              <p className="text-3xl sm:text-4xl font-serif font-black text-emerald-600 dark:text-emerald-400">
+                {stats?.activeApproved || 0}
+              </p>
               <p className="text-[11px] text-muted-foreground mt-1">Approved & active batches</p>
             </div>
           </Card>
 
           {/* Applicants Received */}
-          <Card className="p-6 border border-border shadow-sm flex flex-col justify-between">
+          <Card className="p-6 border border-forest-900/10 dark:border-white/10 shadow-card flex flex-col justify-between rounded-3xl bg-card hover:shadow-soft transition-all">
             <div className="flex items-center justify-between text-muted-foreground">
-              <span className="text-xs font-semibold">Total Applicants</span>
-              <div className="h-8 w-8 rounded-lg bg-secondary/15 text-secondary flex items-center justify-center">
+              <span className="text-xs font-bold text-foreground">Total Applicants</span>
+              <div className="h-9 w-9 rounded-2xl bg-terracotta-500/15 text-terracotta-500 flex items-center justify-center">
                 <Users className="h-4 w-4" />
               </div>
             </div>
-            <div className="mt-4">
-              <p className="text-3xl font-black text-secondary">{stats?.applicantsReceived || 0}</p>
+            <div className="mt-5">
+              <p className="text-3xl sm:text-4xl font-serif font-black text-terracotta-500">
+                {stats?.applicantsReceived || 0}
+              </p>
               <p className="text-[11px] text-muted-foreground mt-1">Students waiting for your response</p>
             </div>
           </Card>
 
           {/* Plan Status */}
-          <Card className="p-6 border border-border shadow-sm flex flex-col justify-between">
+          <Card className="p-6 border border-forest-900/10 dark:border-white/10 shadow-card flex flex-col justify-between rounded-3xl bg-card hover:shadow-soft transition-all">
             <div className="flex items-center justify-between text-muted-foreground">
-              <span className="text-xs font-semibold">Current Membership</span>
-              <div className="h-8 w-8 rounded-lg bg-amber-500/10 text-amber-600 flex items-center justify-center">
+              <span className="text-xs font-bold text-foreground">Current Membership</span>
+              <div className="h-9 w-9 rounded-2xl bg-amberwarm-500/15 text-amberwarm-500 flex items-center justify-center">
                 <Sparkles className="h-4 w-4" />
               </div>
             </div>
-            <div className="mt-4">
-              <p className="text-2xl font-black text-foreground uppercase">
+            <div className="mt-5">
+              <p className="text-2xl sm:text-3xl font-serif font-black text-foreground uppercase tracking-tight">
                 {stats?.plan || user?.plan || 'FREE'}
               </p>
               {stats?.plan === 'pro' || user?.plan === 'pro' ? (
-                <p className="text-[11px] text-emerald-600 font-semibold mt-1">
+                <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold mt-1">
                   Verified Tutor Badge Active
                 </p>
               ) : (
                 <Link
                   href="/pricing"
-                  className="text-[11px] text-primary font-bold hover:underline mt-1 block"
+                  className="text-[11px] text-terracotta-500 font-bold hover:underline mt-1 block"
                 >
                   Upgrade to Pro ($15) →
                 </Link>
@@ -181,54 +187,54 @@ export default function TutorOverviewPage() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
         <Link
           href="/dashboard/tutor/post-tuition"
-          className="p-5 rounded-2xl border border-border bg-card hover:border-primary/50 shadow-sm transition-all group flex flex-col justify-between space-y-4"
+          className="p-6 rounded-3xl border border-forest-900/10 dark:border-white/10 bg-card hover:border-terracotta-500/50 shadow-card hover:shadow-soft transition-all group flex flex-col justify-between space-y-4"
         >
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+          <div className="flex items-center gap-3.5">
+            <div className="h-11 w-11 rounded-2xl bg-forest-900/10 dark:bg-white/10 text-forest-900 dark:text-cream flex items-center justify-center shrink-0">
               <PlusCircle className="h-5 w-5" />
             </div>
             <div>
               <p className="text-sm font-bold text-foreground">Post a Tuition</p>
-              <p className="text-[11px] text-muted-foreground">Create a new batch listing</p>
+              <p className="text-[11px] text-muted-foreground mt-0.5">Create a new batch listing</p>
             </div>
           </div>
-          <span className="text-xs font-bold text-primary flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+          <span className="text-xs font-bold text-terracotta-500 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
             Go to Post Form <ArrowRight className="h-3.5 w-3.5" />
           </span>
         </Link>
 
         <Link
           href="/dashboard/tutor/my-tuitions"
-          className="p-5 rounded-2xl border border-border bg-card hover:border-primary/50 shadow-sm transition-all group flex flex-col justify-between space-y-4"
+          className="p-6 rounded-3xl border border-forest-900/10 dark:border-white/10 bg-card hover:border-terracotta-500/50 shadow-card hover:shadow-soft transition-all group flex flex-col justify-between space-y-4"
         >
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-secondary/15 text-secondary flex items-center justify-center">
+          <div className="flex items-center gap-3.5">
+            <div className="h-11 w-11 rounded-2xl bg-terracotta-500/15 text-terracotta-500 flex items-center justify-center shrink-0">
               <BookOpen className="h-5 w-5" />
             </div>
             <div>
               <p className="text-sm font-bold text-foreground">My Created Tuitions</p>
-              <p className="text-[11px] text-muted-foreground">Edit, delete or toggle status</p>
+              <p className="text-[11px] text-muted-foreground mt-0.5">Edit, delete or toggle status</p>
             </div>
           </div>
-          <span className="text-xs font-bold text-secondary flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+          <span className="text-xs font-bold text-terracotta-500 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
             Manage Tuitions <ArrowRight className="h-3.5 w-3.5" />
           </span>
         </Link>
 
         <Link
           href="/dashboard/tutor/applicants"
-          className="p-5 rounded-2xl border border-border bg-card hover:border-primary/50 shadow-sm transition-all group flex flex-col justify-between space-y-4"
+          className="p-6 rounded-3xl border border-forest-900/10 dark:border-white/10 bg-card hover:border-terracotta-500/50 shadow-card hover:shadow-soft transition-all group flex flex-col justify-between space-y-4"
         >
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
+          <div className="flex items-center gap-3.5">
+            <div className="h-11 w-11 rounded-2xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
               <Users className="h-5 w-5" />
             </div>
             <div>
               <p className="text-sm font-bold text-foreground">Manage Applicants</p>
-              <p className="text-[11px] text-muted-foreground">Accept or reject applications</p>
+              <p className="text-[11px] text-muted-foreground mt-0.5">Accept or reject applications</p>
             </div>
           </div>
-          <span className="text-xs font-bold text-emerald-600 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+          <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
             Review Applicants <ArrowRight className="h-3.5 w-3.5" />
           </span>
         </Link>

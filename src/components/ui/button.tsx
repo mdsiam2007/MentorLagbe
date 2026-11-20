@@ -3,39 +3,34 @@
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
-import { motion, HTMLMotionProps } from 'framer-motion';
 
 const buttonVariants = cva(
   'relative inline-flex items-center justify-center whitespace-nowrap text-xs sm:text-sm font-bold tracking-wide transition-all duration-200 select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 overflow-hidden',
   {
     variants: {
       variant: {
-        // Uiverse Flat Solid (tactile flat with 3px flat bottom-border shadow)
         default:
-          'bg-primary text-primary-foreground border-2 border-primary/20 shadow-[0_4px_0_0_hsl(var(--primary)/0.6)] hover:shadow-[0_2px_0_0_hsl(var(--primary)/0.6)] hover:translate-y-0.5 active:translate-y-1 active:shadow-none',
-        // Uiverse Flat Secondary (emerald / secondary accent)
+          'bg-forest-900 text-white hover:bg-forest-800 shadow-soft active:scale-[0.98] dark:bg-white dark:text-forest-900 dark:hover:bg-cream',
+        terracotta:
+          'bg-terracotta-500 text-white hover:bg-terracotta-600 shadow-glow active:scale-[0.98]',
         secondary:
-          'bg-secondary text-secondary-foreground border-2 border-secondary/30 shadow-[0_4px_0_0_hsl(var(--secondary)/0.6)] hover:shadow-[0_2px_0_0_hsl(var(--secondary)/0.6)] hover:translate-y-0.5 active:translate-y-1 active:shadow-none',
-        // Uiverse Flat Destructive
+          'bg-cream text-forest-900 border border-forest-900/10 hover:bg-forest-900/5 active:scale-[0.98] dark:bg-white/10 dark:text-white dark:border-white/10 dark:hover:bg-white/15',
         destructive:
-          'bg-destructive text-destructive-foreground border-2 border-destructive/30 shadow-[0_4px_0_0_hsl(var(--destructive)/0.6)] hover:shadow-[0_2px_0_0_hsl(var(--destructive)/0.6)] hover:translate-y-0.5 active:translate-y-1 active:shadow-none',
-        // Uiverse Flat Outline (crisp flat border with tactile lift)
+          'bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm active:scale-[0.98]',
         outline:
-          'border-2 border-border bg-card text-foreground shadow-[0_3px_0_0_hsl(var(--border))] hover:border-primary/50 hover:bg-muted/40 hover:translate-y-0.5 active:translate-y-1 active:shadow-none',
-        // Uiverse Flat Neo (solid dark flat border & flat offset)
+          'border border-forest-900/15 dark:border-white/15 bg-transparent text-forest-900 dark:text-white hover:bg-forest-900/5 dark:hover:bg-white/5 active:scale-[0.98]',
         neo:
-          'bg-primary text-white border-2 border-foreground shadow-[3px_3px_0_0_hsl(var(--foreground))] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_hsl(var(--foreground))] active:translate-x-1 active:translate-y-1 active:shadow-none',
-        // Uiverse Flat Ghost
+          'bg-forest-900 text-white border-2 border-forest-900 shadow-[3px_3px_0_0_#0F2922] hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1',
         ghost:
-          'border-2 border-transparent text-foreground hover:bg-muted/60 hover:text-foreground active:bg-muted',
-        // Link
-        link: 'text-primary underline-offset-4 hover:underline p-0 h-auto font-semibold',
+          'border border-transparent text-forest-900 dark:text-white hover:bg-forest-900/5 dark:hover:bg-white/5 active:bg-forest-900/10',
+        link: 'text-terracotta-500 underline-offset-4 hover:underline p-0 h-auto font-semibold',
       },
       size: {
-        default: 'h-11 px-5 rounded-2xl',
-        sm: 'h-9 px-3.5 rounded-xl text-xs',
-        lg: 'h-13 px-8 rounded-2xl text-sm sm:text-base font-extrabold',
-        icon: 'h-11 w-11 rounded-2xl p-0',
+        default: 'h-11 px-6 rounded-full',
+        sm: 'h-9 px-4 rounded-full text-xs',
+        lg: 'h-13 px-8 rounded-full text-sm sm:text-base font-extrabold',
+        icon: 'h-11 w-11 rounded-full p-0',
+        pill: 'h-11 px-6 rounded-full',
       },
     },
     defaultVariants: {
